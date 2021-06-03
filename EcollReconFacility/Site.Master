@@ -1,0 +1,178 @@
+﻿<%@ Master Language="VB" AutoEventWireup="true" CodeBehind="Site.master.vb" Inherits="EcollReconFacility.SiteMaster" %>
+
+<%@ Import Namespace="EcollReconFacility" %>
+<%--<%@ Import Namespace="Microsoft.AspNet.Identity" %>--%>
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> Treasury Reconciliation System</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <link href="~/images/logo-pagibigfund.png" rel="shortcut icon" type="image/x-icon" />
+
+    <script src="Scripts/jquery-3.5.1.js"></script>
+    <script src="Scripts/ecollreconscript.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-grid.css" rel="stylesheet" />
+    <script src="Scripts/popper.min.js"></script>
+    <link href="Scripts/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="Content/Site.css" rel="stylesheet" />
+    
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <div class="navbar navbar-dark fixed-top" id="navbarecoll">
+            <div class="container">
+                <a class="navbar-brand mr-auto" href="PendingRecon.aspx">
+                    <img src="images/logo-pagibigfund.png" width="60" height="60" alt="" class="d-inline-block" />
+                    <span class="h2">Treasury Reconciliation System</span>
+                </a>
+                <div class="form-inline">
+                    <div class="dropdown" id="ddl" runat="server">
+                        <a class="nav-link dropdown-toggle h6 text-decoration-none" href="#" data-toggle="dropdown">
+                            <asp:Label ID="ddlUser" runat="server">
+                            </asp:Label>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="ddlUsername">
+                            <asp:LinkButton CssClass="dropdown-item" ID="lblLogout" runat="server">
+                                    Log Out
+                            </asp:LinkButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+<%--        <div class="container">
+            <div class="row mt-2">
+                <div class="col">
+                    <div class="row mt-4">
+                        <div class="col mx-auto">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <asp:UpdatePanel ID="upTabs" runat="server">
+                                        <ContentTemplate>
+                                            <ul class="nav nav-tabs flex-column" id="mytabs">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="<%= Page.ResolveUrl("~/PendingRecon.aspx") %>">
+                                                       <span>Pending Credit Date Lines</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="<%= Page.ResolveUrl("~/SearchRecon.aspx") %>">
+                                                       <span>Search Credit Lines by Month</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="<%= Page.ResolveUrl("~/UncreditedTrans.aspx") %>">
+                                                        <span>Uncredited Transactions</span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="<%= Page.ResolveUrl("~/UCMonitoring.aspx") %>">
+                                                        <span>UC Monitoring</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                </div>       
+        
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="container body-content">
+                                            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                                            </asp:ContentPlaceHolder>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> 
+        </div>--%>
+
+        <div class="sidenav">
+            <asp:UpdatePanel ID="upTabs" runat="server">
+                <ContentTemplate>
+                    <ul class="nav nav-tabs flex-column" id="mytabs">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= Page.ResolveUrl("~/PendingRecon.aspx") %>">
+                                <span class="fa fa-hourglass-2 fa-lg">
+                                </span>
+                                Pending Credit Date Lines
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= Page.ResolveUrl("~/SearchRecon.aspx") %>">
+                                <span class="fa fa-search fa-lg"></span>
+                                Search Credit Lines
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= Page.ResolveUrl("~/UncreditedTrans.aspx") %>">
+                                <span class="fa fa-warning fa-lg"></span>
+                                Uncredited Transactions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= Page.ResolveUrl("~/UCMonitoring.aspx") %>">
+                                <span class="fa fa-desktop"></span>
+                                UC/AR Monitoring
+                            </a>
+                        </li>
+                    </ul>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="container">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </form>
+    <script src="Scripts/jquery-ui/jquery-ui.js"></script>
+        
+    <style>
+         .ui-widget-header,.ui-state-default, ui-button {
+            background:#002D62;
+            border: 1px solid #002D62;
+            color: #FFFFFF;
+            font-weight: bold;
+         }
+         
+         .ui-widget-overlay, .ui-front{
+             opacity: .75;
+         }
+    </style>
+
+    <div id="msgBox" style="display: none;">
+    </div>
+   
+</body>
+</html>

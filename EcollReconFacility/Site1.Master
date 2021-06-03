@@ -1,0 +1,95 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Site1.master.vb" Inherits="EcollReconFacility.Site1" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> Treasury Reconciliation System</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <%--<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />--%>
+    <link href="~/images/logo-pagibigfund.png" rel="shortcut icon" type="image/x-icon" />
+    <script src="Scripts/jquery-3.5.1.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-grid.css" rel="stylesheet" />
+    <script src="Scripts/popper.min.js"></script>
+    <link href="Scripts/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="Content/Site.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+
+    function ShowRangeDialog(msgTxt, htitle) {
+        $(function () {
+            $('#msgBox').html(msgTxt);
+            $('#msgBox').addClass('ui-corner-all');
+            $('#msgBox').dialog({
+                modal: true,
+                width: 'auto',
+                resizable: false,
+                draggable: false,
+                title: htitle,
+                close: function (event, ui) { $('body').find('#msgBox').remove(); },
+                buttons: {
+                    'OK': function () { $(this).dialog('close'); }
+                }
+            })
+        }).dialog("open");
+    }
+    </script>
+    
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <div class="navbar navbar-dark" id="navbarecoll">
+            <div class="container">
+                <a class="navbar-brand mr-auto" href="PendingRecon.aspx">
+                    <img src="images/logo-pagibigfund.png" width="60" height="60" alt="" class="d-inline-block" />
+                    <span class="h2">Treasury Reconciliation System</span>
+                </a>
+            </div>
+        </div> 
+        
+        <div class="container">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+            </asp:ContentPlaceHolder>
+
+        </div>
+       
+    </form>
+
+    <script src="Scripts/jquery-ui/jquery-ui.js"></script>
+
+   <style>
+         .ui-widget-header,.ui-state-default, ui-button {
+            background:#002D62;
+            border: 1px solid #002D62;
+            color: #FFFFFF;
+            font-weight: bold;
+         }
+
+
+         .ui-widget-overlay, .ui-front{
+             opacity: .75;
+         }
+    </style>
+
+    <div id="msgBox" style="display: none;">
+    </div>
+</body>
+</html>

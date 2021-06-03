@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="AuthenticateUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthenticateUserResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUserWithDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUserWithDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AuthenticateUserWithDetailsResult" type="tns:LoginResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LoginResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="isLoginValid" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Department" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AuthenticateUserWithDetailsViaLFM">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strInputName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUserWithDetailsViaLFMResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuthenticateUserWithDetailsViaLFMResult" type="tns:ArrayOfLoginResultType2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfLoginResultType2">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="LoginResultType2" type="tns:LoginResultType2" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="LoginResultType2">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Department" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AuthenticateUserWithDetailsViaUsername">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateUserWithDetailsViaUsernameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AuthenticateUserWithDetailsViaUsernameResult" type="tns:ADSearchResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ADSearchResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="isLoginValid" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Department" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Position" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetDisplayName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDisplayNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDisplayNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserNameDetailsViaLoginName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoginName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserNameDetailsViaLoginNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUserNameDetailsViaLoginNameResult" type="tns:UserNameDetails" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserNameDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="isLoginNameValid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="isUserNameExisting">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strLoginName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="isUserNameExistingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="isUserNameExistingResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AuthenticateUserSoapIn">
+    <wsdl:part name="parameters" element="tns:AuthenticateUser" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserSoapOut">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserWithDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserWithDetails" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserWithDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserWithDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserWithDetailsViaLFMSoapIn">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserWithDetailsViaLFM" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserWithDetailsViaLFMSoapOut">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserWithDetailsViaLFMResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserWithDetailsViaUsernameSoapIn">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserWithDetailsViaUsername" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateUserWithDetailsViaUsernameSoapOut">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserWithDetailsViaUsernameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDisplayNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDisplayName" />
+  </wsdl:message>
+  <wsdl:message name="GetDisplayNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDisplayNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserNameDetailsViaLoginNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserNameDetailsViaLoginName" />
+  </wsdl:message>
+  <wsdl:message name="GetUserNameDetailsViaLoginNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserNameDetailsViaLoginNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="isUserNameExistingSoapIn">
+    <wsdl:part name="parameters" element="tns:isUserNameExisting" />
+  </wsdl:message>
+  <wsdl:message name="isUserNameExistingSoapOut">
+    <wsdl:part name="parameters" element="tns:isUserNameExistingResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServiceSoap">
+    <wsdl:operation name="AuthenticateUser">
+      <wsdl:input message="tns:AuthenticateUserSoapIn" />
+      <wsdl:output message="tns:AuthenticateUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetails">
+      <wsdl:input message="tns:AuthenticateUserWithDetailsSoapIn" />
+      <wsdl:output message="tns:AuthenticateUserWithDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetailsViaLFM">
+      <wsdl:input message="tns:AuthenticateUserWithDetailsViaLFMSoapIn" />
+      <wsdl:output message="tns:AuthenticateUserWithDetailsViaLFMSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetailsViaUsername">
+      <wsdl:input message="tns:AuthenticateUserWithDetailsViaUsernameSoapIn" />
+      <wsdl:output message="tns:AuthenticateUserWithDetailsViaUsernameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDisplayName">
+      <wsdl:input message="tns:GetDisplayNameSoapIn" />
+      <wsdl:output message="tns:GetDisplayNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserNameDetailsViaLoginName">
+      <wsdl:input message="tns:GetUserNameDetailsViaLoginNameSoapIn" />
+      <wsdl:output message="tns:GetUserNameDetailsViaLoginNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="isUserNameExisting">
+      <wsdl:input message="tns:isUserNameExistingSoapIn" />
+      <wsdl:output message="tns:isUserNameExistingSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceSoap" type="tns:ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AuthenticateUser">
+      <soap:operation soapAction="http://tempuri.org/AuthenticateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetails">
+      <soap:operation soapAction="http://tempuri.org/AuthenticateUserWithDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetailsViaLFM">
+      <soap:operation soapAction="http://tempuri.org/AuthenticateUserWithDetailsViaLFM" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetailsViaUsername">
+      <soap:operation soapAction="http://tempuri.org/AuthenticateUserWithDetailsViaUsername" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDisplayName">
+      <soap:operation soapAction="http://tempuri.org/GetDisplayName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserNameDetailsViaLoginName">
+      <soap:operation soapAction="http://tempuri.org/GetUserNameDetailsViaLoginName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserNameExisting">
+      <soap:operation soapAction="http://tempuri.org/isUserNameExisting" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceSoap12" type="tns:ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AuthenticateUser">
+      <soap12:operation soapAction="http://tempuri.org/AuthenticateUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetails">
+      <soap12:operation soapAction="http://tempuri.org/AuthenticateUserWithDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetailsViaLFM">
+      <soap12:operation soapAction="http://tempuri.org/AuthenticateUserWithDetailsViaLFM" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUserWithDetailsViaUsername">
+      <soap12:operation soapAction="http://tempuri.org/AuthenticateUserWithDetailsViaUsername" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDisplayName">
+      <soap12:operation soapAction="http://tempuri.org/GetDisplayName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserNameDetailsViaLoginName">
+      <soap12:operation soapAction="http://tempuri.org/GetUserNameDetailsViaLoginName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserNameExisting">
+      <soap12:operation soapAction="http://tempuri.org/isUserNameExisting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">
+      <soap:address location="http://172.16.225.165/DomainAuthentication/Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">
+      <soap12:address location="http://172.16.225.165/DomainAuthentication/Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

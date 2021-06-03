@@ -1,0 +1,162 @@
+﻿/* Move down content because we have a fixed navbar that is 50px tall */
+/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+/*.dl-horizontal dt {
+    white-space: normal;
+}*/
+
+/* Set widths on the form inputs since otherwise they're 100% wide */
+/*input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="select"] {
+    max-width: 280px;
+}
+
+/* Responsive: Portrait tablets and up */
+/*@media screen and (min-width: 768px) {
+    .jumbotron {
+        margin-top: 20px;
+    }
+    .body-content {
+        padding: 0;
+    }
+}*/
+
+.b-radius {
+
+    border-radius: 10px;
+}
+
+#myform {
+    width: 450px;
+    background-color:#DEEBF7;
+    border-radius:10px;
+}
+
+#navbarecoll {
+    background-color:#151B54;
+    height: 80px;
+}
+
+body{
+    font-size:15px;
+    background-image:linear-gradient(#00337f, #52c7f2);
+    background-size:auto;
+    height:100%;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+color: #fff;
+background-color: #151B54;
+border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.nav-item:hover{
+    color: #fff;
+    background-color:blue;
+}
+
+.nav-item a:hover{
+    color: #fff;
+}
+
+
+.tblcreditlines {
+
+    font-size:12px;
+}
+
+.beta th {
+    background-color:#AFDBF5; 
+    color:#000;
+}
+
+.beta td {
+    background-color:#E1EBEE;
+}
+
+.modal-bg {
+    background-color:#E0FFFF;
+}
+
+.tbox-border input[type="text"] {
+	border: 1px solid !important;
+	border-radius: 10px;
+	border-color: blue;
+}
+
+.overflow-scroll {
+    overflow: scroll;
+}
+
+#upTabs{
+
+    background:#DEEBF7;
+
+}
+
+.body-content{
+
+    background:#DEEBF7;
+    border-radius:10px;
+}
+
+.sb-content{
+
+    background:#DEEBF7;
+    border-radius:10px;
+
+    top: 100px;
+    position: relative;
+    left: 120px;
+    width: 1000px;
+}
+
+.pending{
+    background:url('../images/idea.png') no-repeat left top;
+    height:25px;
+    width:25px;
+}
+
+.search{
+    background:url('../images/loupe.png') no-repeat left top;
+    height:25px;
+    width:25px;
+}
+
+.uncredited{
+    background:url('../images/clipboard.png') no-repeat left top;
+    height:25px;
+    width:25px;
+}
+
+.sidenav{
+
+     height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 80px;
+  left: 0;
+  background-color: #DEEBF7;
+  overflow-x: hidden;
+  padding-top: 20px;
+
+}
