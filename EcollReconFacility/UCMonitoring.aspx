@@ -57,7 +57,7 @@
 
                                         <asp:TemplateField>
                                             <ItemTemplate>
-                                                <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" OnClientClick="$('#reconModal').modal('show');" ></asp:LinkButton>
+                                                <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" OnClientClick="MsgBox(<%= Eval("rownumber")%>,'');" ></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
