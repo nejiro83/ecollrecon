@@ -15,6 +15,10 @@
                 $(this).find('a').addClass('active');
             }
         });
+
+        $('tbluc table tbody tr').click(function () {
+            alert($(this).text());
+        });
     });
 }
 

@@ -44,7 +44,7 @@
 
                         <div class="row">
                             <div class="col mx-auto">
-                                <asp:GridView ID="gvUC" CssClass="table table-primary tblcreditlines beta"
+                                <asp:GridView ID="gvUC" CssClass="table table-primary tblcreditlines beta tbluc"
                                     ShowHeaderWhenEmpty ="true" runat="server" AutoGenerateColumns ="false"
                                         AllowPaging ="true" PageSize ="10" EnableViewState ="true">
                                     <Columns>                                        
@@ -57,7 +57,7 @@
 
                                         <asp:TemplateField>
                                             <ItemTemplate>
-                                                <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" OnClientClick="MsgBox(<%= Eval("rownumber")%>,'');" ></asp:LinkButton>
+                                                <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" OnClientClick="" ></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
