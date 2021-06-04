@@ -15,10 +15,6 @@
                 $(this).find('a').addClass('active');
             }
         });
-
-        $('tbluc table tbody tr').click(function () {
-            alert($(this).text());
-        });
     });
 }
 
@@ -37,4 +33,13 @@ function MsgBox(msgTxt, htitle) {
             }
         })
     }).dialog("open");
+}
+
+function reconDetails(rownumber) {
+
+    $('#txtRowNo').val(rownumber);
+    $('#txtBankInsti').val($('#ddlBankInsti :selected').text());
+    $('#txtReconType').val($('#ddlReconType :selected').text());
+
+    $('#reconModal').modal('show');
 }

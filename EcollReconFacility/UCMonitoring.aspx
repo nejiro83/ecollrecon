@@ -11,7 +11,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <asp:DropDownList ID="ddlBankInsti" runat="server" AutoPostBack="true"
-                                    OnSelectedIndexChanged="OnSelectedIndexChanged" 
+                                    OnSelectedIndexChanged="OnSelectedIndexChanged" ClientIDMode="Static"
                                     CssClass="form-control b-radius border border-primary"/>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <asp:DropDownList ID="ddlReconType" runat="server" AutoPostBack="true"
-                                    OnSelectedIndexChanged="OnSelectedIndexChanged" 
+                                    OnSelectedIndexChanged="OnSelectedIndexChanged" ClientIDMode="Static"
                                     CssClass="form-control b-radius border border-primary">
                                     <asp:ListItem Text="UC (Unidentified Collections)" Value="UC"/>
                                     <asp:ListItem Text="AR (Accounts Receivable)" Value="AR"/>
@@ -44,7 +44,7 @@
 
                         <div class="row">
                             <div class="col mx-auto">
-                                <asp:GridView ID="gvUC" CssClass="table table-primary tblcreditlines beta tbluc"
+                                <asp:GridView ID="gvUC" CssClass="table table-primary tblcreditlines beta"
                                     ShowHeaderWhenEmpty ="true" runat="server" AutoGenerateColumns ="false"
                                         AllowPaging ="true" PageSize ="10" EnableViewState ="true">
                                     <Columns>                                        
@@ -57,7 +57,9 @@
 
                                         <asp:TemplateField>
                                             <ItemTemplate>
-                                                <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" OnClientClick="" ></asp:LinkButton>
+                                                <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" 
+                                                    OnClientClick=<%# "reconDetails(" +
+                                                                    Eval("rownumber") + ");"  %>></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -85,21 +87,21 @@
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Selected Row No.</label>
                                     <div class="col-8">
-                                        <asp:TextBox ID="txtRowNo"
+                                        <asp:TextBox ID="txtRowNo" ClientIDMode="Static"
                                              CssClass="form-control border border-primary b-radius" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Collecting Partner</label>
                                     <div class="col-8">
-                                        <asp:TextBox ID="txtBankInsti"
+                                        <asp:TextBox ID="txtBankInsti" ClientIDMode="Static"
                                              CssClass="form-control border border-primary b-radius" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Reconciliation Type</label>
                                     <div class="col-8">
-                                        <asp:TextBox ID="txtReconType"
+                                        <asp:TextBox ID="txtReconType" ClientIDMode="Static"
                                             CssClass="form-control border border-primary b-radius" runat="server"/>
                                     </div>
                                 </div>
