@@ -1,27 +1,5 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="UncreditedTrans.aspx.vb" Inherits="EcollReconFacility.UncreditedTrans" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <script type="text/javascript">
-        function GetCreditLine(lnk) {
-
-            var row = lnk.parentNode.parentNode;
-
-            var rowindex = row.RowIndex - 1;
-
-            var bankinsti = document.getElementById("txtBankInsti");
-            var transdatefrom = document.getElementById("txtTransDateFrom");
-            var transdateto = document.getElementById("txtTransDateTo");
-            var amountonfile = document.getElementById("txtAmountOnFile");
-
-            bankinsti.value = row.cells[1].innerHTML;
-            transdatefrom.value = row.cells[2].innerHTML;
-            transdateto.value = row.cells[2].innerHTML;
-            amountonfile.value = row.cells[3].innerHTML;
-
-            $("#creditLineModal").modal("show");
-
-            return false;
-        }
-    </script>
 
     <div class="container sb-content">
         <div class="row mt-2">
@@ -36,9 +14,8 @@
                         <asp:BoundField DataField="amount" HeaderText="Amount" ItemStyle-HorizontalAlign="Right"/>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton runat="server" ID="lnkPopup" 
-                                    CommandName="popup" OnClientClick="return GetCreditLine(this);"
-                                    >Add Credit Date Line</asp:LinkButton>
+                                <asp:LinkButton runat="server" ID="lnkPopup"  OnClientClick="">
+                                    Add Credit Date Line</asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

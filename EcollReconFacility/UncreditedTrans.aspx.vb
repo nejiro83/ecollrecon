@@ -28,26 +28,6 @@ Public Class UncreditedTrans
 
     End Sub
 
-    'Protected Sub gvUncreditedTrans_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles gvUncreditedTrans.RowCommand
-
-    '    If e.CommandName = "popup" Then
-
-    '        Dim gvRow As GridViewRow = CType(((CType(e.CommandSource, LinkButton)).NamingContainer), GridViewRow)
-
-    '        Dim index As Integer = gvRow.RowIndex
-
-    '        txtBankInsti.Text = gvRow.Cells(1).Text
-    '        txtTransDateFrom.Text = gvRow.Cells(2).Text
-    '        txtTransDateTo.Text = gvRow.Cells(2).Text
-
-    '        Dim amountOnFile As String = gvRow.Cells(3).Text
-
-    '        ClientScript.RegisterStartupScript(Me.GetType(), "Popup", "$('#creditLineModal').modal('show');", True)
-
-    '    End If
-
-    'End Sub
-
     Private Sub loadControls()
 
 

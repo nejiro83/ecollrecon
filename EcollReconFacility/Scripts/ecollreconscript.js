@@ -43,3 +43,4 @@ function reconDetails(rownumber) {
 
     $('#reconModal').modal('show');
 }
+
