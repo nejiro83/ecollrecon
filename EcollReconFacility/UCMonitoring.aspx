@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="UCMonitoring.aspx.vb" Inherits="EcollReconFacility.UCMonitoring" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="container sb-content">
+    <div class="container sb-content shadow">
         <div class="row mt-2">
             <div class="col mx-auto m-2">
                 <asp:UpdatePanel ID="upMonitoring" runat="server">
@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         <div class="row m-3">
-                            <div class="col-sm-3">
+<%--                            <div class="col-sm-3">
                                 <label class="font-weight-bold col-form-label text-right">Status</label>
                             </div>
                             <div class="col-sm-9">
@@ -39,6 +39,47 @@
                                     <asp:ListItem Text="PENDING" Value="PENDING"/>
                                     <asp:ListItem Text="CLOSED" Value="CLOSED"/>
                                 </asp:DropDownList>
+                            </div>--%>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-form-label font-weight-bold">Month</label>
+                                    <asp:DropDownList ID="ddlReconMonth" EnableViewState="true" runat="server" 
+                                        CssClass ="form-control border border-primary b-radius"
+                                        OnSelectedIndexChanged="OnSelectedIndexChanged" AutoPostBack="true">
+                                        <asp:ListItem Text ="January" Value="1"/>
+                                        <asp:ListItem Text ="February" Value="2"/>
+                                        <asp:ListItem Text ="March" Value="3"/>
+                                        <asp:ListItem Text ="April" Value="4"/>
+                                        <asp:ListItem Text ="May" Value="5"/>
+                                        <asp:ListItem Text ="June" Value="6"/>
+                                        <asp:ListItem Text ="July" Value="7"/>
+                                        <asp:ListItem Text ="August" Value="8"/>
+                                        <asp:ListItem Text ="September" Value="9"/>
+                                        <asp:ListItem Text ="October" Value="10"/>
+                                        <asp:ListItem Text ="November" Value="11"/>
+                                        <asp:ListItem Text ="December" Value="12"/>
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-form-label font-weight-bold">Year</label>
+                                    <asp:DropDownList ID="ddlReconYear" EnableViewState="true" runat="server"
+                                        OnSelectedIndexChanged="OnSelectedIndexChanged" AutoPostBack="true"
+                                        CssClass="form-control border border-primary b-radius"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-form-label font-weight-bold">Status</label>
+                                    <asp:DropDownList ID="ddlReconStatus" runat="server" 
+                                         OnSelectedIndexChanged="OnSelectedIndexChanged" AutoPostBack="true"
+                                        CssClass="form-control border border-primary b-radius">
+                                        <asp:ListItem Text="PENDING" Value="RP"/>
+                                        <asp:ListItem Text="CLOSED" Value="RX"/>
+                                    </asp:DropDownList>
+                                </div>
                             </div>
                         </div>
 
@@ -58,8 +99,11 @@
                                         <asp:TemplateField>
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" 
-                                                    OnClientClick=<%# "reconDetails(" +
-                                                                    Eval("rownumber") + ");"  %>></asp:LinkButton>
+                                                    OnClientClick=<%# "reconDetails('" +
+                                                                                Eval("rownumber") + "','" +
+                                                                                Eval("varamount") + "','" +
+                                                                                Eval("creditid") + "','" +
+                                                                                Eval("reconno") + "');"  %>></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -77,31 +121,31 @@
     <div Class="modal hide fade" tabindex="-1" role="dialog" id="reconModal" aria-labelledby="reconModalLabel" aria-hidden="true">
         <div Class="modal-dialog modal-lg">
             <div Class="modal-content">
-                <div Class="modal-header bg-primary text-light">
+                <div Class="modal-header text-light" style="background:#002D62;">
                     <h4 Class="modal-title">Reconcile UC/AR</h4>
                 </div>
-                <div Class="modal-body" style="background:#E0FFFF;">
+                <div Class="modal-body" style="background:#ddd;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-10 mx-auto">
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Selected Row No.</label>
                                     <div class="col-8">
-                                        <asp:TextBox ID="txtRowNo" ClientIDMode="Static"
+                                        <asp:TextBox ID="txtRowNo" ClientIDMode="Static" ReadOnly="true"
                                              CssClass="form-control border border-primary b-radius" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Collecting Partner</label>
                                     <div class="col-8">
-                                        <asp:TextBox ID="txtBankInsti" ClientIDMode="Static"
+                                        <asp:TextBox ID="txtBankInsti" ClientIDMode="Static" ReadOnly="true"
                                              CssClass="form-control border border-primary b-radius" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Reconciliation Type</label>
                                     <div class="col-8">
-                                        <asp:TextBox ID="txtReconType" ClientIDMode="Static"
+                                        <asp:TextBox ID="txtReconType" ClientIDMode="Static" ReadOnly="true"
                                             CssClass="form-control border border-primary b-radius" runat="server"/>
                                     </div>
                                 </div>
@@ -109,16 +153,18 @@
                                     <label class="col-3 col-form-label font-weight-bold">Amount Credited</label>
                                     <div class="col-8">
                                         <input type="text" id="txtAmountCredited" 
-                                            class="form-control border border-primary b-radius font-weight-bold" runat="server"/>
-                                     
+                                            class="form-control border border-primary b-radius font-weight-bold" runat="server"/>   
+                                        <asp:HiddenField ID="txtCreditID" ClientIDMode="Static" runat="server" />
+                                        <asp:HiddenField ID="txtUCARNo" ClientIDMode="Static" runat="server" />
+                                        <asp:HiddenField ID="txtUCARAmount" ClientIDMode="Static" runat="server" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="background:#E0FFFF;">         
-                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server"/>
+                <div class="modal-footer" style="background:#ddd;">         
+                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server" data-dismiss="modal"/>
                     <button type="button" id="btnHideModal" class="btn btn-danger" onclick="$('#reconModal').modal('hide');">Cancel</button>
                 </div>
             </div>

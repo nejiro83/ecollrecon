@@ -36,15 +36,6 @@ Public Class UCMonitoring
 
     End Sub
 
-    Private Sub gvUC_RowDataBound(ByVal sender As Object, ByVal e As GridViewRowEventArgs) Handles gvUC.RowDataBound
-
-        If e.Row.RowType = DataControlRowType.DataRow Then
-
-
-        End If
-
-    End Sub
-
     Protected Sub OnSelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
 
         loadUCAR()
@@ -55,6 +46,14 @@ Public Class UCMonitoring
             Case "AR"
                 gvUC.HeaderRow.Cells(4).Text = "AR Amount"
         End Select
+
+    End Sub
+
+    Private Sub btnModalSave_Click(sender As Object, e As EventArgs) Handles btnModalSave.Click
+
+        ClientScript.RegisterClientScriptBlock(Me.GetType(),
+                                            "msgBox",
+                                            "MsgBox('" & Session("UpdateAmountMsg") & "', 'Successfully saved');", True)
 
     End Sub
 
@@ -72,11 +71,34 @@ Public Class UCMonitoring
 
         ddlBankInsti.SelectedIndex = 0
 
+        With ddlReconYear
+
+            Dim yr As String = Now.Year
+
+            Dim lstItem As New ListItem With {.Text = yr, .Value = yr}
+
+            .Items.Add(lstItem)
+
+            For x As Integer = 3 To 1 Step -1
+
+                yr = yr - 1
+
+                .Items.Add(yr)
+
+            Next
+
+        End With
+
+        ddlReconYear.SelectedIndex = 0
+        ddlReconMonth.SelectedIndex = (Now.Month - 1)
+
+
         loadUCAR()
 
     End Sub
 
-    Private Function getUCAR(bankinsticode As String, reconType As String, status As String) As DataTable
+    Private Function getUCAR(bankinsticode As String, reconType As String, status As String,
+                             reconMonth As String, reconYear As String) As DataTable
 
         Dim dt As New DataTable
 
@@ -120,7 +142,12 @@ Public Class UCMonitoring
 
         End Select
 
-        dtresult = svc.IngDataTable(cmdText, {"VAR|" & userid, "VAR|" & bankinsticode, "VAR|" & status})
+        dtresult = svc.IngDataTable(cmdText,
+                                    {"VAR|" & userid,
+                                    "VAR|" & bankinsticode,
+                                    "VAR|" & status,
+                                    "VAR|" & reconMonth,
+                                    "VAR|" & reconYear})
 
         If dtresult.isDataGet Then
 
@@ -206,7 +233,9 @@ Public Class UCMonitoring
 
         Dim dt As DataTable = getUCAR(ddlBankInsti.SelectedValue,
                                       ddlReconType.SelectedValue,
-                                      ddlReconStatus.SelectedValue)
+                                      ddlReconStatus.SelectedValue,
+                                      ddlReconMonth.SelectedValue,
+                                      ddlReconYear.SelectedValue)
 
         gvUC.DataSource = dt
         gvUC.DataBind()
@@ -241,10 +270,131 @@ Public Class UCMonitoring
 
     End Sub
 
-    Private Sub displayReconModal(ByVal sender As Object, ByVal e As System.EventArgs)
+
+    Private Function isSaved(creditid As String, reconno As String, recontype As String) As Boolean
+
+        Dim svc As New Service1Client
+        Dim dtresult As New IngDTResult
+
+        Dim spCreditLineStatus As String = "sp_update_credit_line"
+        Dim spUCARStatus As String = "sp_update_recon"
+        Dim spAddUCAR As String = ""
+
+        Dim amountCredited As Decimal = CDec(txtAmountCredited.Value)
+        Dim amountUCAR As Decimal = CDec(txtUCARAmount.Value)
+
+        Dim creditStatus As String = ""
+        Dim reconStatus As String = ""
+
+        Dim newReconNo As String = ""
+
+        Dim result As Boolean = False
+
+        Select Case recontype
+            Case "AR"
+
+                spAddUCAR = "sp_ins_credit_ar"
+
+            Case "UC"
+
+                spAddUCAR = "sp_ins_credit_uc"
+
+        End Select
+
+        If amountCredited = amountUCAR Then
+
+            creditStatus = "CX" 'closed credit line
+            reconStatus = "RX" 'closed UC/AR
+
+            spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
+
+            spUCARStatus = spUCARStatus & ";VAR|" & creditid &
+                ":VAR|" & reconno &
+                ":VAR|" & reconStatus &
+                ":VAR|" & recontype
+
+            dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus})
+
+            If dtresult.isDataGet Then
+
+                result = True
+
+            End If
+
+        End If
+
+        If amountCredited > amountUCAR Then
+
+            reconStatus = "RX" 'closed previous UC/AR
+
+            spUCARStatus = spUCARStatus &
+                ";VAR|" & creditid &
+                ":VAR|" & reconno &
+                ":VAR|" & reconStatus &
+                ":VAR|" & recontype
 
 
+            newReconNo = getUCARNo(creditid, recontype)
 
-    End Sub
+            spAddUCAR = spAddUCAR &
+                ";VAR|" & creditid &
+                ":VAR|" & newReconNo &
+                ":VAR|" & CDec(amountCredited) &
+                ":VAR|" & CDec(amountUCAR) &
+                ":VAR|" & CDec(amountCredited) - CDec(amountUCAR) &
+                ":VAR|" & userid
+
+
+            dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR})
+
+            If dtresult.isDataGet Then
+
+                result = True
+
+            End If
+
+        End If
+
+
+        Return result
+
+    End Function
+
+    Private Function getUCARNo(creditid As String, reconType As String) As String
+
+        Dim reconNo As String = "001"
+
+        Dim dtresult As New IngDTResult
+        Dim svc As New Service1Client
+
+        Dim strParams As String() = {
+            "VAR|" & creditid,
+            "VAR|" & reconType
+            }
+
+        dtresult = svc.IngDataTable("sp_get_max_reconno", strParams)
+
+        If dtresult.isDataGet Then
+
+            For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+                If Trim(dtRow(0).ToString) = "" Then
+
+                    Exit For
+
+                Else
+
+                    reconNo = Val(dtRow(0).ToString) + 1
+
+
+                End If
+
+            Next
+
+        End If
+
+        Return reconNo
+
+    End Function
 
 End Class

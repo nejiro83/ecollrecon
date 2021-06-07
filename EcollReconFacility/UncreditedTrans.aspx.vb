@@ -17,7 +17,15 @@ Public Class UncreditedTrans
 
         End If
 
-        loadControls()
+        If IsPostBack Then
+
+        Else
+
+            loadControls()
+
+        End If
+
+
 
     End Sub
 
@@ -45,6 +53,7 @@ Public Class UncreditedTrans
         With dt.Columns
             .Clear()
             .Add("rownumber")
+            .Add("bankinsticode")
             .Add("bankinsti")
             .Add("transdate")
             .Add("amount")
@@ -67,8 +76,9 @@ Public Class UncreditedTrans
                     dt.Rows.Add({
                                 rownumber,
                                 dtRow(0).ToString,
-                                CDate(dtRow(1).ToString).ToString("MMMM dd, yyyy"),
-                                CDec(dtRow(2).ToString).ToString("#,###,##0.00")
+                                dtRow(1).ToString,
+                                CDate(dtRow(2).ToString).ToString("MMMM dd, yyyy"),
+                                CDec(dtRow(3).ToString).ToString("#,###,##0.00")
                                 })
 
                     rownumber = rownumber + 1

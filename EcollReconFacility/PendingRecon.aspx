@@ -80,10 +80,10 @@
     <div Class="modal hide fade" tabindex="-1" role="dialog" id="creditLineModal" aria-labelledby="creditLineModalLabel" aria-hidden="true">
         <div Class="modal-dialog modal-lg">
             <div Class="modal-content">
-                <div Class="modal-header bg-primary text-light">
+                <div Class="modal-header text-light" style="background:#002D62;">
                     <h4 Class="modal-title">Add New Credit Date Line</h4>
                 </div>
-                <div Class="modal-body" style="background:#E0FFFF;">
+                <div Class="modal-body" style="background:#ddd;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-10">
@@ -134,7 +134,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="background:#E0FFFF;">         
+                <div class="modal-footer" style="background:#ddd;">         
                     <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server"/>
                     <button type="button" id="btnHideCreditLineModal" class="btn btn-danger" onclick="$('#creditLineModal').modal('hide');">Cancel</button>
                 </div>

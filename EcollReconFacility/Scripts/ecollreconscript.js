@@ -35,12 +35,24 @@ function MsgBox(msgTxt, htitle) {
     }).dialog("open");
 }
 
-function reconDetails(rownumber) {
+function reconDetails(rownumber, ucaramount, creditid, reconno) {
 
     $('#txtRowNo').val(rownumber);
     $('#txtBankInsti').val($('#ddlBankInsti :selected').text());
     $('#txtReconType').val($('#ddlReconType :selected').text());
+    $('#txtUCARAmount').val(ucaramount);
+
+    $('#txtCreditID').val(creditid);
+    $('#txtUCARNo').val(reconno);
 
     $('#reconModal').modal('show');
 }
 
+function uncreditedModal(bankinsticode, bankinsti, transdate) {
+
+    $('#txtBankInstiCode').val(bankinsticode);
+    $('#txtBankInsti').val(bankinsti);
+    $('#txtTransDate').val(transdate);
+
+    $('#creditLineModal').modal('show');
+}

@@ -22,6 +22,12 @@ Public Class WebForm3
 
         Else
 
+            If getCreditStatus(Request.QueryString("crid")) <> "CP" Then
+
+                Response.Redirect("~/PendingRecon.aspx")
+
+            End If
+
             userid = Session("ActiveUserID")
 
         End If
@@ -327,7 +333,7 @@ Public Class WebForm3
                 Dim reconNo As String = getUCARNo(creditid, reconType)
 
                 reconTypeParams = "VAR|" & creditid &
-                    ":VAR|" & amountcredited &
+                    ":VAR|" & reconNo &
                     ":VAR|" & amountcredited &
                     ":VAR|" & amountonfile &
                     ":VAR|" & varianceAmount &
@@ -450,61 +456,6 @@ Public Class WebForm3
             trResult.errMsg = ex.Message
 
         End Try
-
-        'Try
-
-        '    Dim cmdText As String = "sp_get_credit_trans_byref"
-
-        '    Dim svc As New Service1Client
-        '    Dim dtresult As New IngDTResult
-
-        '    Dim strparam As String() = {
-        '        "VAR|" & txtTransRefNo.Text,
-        '        "VAR|" & creditID
-        '        }
-
-        '    dtresult = svc.IngDataTable(cmdText, strparam)
-
-        '    If dtresult.isDataGet Then
-
-        '        For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
-
-        '            dt.Rows.Add({
-        '                        dtRow(0).ToString,
-        '                        CDate(dtRow(1).ToString).ToString("MMMM dd, yyyy"),
-        '                        dtRow(2).ToString,
-        '                        CDec(dtRow(3).ToString).ToString("#,###,##0.00")
-        '                        })
-
-        '            lblAmountExcluded.Text = CDec(CDec(lblAmountExcluded.Text) +
-        '                CDec(dtRow(3).ToString)).ToString("#,###,##0.00")
-
-        '        Next
-
-        '    End If
-
-        '    If dt.Rows.Count > 0 Then
-
-        '        gvTrans.DataSource = dt
-        '        gvTrans.DataBind()
-
-        '        ViewState("gvTrans") = dt
-
-        '        trResult.isSuccessful = True
-
-        '    Else
-
-        '        trResult.isSuccessful = False
-        '        trResult.errMsg = "No record found"
-
-        '    End If
-
-        'Catch ex As Exception
-
-        '    trResult.isSuccessful = False
-        '    trResult.errMsg = ex.Message
-
-        'End Try
 
         Return trResult
     End Function
@@ -686,6 +637,27 @@ Public Class WebForm3
         End If
 
         Return reconNo
+
+    End Function
+
+    Private Function getCreditStatus(creditid) As String
+
+        Dim dtresult As New IngDTResult
+        Dim svc As New Service1Client
+
+        Dim creditStatus As String = ""
+
+        Dim cmdText As String = "sp_get_creditline_info"
+
+        dtresult = svc.IngDataTable(cmdText, {"VAR|" & creditid})
+
+        If dtresult.isDataGet And dtresult.DataSetResult.Tables(0).Rows.Count > 0 Then
+
+            creditStatus = dtresult.DataSetResult.Tables(0).Rows(0)(4).ToString
+
+        End If
+
+        Return creditStatus
 
     End Function
 

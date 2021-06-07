@@ -136,7 +136,6 @@ Public Class PendingRecon
         End If
 
     End Sub
-
     Private Sub retainGVValues()
 
         gvCreditLines.DataSource = gvSource

@@ -41,6 +41,24 @@ Partial Public Class UCMonitoring
     Protected WithEvents ddlReconType As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
+    '''ddlReconMonth control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlReconMonth As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''ddlReconYear control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlReconYear As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
     '''ddlReconStatus control.
     '''</summary>
     '''<remarks>
@@ -93,6 +111,33 @@ Partial Public Class UCMonitoring
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtAmountCredited As Global.System.Web.UI.HtmlControls.HtmlInputText
+    
+    '''<summary>
+    '''txtCreditID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCreditID As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''txtUCARNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtUCARNo As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''txtUCARAmount control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtUCARAmount As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
     '''btnModalSave control.

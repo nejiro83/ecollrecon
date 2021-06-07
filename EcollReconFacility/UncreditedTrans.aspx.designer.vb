@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class UncreditedTrans
     
     '''<summary>
+    '''upUncredited control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents upUncredited As Global.System.Web.UI.UpdatePanel
+    
+    '''<summary>
     '''gvUncreditedTrans control.
     '''</summary>
     '''<remarks>
@@ -29,7 +38,7 @@ Partial Public Class UncreditedTrans
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtBankInsti As Global.System.Web.UI.HtmlControls.HtmlInputText
+    Protected WithEvents txtBankInsti As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''dtpmodalCreditDate control.
@@ -41,22 +50,13 @@ Partial Public Class UncreditedTrans
     Protected WithEvents dtpmodalCreditDate As Global.System.Web.UI.HtmlControls.HtmlInputText
     
     '''<summary>
-    '''txtTransDateFrom control.
+    '''txtTransDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtTransDateFrom As Global.System.Web.UI.HtmlControls.HtmlInputText
-    
-    '''<summary>
-    '''txtTransDateTo control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtTransDateTo As Global.System.Web.UI.HtmlControls.HtmlInputText
+    Protected WithEvents txtTransDate As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtAmountCredited control.
@@ -68,13 +68,13 @@ Partial Public Class UncreditedTrans
     Protected WithEvents txtAmountCredited As Global.System.Web.UI.HtmlControls.HtmlInputText
     
     '''<summary>
-    '''txtAmountOnFile control.
+    '''txtBankInstiCode control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtAmountOnFile As Global.System.Web.UI.HtmlControls.HtmlInputHidden
+    Protected WithEvents txtBankInstiCode As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
     '''btnModalSave control.
