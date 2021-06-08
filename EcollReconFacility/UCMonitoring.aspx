@@ -103,7 +103,8 @@
                                                                                 Eval("rownumber") + "','" +
                                                                                 Eval("varamount") + "','" +
                                                                                 Eval("creditid") + "','" +
-                                                                                Eval("reconno") + "');"  %>></asp:LinkButton>
+                                                                                Eval("reconno") + "','" +
+                                                                                ddlReconType.SelectedValue + "');"  %>></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 

@@ -35,7 +35,7 @@ function MsgBox(msgTxt, htitle) {
     }).dialog("open");
 }
 
-function reconDetails(rownumber, ucaramount, creditid, reconno) {
+function reconDetails(rownumber, ucaramount, creditid, reconno, recontype) {
 
     $('#txtRowNo').val(rownumber);
     $('#txtBankInsti').val($('#ddlBankInsti :selected').text());
@@ -45,7 +45,17 @@ function reconDetails(rownumber, ucaramount, creditid, reconno) {
     $('#txtCreditID').val(creditid);
     $('#txtUCARNo').val(reconno);
 
-    $('#reconModal').modal('show');
+    switch (recontype) {
+
+        case 'AR':
+            $('#reconModal').modal('show');
+
+            break;
+        case 'UC':
+            location.href = 'PendingRecon.aspx';
+            return false;
+            break;
+    }
 }
 
 function uncreditedModal(bankinsticode, bankinsti, transdate) {
