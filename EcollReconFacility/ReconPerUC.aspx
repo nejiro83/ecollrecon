@@ -17,9 +17,9 @@
                     </div>
                 </div>
                 <div class="row m-2">
-                    <label class="col-form-label col-sm-3 font-weight-bold">Credit Date</label>
+                    <label class="col-form-label col-sm-3 font-weight-bold">Reconciliation Date</label>
                     <div class="col-sm-9">
-                        <asp:Label CssClass="form-control b-radius" runat="server" ID="txtCreditDate"/>
+                        <asp:Label CssClass="form-control b-radius" runat="server" ID="txtReconDate"/>
                     </div>
                 </div>
                 <div class="row m-2">
@@ -34,8 +34,9 @@
         <div class="row mt-2">
             <div class="col-sm-10 mx-auto">
                 <div class="row m-2">
-                    <div class="w-100 overflow-scroll" style="height: 250px;">
-                        <asp:GridView CssClass="table table-primary beta" ShowHeaderWhenEmpty="true" ID="gvTransPerCreditLine" runat="server" AutoGenerateColumns="false">
+                    <div class="w-100 overflow-scroll" style="height: 125px;">
+                        <asp:GridView CssClass="table table-primary beta" 
+                            ShowHeaderWhenEmpty="true" ID="gvTransForUC" runat="server" AutoGenerateColumns="false">
                             <Columns>                  
                                 <asp:BoundField DataField="transdate" HeaderText="Transaction Date" />
                                 <asp:BoundField DataField="amount" HeaderText="Amount on File" ItemStyle-HorizontalAlign="Right" />
@@ -52,44 +53,19 @@
                         <div class="row m-2">
                             <div class="col">
                                 <div class="row m-2">
-                                    <span class="h5">SUMMARY</span>
+                                    <span class="h5 font-weight-bolder">SUMMARY</span>
                                 </div>
                                 <hr />
                                 <div class="row m-2">
-                                    <label class="col-form-label col-sm-5">Amount Credited to Account:</label>
+                                    <label class="col-form-label col-sm-5">UC Amount</label>
                                     <div class="col-sm-7">
-                                        <asp:UpdatePanel ID="upAmountCredited" runat="server">
-                                            <ContentTemplate>
-                                                <div class="row">
-                                                    <div class="col-sm-9">
-                                                        <asp:Label CssClass="form-control b-radius" runat="server" ID="txtAmCredited"/>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalUpdate">
-                                                            Update
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </ContentTemplate>
-                                        </asp:UpdatePanel>
+                                        <asp:Label CssClass="form-control b-radius text-right" runat="server" ID="txtUCAmount"/>
                                     </div>
                                 </div>
                                 <div class="row m-2">
-                                    <label class="col-form-label col-sm-5">Total Amount Reported on File:</label>
+                                    <label class="col-form-label col-sm-5">Amount Loaded for UC</label>
                                     <div class="col-sm-7">
-                                        <asp:Label CssClass="form-control b-radius" ID="lblPanelTotalTransAmount" runat="server" />
-                                    </div>
-                                </div>
-                                <div class="row m-2">
-                                    <label class="col-form-label col-sm-5">Amount to Reconcile:</label>
-                                    <div class="col-sm-7">
-                                        <asp:Label CssClass="form-control b-radius" ID="lblAmtToReconcile" runat="server" />
-                                    </div>
-                                </div>
-                                <div class="row m-2">
-                                    <label class="col-form-label col-sm-5">Amount Excluded:</label>
-                                    <div class="col-sm-7">
-                                        <asp:Label CssClass="form-control b-radius" ID="lblAmountExcluded" runat="server" ForeColor="Red" />
+                                        <asp:Label CssClass="form-control b-radius text-right" ID="txtLoadedAmount" runat="server" />
                                     </div>
                                 </div>
                                 <hr />
@@ -107,7 +83,7 @@
                                 <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary d-block mx-auto w-100" />
                             </div>
                             <div class="col-sm-2">
-                                <asp:Button CssClass="btn btn-danger d-block mx-auto w-100" ID="btnBack" runat="server" text="Back" PostBackUrl="~/PendingRecon.aspx"/>
+                                <asp:Button CssClass="btn btn-danger d-block mx-auto w-100" ID="btnBack" runat="server" text="Back" PostBackUrl="~/UCMonitoring.aspx"/>
                             </div>
                         </div>
                     </div>

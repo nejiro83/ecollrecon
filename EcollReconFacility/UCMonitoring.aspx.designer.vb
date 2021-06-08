@@ -95,15 +95,6 @@ Partial Public Class UCMonitoring
     Protected WithEvents txtBankInsti As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''txtReconType control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtReconType As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
     '''txtAmountCredited control.
     '''</summary>
     '''<remarks>

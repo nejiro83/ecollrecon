@@ -23,13 +23,13 @@ Partial Public Class ReconPerUC
     Protected WithEvents txtCollPartner As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''txtCreditDate control.
+    '''txtReconDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCreditDate As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtReconDate As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''txtTransDates control.
@@ -41,13 +41,13 @@ Partial Public Class ReconPerUC
     Protected WithEvents txtTransDates As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''gvTransPerCreditLine control.
+    '''gvTransForUC control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents gvTransPerCreditLine As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents gvTransForUC As Global.System.Web.UI.WebControls.GridView
     
     '''<summary>
     '''upTransList control.
@@ -59,49 +59,22 @@ Partial Public Class ReconPerUC
     Protected WithEvents upTransList As Global.System.Web.UI.UpdatePanel
     
     '''<summary>
-    '''upAmountCredited control.
+    '''txtUCAmount control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents upAmountCredited As Global.System.Web.UI.UpdatePanel
+    Protected WithEvents txtUCAmount As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''txtAmCredited control.
+    '''txtLoadedAmount control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtAmCredited As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''lblPanelTotalTransAmount control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblPanelTotalTransAmount As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''lblAmtToReconcile control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblAmtToReconcile As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''lblAmountExcluded control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblAmountExcluded As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtLoadedAmount As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''btnSave control.

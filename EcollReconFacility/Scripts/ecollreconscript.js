@@ -39,7 +39,6 @@ function reconDetails(rownumber, ucaramount, creditid, reconno, recontype) {
 
     $('#txtRowNo').val(rownumber);
     $('#txtBankInsti').val($('#ddlBankInsti :selected').text());
-    $('#txtReconType').val($('#ddlReconType :selected').text());
     $('#txtUCARAmount').val(ucaramount);
 
     $('#txtCreditID').val(creditid);

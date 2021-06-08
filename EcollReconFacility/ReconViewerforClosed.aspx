@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site1.Master" CodeBehind="ReconViewerforClosed.aspx.vb" Inherits="EcollReconFacility.WebForm8" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+    <div class="container body-content">
         <div class="row mt-2">
             <div class="col-sm-11 mx-auto">
                 <div class="row m-3">

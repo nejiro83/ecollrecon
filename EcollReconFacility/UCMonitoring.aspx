@@ -29,18 +29,6 @@
                             </div>
                         </div>
                         <div class="row m-3">
-<%--                            <div class="col-sm-3">
-                                <label class="font-weight-bold col-form-label text-right">Status</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <asp:DropDownList ID="ddlReconStatus" runat="server" AutoPostBack="true"
-                                    OnSelectedIndexChanged="OnSelectedIndexChanged" 
-                                    CssClass="form-control b-radius border border-primary">
-                                    <asp:ListItem Text="PENDING" Value="PENDING"/>
-                                    <asp:ListItem Text="CLOSED" Value="CLOSED"/>
-                                </asp:DropDownList>
-                            </div>--%>
-
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="col-form-label font-weight-bold">Month</label>
@@ -123,7 +111,7 @@
         <div Class="modal-dialog modal-lg">
             <div Class="modal-content">
                 <div Class="modal-header text-light" style="background:#002D62;">
-                    <h4 Class="modal-title">Reconcile UC/AR</h4>
+                    <h4 Class="modal-title">Reconcile AR</h4>
                 </div>
                 <div Class="modal-body" style="background:#f6f6ff;">
                     <div class="container-fluid">
@@ -141,13 +129,6 @@
                                     <div class="col-8">
                                         <asp:TextBox ID="txtBankInsti" ClientIDMode="Static" ReadOnly="true"
                                              CssClass="form-control border border-primary b-radius" runat="server"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <label class="col-3 col-form-label font-weight-bold">Reconciliation Type</label>
-                                    <div class="col-8">
-                                        <asp:TextBox ID="txtReconType" ClientIDMode="Static" ReadOnly="true"
-                                            CssClass="form-control border border-primary b-radius" runat="server"/>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
