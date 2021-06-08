@@ -78,10 +78,6 @@
                 </div>
 
                 <asp:UpdatePanel ID="upTransList" runat="server">
-<%--                    <Triggers>
-                        <asp:PostBackTrigger ControlID="btnAddTrans" />
-                        <asp:PostBackTrigger ControlID="gvTrans" />
-                    </Triggers>--%>
                     <ContentTemplate>
                         <div id="lstExcluded" runat="server" class="row m-2" style="background:#f0f7de">
                             <div class="col">

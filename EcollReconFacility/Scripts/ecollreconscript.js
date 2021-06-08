@@ -52,7 +52,9 @@ function reconDetails(rownumber, ucaramount, creditid, reconno, recontype) {
 
             break;
         case 'UC':
-            location.href = 'PendingRecon.aspx';
+            location.href = 'ReconPerUC.aspx' +
+                '?crid=' + creditid +
+                '&ucno=' + reconno;
             return false;
             break;
     }

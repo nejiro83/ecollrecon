@@ -292,6 +292,7 @@
     <Content Include="Service References\EcollReconWCF\EcollReconFacility.EcollReconWCF.IngDTResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="ReconPerUC.aspx" />
     <None Include="Service References\EcollReconWCF\EcollReconWS.disco" />
     <None Include="Service References\EcollReconWCF\configuration91.svcinfo" />
     <None Include="Service References\EcollReconWCF\configuration.svcinfo" />
@@ -606,6 +607,13 @@
     </Compile>
     <Compile Include="UCMonitoring.aspx.vb">
       <DependentUpon>UCMonitoring.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ReconPerUC.aspx.designer.vb">
+      <DependentUpon>ReconPerUC.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReconPerUC.aspx.vb">
+      <DependentUpon>ReconPerUC.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
   </ItemGroup>

@@ -59,57 +59,6 @@
             </div>
         </div>  
 
-<%--        <div class="container">
-            <div class="row mt-2">
-                <div class="col">
-                    <div class="row mt-4">
-                        <div class="col mx-auto">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <asp:UpdatePanel ID="upTabs" runat="server">
-                                        <ContentTemplate>
-                                            <ul class="nav nav-tabs flex-column" id="mytabs">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="<%= Page.ResolveUrl("~/PendingRecon.aspx") %>">
-                                                       <span>Pending Credit Date Lines</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="<%= Page.ResolveUrl("~/SearchRecon.aspx") %>">
-                                                       <span>Search Credit Lines by Month</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="<%= Page.ResolveUrl("~/UncreditedTrans.aspx") %>">
-                                                        <span>Uncredited Transactions</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="<%= Page.ResolveUrl("~/UCMonitoring.aspx") %>">
-                                                        <span>UC Monitoring</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>
-                                </div>       
-        
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <div class="container body-content">
-                                            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-                                            </asp:ContentPlaceHolder>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div> 
-        </div>--%>
-
         <div class="sidenav">
             <asp:UpdatePanel ID="upTabs" runat="server">
                 <ContentTemplate>
