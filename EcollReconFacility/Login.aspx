@@ -9,7 +9,8 @@
                             <span class="input-group-text fa fa-user fa-lg fa-2x"></span>
                         </div>
                         <asp:TextBox ID="txtUserName" ClientIDMode="Static"
-                            CssClass="form-control border border-primary b-radius" runat="server" placeholder="Username" />
+                            CssClass="form-control border border-primary b-radius" 
+                            runat="server" placeholder="Username" required="required" />
                     </div>
                 </div>
                 <div class="form-group m-4">
@@ -18,7 +19,8 @@
                             <span class="input-group-text fa fa-lock fa-lg fa-2x"></span>
                         </div>
                         <asp:TextBox TextMode="Password" ID="txtPassword"
-                            CssClass="form-control border border-primary b-radius" runat="server" placeholder="Password" />
+                            CssClass="form-control border border-primary b-radius" 
+                            runat="server" placeholder="Password" required="required" />
                     </div>
                 </div>
                 <div class="form-group m-4">

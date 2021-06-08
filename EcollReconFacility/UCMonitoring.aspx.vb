@@ -5,6 +5,12 @@ Public Class UCMonitoring
 
     Dim userid As String = ""
 
+    Public Class TransResult
+        Public TransType As Integer
+        Public isSuccessful As Boolean = False
+        Public resultMsg As String = ""
+    End Class
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         If IsNothing(Session("ActiveUserID")) Then
@@ -23,9 +29,11 @@ Public Class UCMonitoring
 
         Else
 
-            loadControls()
+
 
         End If
+
+        loadControls()
 
 
     End Sub
@@ -51,9 +59,11 @@ Public Class UCMonitoring
 
     Private Sub btnModalSave_Click(sender As Object, e As EventArgs) Handles btnModalSave.Click
 
+        Dim tresult As TransResult = isSaved("", "", "")
+
         ClientScript.RegisterClientScriptBlock(Me.GetType(),
                                             "msgBox",
-                                            "MsgBox('" & Session("UpdateAmountMsg") & "', 'Successfully saved');", True)
+                                            "MsgBox('" & tresult.resultMsg & "', 'Successfully saved');", True)
 
     End Sub
 
@@ -271,10 +281,11 @@ Public Class UCMonitoring
     End Sub
 
 
-    Private Function isSaved(creditid As String, reconno As String, recontype As String) As Boolean
+    Private Function isSaved(creditid As String, reconno As String, recontype As String) As TransResult
 
         Dim svc As New Service1Client
         Dim dtresult As New IngDTResult
+        Dim tresult As New TransResult
 
         Dim spCreditLineStatus As String = "sp_update_credit_line"
         Dim spUCARStatus As String = "sp_update_recon"
@@ -317,7 +328,12 @@ Public Class UCMonitoring
 
             If dtresult.isDataGet Then
 
-                result = True
+                tresult.isSuccessful = True
+
+            Else
+
+                tresult.resultMsg = "Error in saving BALANCED UC/AR: " & dtresult.DTErrorMsg
+                tresult.isSuccessful = False
 
             End If
 
@@ -349,14 +365,18 @@ Public Class UCMonitoring
 
             If dtresult.isDataGet Then
 
-                result = True
+                tresult.isSuccessful = True
+
+            Else
+
+                tresult.resultMsg = "Error in saving OVERREMITTED UC/AR: " & dtresult.DTErrorMsg
+                tresult.isSuccessful = False
 
             End If
 
         End If
 
-
-        Return result
+        Return tresult
 
     End Function
 

@@ -124,7 +124,7 @@
                 <div Class="modal-header text-light" style="background:#002D62;">
                     <h4 Class="modal-title">Reconcile UC/AR</h4>
                 </div>
-                <div Class="modal-body" style="background:#ddd;">
+                <div Class="modal-body" style="background:#f6f6ff;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-10 mx-auto">
@@ -153,7 +153,8 @@
                                     <label class="col-3 col-form-label font-weight-bold">Amount Credited</label>
                                     <div class="col-8">
                                         <input type="text" id="txtAmountCredited" 
-                                            class="form-control border border-primary b-radius font-weight-bold" runat="server"/>   
+                                            class="form-control border border-primary b-radius font-weight-bold" 
+                                            runat="server" required="required"/>   
                                         <asp:HiddenField ID="txtCreditID" ClientIDMode="Static" runat="server" />
                                         <asp:HiddenField ID="txtUCARNo" ClientIDMode="Static" runat="server" />
                                         <asp:HiddenField ID="txtUCARAmount" ClientIDMode="Static" runat="server" />
@@ -163,8 +164,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="background:#ddd;">         
-                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server" data-dismiss="modal"/>
+                <div class="modal-footer" style="background:#f6f6ff;">         
+                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server"/>
                     <button type="button" id="btnHideModal" class="btn btn-danger" onclick="$('#reconModal').modal('hide');">Cancel</button>
                 </div>
             </div>

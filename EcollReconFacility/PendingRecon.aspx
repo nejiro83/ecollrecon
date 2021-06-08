@@ -98,7 +98,8 @@
                                     <label class="col-3 col-form-label font-weight-bold">Credit Date</label>
                                     <div class="col-9">
                                         <input type="text" id="dtpmodalCreditDate" runat="server" 
-                                            class="form-control datepicker border border-primary b-radius" />
+                                            class="form-control datepicker border border-primary b-radius"
+                                             required="required" />
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -109,14 +110,16 @@
                                                 <div class="form-group">
                                                     <label class="col-form-label">From</label>
                                                     <input type="text" id="dtpTransDateFrom" 
-                                                        class="form-control datepicker border border-primary b-radius" runat="server" />
+                                                        class="form-control datepicker border border-primary b-radius" 
+                                                        runat="server" required="required" />
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="col-form-label">To</label>
                                                     <input type="text" id="dtpTransDateTo" 
-                                                        class="form-control datepicker border border-primary b-radius" runat="server"/>
+                                                        class="form-control datepicker border border-primary b-radius" 
+                                                        runat="server" required="required"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -126,7 +129,8 @@
                                     <label class="col-3 col-form-label font-weight-bold">Amount Credited</label>
                                     <div class="col-9">
                                         <input type="text" id="txtAmountCredited" 
-                                            class="form-control border border-primary b-radius font-weight-bold" runat="server"/>
+                                            class="form-control border border-primary b-radius font-weight-bold" 
+                                            runat="server" required="required"/>
                                      
                                     </div>
                                 </div>

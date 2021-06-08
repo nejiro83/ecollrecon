@@ -81,11 +81,12 @@
             border: 1px solid #002D62;
             color: #FFFFFF;
             font-weight: bold;
+            opacity:1;
          }
 
 
          .ui-widget-overlay, .ui-front{
-             opacity: .75;
+             opacity: 1;
          }
     </style>
 
