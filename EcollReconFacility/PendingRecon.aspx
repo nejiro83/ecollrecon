@@ -83,7 +83,7 @@
                 <div Class="modal-header text-light" style="background:#002D62;">
                     <h4 Class="modal-title">Add New Credit Date Line</h4>
                 </div>
-                <div Class="modal-body" style="background:#ddd;">
+                <div Class="modal-body" style="background:#f6f6f6;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-10">
@@ -138,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="background:#ddd;">         
+                <div class="modal-footer" style="background:#F6F6F6;">         
                     <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server"/>
                     <button type="button" id="btnHideCreditLineModal" class="btn btn-danger" onclick="$('#creditLineModal').modal('hide');">Cancel</button>
                 </div>

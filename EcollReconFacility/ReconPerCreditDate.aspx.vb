@@ -57,6 +57,16 @@ Public Class WebForm3
 
     Public Sub btnSave_Click(sender As Object, e As System.EventArgs) Handles btnSave.Click
 
+        If (CDec(txtAmCredited.Text) < CDec(lblPanelTotalTransAmount.Text)) And
+            (gvTrans.Rows.Count = 0) Then
+
+            ClientScript.RegisterClientScriptBlock(Me.GetType, "alert",
+                                                   "alert('Please add transactions not included in Amount Credited (Add to AR)');", True)
+
+            Exit Sub
+
+        End If
+
         Dim trResult As TransResult = isStatusSaved(Request.QueryString("crid"))
 
         Session("IsReconSaved") = trResult.isSuccessful

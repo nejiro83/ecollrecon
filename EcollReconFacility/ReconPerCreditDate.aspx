@@ -93,16 +93,19 @@
                                         <div class="col-sm-8">
                                             <div class="row m-2">
                                                 <label class="col-form-label col-sm-5 font-weight-bold">Transaction Ref No.:</label>
-                                                <asp:TextBox ID="txtTransRefNo" CssClass="form-control col-sm-7 b-radius border border-danger" runat="server"></asp:TextBox>
+                                                <asp:TextBox ID="txtTransRefNo" 
+                                                    CssClass="form-control col-sm-7 b-radius border border-danger" 
+                                                    runat="server" ClientIDMode="Static"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <asp:Button ID="btnAddTrans" CssClass="btn btn-primary d-block mx-auto btn-sm w-100" runat="server" Text="Add" />
+                                                    <asp:Button ID="btnAddTrans" CssClass="btn btn-primary d-block mx-auto btn-sm w-100" 
+                                                        runat="server" Text="Add" OnClientClick="checkExcFields();" />
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <asp:Button ID="btnClearTrans" CssClass="btn btn-danger d-block mx-auto btn-sm w-100" runat="server" Text="Clear" />
+                                                    <asp:Button ID="btnClearTrans" CssClass="btn btn-danger d-block mx-auto btn-sm w-100" runat="server" Text="Clear"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,7 +114,9 @@
                                         <div class="col-sm-8">
                                             <div class="row m-2">
                                                 <label class="col-form-label col-sm-5 font-weight-bold">Remarks:</label>
-                                                <asp:TextBox ID="txtExcRemarks" CssClass="form-control col-sm-7 b-radius border border-danger" runat="server"></asp:TextBox>
+                                                <asp:TextBox ID="txtExcRemarks" 
+                                                    CssClass="form-control col-sm-7 b-radius border border-danger" 
+                                                    runat="server" ClientIDMode="Static"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -137,7 +142,7 @@
                                     </div>
                                     <div class="row m-2">
                                         <div class="col-sm-8">
-                                            <asp:Label ID="lblMessage" runat="server" ForeColor="Red"/>
+                                            <asp:Label ID="lblMessage" runat="server" ForeColor="Red" ClientIDMode="Static"/>
                                         </div>
                                     </div>
                                 </div>
@@ -157,7 +162,8 @@
                                             <ContentTemplate>
                                                 <div class="row">
                                                     <div class="col-sm-9">
-                                                        <asp:Label CssClass="form-control b-radius" runat="server" ID="txtAmCredited"/>
+                                                        <asp:Label CssClass="form-control b-radius" 
+                                                            runat="server" ID="txtAmCredited" ClientIDMode="Static"/>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalUpdate">
@@ -172,7 +178,9 @@
                                 <div class="row m-2">
                                     <label class="col-form-label col-sm-5">Total Amount Reported on File:</label>
                                     <div class="col-sm-7">
-                                        <asp:Label CssClass="form-control b-radius" ID="lblPanelTotalTransAmount" runat="server" />
+                                        <asp:Label CssClass="form-control b-radius" 
+                                            ID="lblPanelTotalTransAmount" runat="server" 
+                                            ClientIDMode="Static" />
                                     </div>
                                 </div>
                                 <div class="row m-2">

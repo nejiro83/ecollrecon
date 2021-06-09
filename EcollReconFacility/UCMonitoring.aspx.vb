@@ -69,8 +69,7 @@ Public Class UCMonitoring
     Private Sub btnModalSave_Click(sender As Object, e As EventArgs) Handles btnModalSave.Click
 
         Dim tresult As TransResult = isSaved(txtCreditID.Value,
-                                             txtUCARNo.Value,
-                                             ddlReconType.SelectedValue)
+                                             txtUCARNo.Value)
 
         ClientScript.RegisterClientScriptBlock(Me.GetType(),
                                             "msgBox",
@@ -292,7 +291,7 @@ Public Class UCMonitoring
     End Sub
 
 
-    Private Function isSaved(creditid As String, reconno As String, recontype As String) As TransResult
+    Private Function isSaved(creditid As String, reconno As String) As TransResult
 
         Dim svc As New Service1Client
         Dim dtresult As New IngDTResult
@@ -317,36 +316,27 @@ Public Class UCMonitoring
             amountCredited = CDec(txtAmountCredited.Value)
             amountUCAR = CDec(txtUCARAmount.Value)
 
-            Select Case recontype
-                Case "AR"
+            'CLOSE CURRENT UC
+            reconStatus = "RX"
 
-                    spAddUCAR = "sp_ins_credit_ar"
+            spUCARStatus = spUCARStatus & ";VAR|" & creditid &
+                    ":VAR|" & reconno &
+                    ":VAR|" & reconStatus &
+                    ":VAR|UC"
 
-                Case "UC"
-
-                    spAddUCAR = "sp_ins_credit_uc"
-
-            End Select
-
+            'UPDATE/ADD NEW UC/AR
             If amountCredited = amountUCAR Then
 
                 creditStatus = "CX" 'closed credit line
-                reconStatus = "RX" 'closed UC/AR
 
                 spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
-
-                spUCARStatus = spUCARStatus & ";VAR|" & creditid &
-                    ":VAR|" & reconno &
-                    ":VAR|" & reconStatus &
-                    ":VAR|" & recontype
 
                 dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus})
 
                 If dtresult.isDataGet Then
 
                     tresult.isSuccessful = True
-                    tresult.resultMsg = "Reconciliation successfully saved." & vbCrLf &
-                        "Status: BALANCED"
+                    tresult.resultMsg = "Reconciliation successfully saved. (Status: BALANCED)"
 
                 Else
 
@@ -359,23 +349,16 @@ Public Class UCMonitoring
 
             If amountCredited > amountUCAR Then
 
-                reconStatus = "RX" 'closed previous UC/AR
+                spAddUCAR = "sp_ins_credit_ar"
 
-                spUCARStatus = spUCARStatus &
-                    ";VAR|" & creditid &
-                    ":VAR|" & reconno &
-                    ":VAR|" & reconStatus &
-                    ":VAR|" & recontype
-
-
-                newReconNo = getUCARNo(creditid, recontype)
+                newReconNo = getUCARNo(creditid, "AR")
 
                 spAddUCAR = spAddUCAR &
                     ";VAR|" & creditid &
                     ":VAR|" & newReconNo &
-                    ":VAR|" & CDec(amountCredited) &
-                    ":VAR|" & CDec(amountUCAR) &
-                    ":VAR|" & CDec(amountCredited) - CDec(amountUCAR) &
+                    ":VAR|" & amountUCAR &
+                    ":VAR|" & amountCredited &
+                    ":VAR|" & amountCredited - amountUCAR &
                     ":VAR|" & userid
 
 
@@ -383,8 +366,7 @@ Public Class UCMonitoring
 
                 If dtresult.isDataGet Then
 
-                    tresult.resultMsg = "Reconciliation successfully saved." & vbCrLf &
-                        "Status: WITH UC"
+                    tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH AR)"
 
 
                 Else
@@ -395,6 +377,116 @@ Public Class UCMonitoring
                 End If
 
             End If
+
+            If amountCredited < amountUCAR Then
+
+                spAddUCAR = "sp_ins_credit_uc"
+
+                newReconNo = getUCARNo(creditid, "AR")
+
+                spAddUCAR = spAddUCAR &
+                    ";VAR|" & creditid &
+                    ":VAR|" & newReconNo &
+                    ":VAR|" & amountUCAR &
+                    ":VAR|" & amountCredited &
+                    ":VAR|" & amountUCAR - amountCredited &
+                    ":VAR|" & userid
+
+
+                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR})
+
+                If dtresult.isDataGet Then
+
+                    tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH AR)"
+
+
+                Else
+
+                    tresult.resultMsg = "Error in saving OVERREMITTED UC/AR: " & dtresult.DTErrorMsg
+                    tresult.isSuccessful = False
+
+                End If
+
+            End If
+
+            'Select Case recontype
+            '    Case "AR"
+
+            '        spAddUCAR = "sp_ins_credit_ar"
+
+            '    Case "UC"
+
+            '        spAddUCAR = "sp_ins_credit_uc"
+
+            'End Select
+
+            'If amountCredited = amountUCAR Then
+
+            '    creditStatus = "CX" 'closed credit line
+            '    reconStatus = "RX" 'closed UC/AR
+
+            '    spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
+
+            '    spUCARStatus = spUCARStatus & ";VAR|" & creditid &
+            '        ":VAR|" & reconno &
+            '        ":VAR|" & reconStatus &
+            '        ":VAR|" & recontype
+
+            '    dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus})
+
+            '    If dtresult.isDataGet Then
+
+            '        tresult.isSuccessful = True
+            '        tresult.resultMsg = "Reconciliation successfully saved." & vbCrLf &
+            '            "Status: BALANCED"
+
+            '    Else
+
+            '        tresult.resultMsg = "Error in saving BALANCED UC/AR: " & dtresult.DTErrorMsg
+            '        tresult.isSuccessful = False
+
+            '    End If
+
+            'End If
+
+            'If amountCredited > amountUCAR Then
+
+            '    reconStatus = "RX" 'closed previous UC/AR
+
+            '    spUCARStatus = spUCARStatus &
+            '        ";VAR|" & creditid &
+            '        ":VAR|" & reconno &
+            '        ":VAR|" & reconStatus &
+            '        ":VAR|" & recontype
+
+
+            '    newReconNo = getUCARNo(creditid, recontype)
+
+            '    spAddUCAR = spAddUCAR &
+            '        ";VAR|" & creditid &
+            '        ":VAR|" & newReconNo &
+            '        ":VAR|" & CDec(amountCredited) &
+            '        ":VAR|" & CDec(amountUCAR) &
+            '        ":VAR|" & CDec(amountCredited) - CDec(amountUCAR) &
+            '        ":VAR|" & userid
+
+
+            '    dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR})
+
+            '    If dtresult.isDataGet Then
+
+            '        tresult.resultMsg = "Reconciliation successfully saved." & vbCrLf &
+            '            "Status: WITH UC"
+
+
+            '    Else
+
+            '        tresult.resultMsg = "Error in saving OVERREMITTED UC/AR: " & dtresult.DTErrorMsg
+            '        tresult.isSuccessful = False
+
+            '    End If
+
+            'End If
 
         Catch ex As Exception
 
@@ -433,6 +525,7 @@ Public Class UCMonitoring
                 Else
 
                     reconNo = Val(dtRow(0).ToString) + 1
+                    reconNo = reconNo.PadLeft(3, "0")
 
 
                 End If

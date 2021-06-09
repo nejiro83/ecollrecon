@@ -81,3 +81,15 @@ function uncreditedModal(bankinsticode, bankinsti, transdate) {
 
     $('#creditLineModal').modal('show');
 }
+
+function checkExcFields() {
+
+    if ($('#txtTransRefNo').val().length === 0) {
+        $('#lblMessage').val('Trans Ref No is blank');
+    }
+
+    if ($('#txtExcRemarks').val().length === 0) {
+        $('#lblMessage').val('Trans Ref No is blank');
+}
+
+}

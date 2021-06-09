@@ -21,27 +21,7 @@
     <link href="Scripts/jquery-ui/jquery-ui.css" rel="stylesheet" />
     <link href="Content/font-awesome.min.css" rel="stylesheet" />
     <link href="Content/Site.css" rel="stylesheet" type="text/css" />
-
-    <script type="text/javascript">
-
-    function ShowRangeDialog(msgTxt, htitle) {
-        $(function () {
-            $('#msgBox').html(msgTxt);
-            $('#msgBox').addClass('ui-corner-all');
-            $('#msgBox').dialog({
-                modal: true,
-                width: 'auto',
-                resizable: false,
-                draggable: false,
-                title: htitle,
-                close: function (event, ui) { $('body').find('#msgBox').remove(); },
-                buttons: {
-                    'OK': function () { $(this).dialog('close'); }
-                }
-            })
-        }).dialog("open");
-    }
-    </script>
+    <script src="Scripts/ecollreconscript.js"></script>
     
 </head>
 <body>
