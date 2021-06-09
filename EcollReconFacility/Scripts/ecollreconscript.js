@@ -1,9 +1,23 @@
 ﻿function pageLoad(sender, args) {
 
+    var d = new Date();
+    var day = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    var datestring = month + "/" + day + "/" + year
+
     $(function () {
+        $('.datepicker').on('change blur', function () {
+            if ($(this).val().trim().length === 0) {
+                $(this).val(datestring);
+            }
+        })
+
         $(".datepicker").datepicker({
-            dateFormat: 'MM d, yy'
+            dateFormat: 'MM d, yy',
         });
+
+
     });
 
     $(document).ready(function () {

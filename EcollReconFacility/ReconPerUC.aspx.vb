@@ -38,7 +38,12 @@ Public Class ReconPerUC
 
     Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
 
+        Dim tresult As TransResult = isSaved(Session("CreditID"), Session("ReconNo"))
 
+        Session("ReconSaveStatus") = tresult.isSuccessful
+        Session("ReconSaveMsg") = tresult.resultMsg
+
+        Response.Redirect("~/UCMonitoring.aspx")
 
     End Sub
 
@@ -46,7 +51,7 @@ Public Class ReconPerUC
     Public Sub loadControls()
 
         Session("CreditID") = Request.QueryString("crid").ToString
-        Session("ReconNo") = Request.QueryString("reconno").ToString
+        Session("ReconNo") = Request.QueryString("ucno").ToString
 
         getUCInfo(Session("CreditID"))
 
@@ -94,6 +99,7 @@ Public Class ReconPerUC
             .Add("transcount")
         End With
 
+        cmdText = "sp_sel_uc_trans"
 
         dtresult = svc.IngDataTable(cmdText,
                                     {"VAR|" & bankinsticode,
@@ -169,8 +175,7 @@ Public Class ReconPerUC
                 If dtresult.isDataGet Then
 
                     tresult.isSuccessful = True
-                    tresult.resultMsg = "Reconciliation successfully saved." & vbCrLf &
-                        "Status: BALANCED"
+                    tresult.resultMsg = "Reconciliation successfully saved. (Status: BALANCED)"
 
                 Else
 
@@ -200,8 +205,7 @@ Public Class ReconPerUC
 
                 If dtresult.isDataGet Then
 
-                    tresult.resultMsg = "Reconciliation successfully saved." & vbCrLf &
-                        "Status: WITH AR"
+                    tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH AR)"
 
 
                 Else
@@ -232,8 +236,7 @@ Public Class ReconPerUC
 
                 If dtresult.isDataGet Then
 
-                    tresult.resultMsg = "Reconciliation successfully saved." & vbCrLf &
-                        "Status: WITH AR"
+                    tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH AR)"
 
 
                 Else

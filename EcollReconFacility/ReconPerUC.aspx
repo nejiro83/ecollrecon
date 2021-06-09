@@ -34,7 +34,7 @@
         <div class="row mt-2">
             <div class="col-sm-10 mx-auto">
                 <div class="row m-2">
-                    <div class="w-100 overflow-scroll" style="height: 125px;">
+                    <div class="w-100 overflow-scroll" style="height: 250px;">
                         <asp:GridView CssClass="table table-primary beta" 
                             ShowHeaderWhenEmpty="true" ID="gvTransForUC" runat="server" AutoGenerateColumns="false">
                             <Columns>                  

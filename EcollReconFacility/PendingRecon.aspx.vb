@@ -79,13 +79,11 @@ Public Class PendingRecon
 
         End If
 
-        'ScriptManager.RegisterClientScriptBlock(Me, Me.GetType, "alertMessage", "$('#creditLineModal').modal('hide'); alert('" & message & "');", True)
-
-        'ScriptManager.RegisterClientScriptBlock(Me, Me.GetType, "alertMessage", "alert('" & message & "');", True)
-
         Page.ClientScript.RegisterClientScriptBlock(Me.GetType(),
-                                                    "msgBox",
-                                                    "ShowRangeDialog('" & message & "', 'Successfully saved');", True)
+                                                            "msgBox",
+                                                            "MsgBox('" & message & "', 'Successfully saved');", True)
+
+
 
         Page.Response.Cache.SetCacheability(HttpCacheability.NoCache)
 
@@ -345,7 +343,7 @@ Public Class PendingRecon
                 "VAR|" & transDateTo,
                 "VAR|" & bankinsticode,
                 "VAR|" & modalCreditDate,
-                "VAR|" & txtAmountCredited.Value,
+                "VAR|" & txtAmountCredited.Value.Trim(","),
                 "VAR|" & userid
                 }
 

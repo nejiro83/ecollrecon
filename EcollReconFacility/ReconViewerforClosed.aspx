@@ -38,7 +38,7 @@
                     <div class="col-sm-4">
                         <%--<button class="btn btn-danger d-block mx-auto w-100">Back</button> --%>
                         <asp:Button runat="server" ID="btnBack" 
-                            CssClass="btn btn-danger d-block mx-auto w-100" Text="Back" PostBackUrl="~/PendingRecon.aspx" />
+                            CssClass="btn btn-danger d-block mx-auto w-100" Text="Back" PostBackUrl="~/SearchRecon.aspx" />
                     </div>
                 </div>
             </div>

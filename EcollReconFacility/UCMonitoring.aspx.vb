@@ -29,12 +29,21 @@ Public Class UCMonitoring
 
         Else
 
+            loadControls()
 
+            If IsNothing(Session("ReconSaveStatus")) = False And Session("ReconSaveStatus") = True Then
+
+                Page.ClientScript.RegisterClientScriptBlock(Me.GetType(),
+                                                            "msgBox",
+                                                            "MsgBox('" & Session("ReconSaveMsg") & "', 'Successfully saved');", True)
+
+
+                Session("ReconSaveStatus") = Nothing
+                Session("ReconSaveMsg") = Nothing
+
+            End If
 
         End If
-
-        loadControls()
-
 
     End Sub
     Protected Sub gvUC_PageIndexChanging(sender As Object, e As GridViewPageEventArgs) Handles gvUC.PageIndexChanging

@@ -10,7 +10,8 @@ Public Class WebForm3
     Public Class TransResult
         Public TransType As Integer
         Public isSuccessful As Boolean = False
-        Public errMsg As String = ""
+        Public resultMsg As String = ""
+
     End Class
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -58,22 +59,8 @@ Public Class WebForm3
 
         Dim trResult As TransResult = isStatusSaved(Request.QueryString("crid"))
 
-        Dim msg As String = ""
-
-        Select Case trResult.isSuccessful
-
-            Case True
-
-                msg = "Credit Line Status updated successfully"
-
-            Case False
-
-                msg = trResult.errMsg
-
-        End Select
-
         Session("IsReconSaved") = trResult.isSuccessful
-        Session("ReconMsg") = msg
+        Session("ReconMsg") = trResult.resultMsg
 
         Response.Redirect("~/PendingRecon.aspx")
 
@@ -85,7 +72,7 @@ Public Class WebForm3
 
         If tr.isSuccessful = False Then
 
-            lblMessage.Text = tr.errMsg
+            lblMessage.Text = tr.resultMsg
 
         Else
 
@@ -122,21 +109,9 @@ Public Class WebForm3
                                                          txtAmCredited.Text, txtRemarks.Text)
 
 
-        Dim msg As String = ""
-
-
-        If result.isSuccessful Then
-
-            msg = "Credited Amount updated successfully"
-
-        Else
-
-            msg = result.errMsg
-
-        End If
 
         Session("IsCreditAmountUpdated") = result.isSuccessful
-        Session("UpdateAmountMsg") = msg
+        Session("UpdateAmountMsg") = result.resultMsg
 
         Response.Redirect(Request.RawUrl)
 
@@ -279,6 +254,7 @@ Public Class WebForm3
 
             Dim status As String = ""
             Dim cmdText As String = ""
+            Dim statusMsg As String = "Reconciliation Status: "
 
             Dim cmdReconStatusSP As String = "sp_update_credit_line"
             Dim updateCreditParams As String = ""
@@ -305,6 +281,8 @@ Public Class WebForm3
                 status = "CU"
                 reconType = "UC"
 
+                statusMsg = statusMsg & "UC"
+
             ElseIf amountcredited < amountonfile Then
 
                 hasVariance = True
@@ -316,13 +294,17 @@ Public Class WebForm3
                 status = "CA"
                 reconType = "AR"
 
+                statusMsg = statusMsg & "AR"
+
             ElseIf amountcredited = amountonfile Then
 
                 status = "CX"
+                statusMsg = statusMsg & "BALANCED/CLOSED"
 
             Else
 
                 status = "CX"
+                statusMsg = statusMsg & "NONE"
 
             End If
 
@@ -343,6 +325,7 @@ Public Class WebForm3
 
                 strSPs = {cmdReconStatusSP, cmdReconTypeSP}
 
+
             Else
 
                 strSPs = {cmdReconStatusSP}
@@ -354,11 +337,12 @@ Public Class WebForm3
             If dtresult.isDataGet Then
 
                 trResult.isSuccessful = True
+                trResult.resultMsg = "Credit Line Status updated successfully (" & statusMsg & ")"
 
             Else
 
                 trResult.isSuccessful = False
-                trResult.errMsg = "Failed to update Credit Lines. " & vbCrLf &
+                trResult.resultMsg = "Failed to update Credit Lines. " & vbCrLf &
                     dtresult.DTErrorMsg
 
             End If
@@ -366,7 +350,7 @@ Public Class WebForm3
         Catch ex As Exception
 
             trResult.isSuccessful = False
-            trResult.errMsg = "System Error: " & ex.Message
+            trResult.resultMsg = "System Error: " & ex.Message
 
         End Try
 
@@ -446,14 +430,14 @@ Public Class WebForm3
             Else
 
                 trResult.isSuccessful = False
-                trResult.errMsg = "No record found"
+                trResult.resultMsg = "No record found"
 
             End If
 
         Catch ex As Exception
 
             trResult.isSuccessful = False
-            trResult.errMsg = ex.Message
+            trResult.resultMsg = ex.Message
 
         End Try
 
@@ -628,6 +612,7 @@ Public Class WebForm3
                 Else
 
                     reconNo = Val(dtRow(0).ToString) + 1
+                    reconNo = reconNo.PadLeft(3, "0")
 
 
                 End If
@@ -635,6 +620,7 @@ Public Class WebForm3
             Next
 
         End If
+
 
         Return reconNo
 
