@@ -127,6 +127,7 @@ Public Class ReconPerUC
         End If
 
         txtLoadedAmount.Text = CDec(totalLoadedAmount).ToString("#,###,##0.00")
+        txtBankInstiCode.Value = bankinsticode
 
         gvTransForUC.DataSource = dt
         gvTransForUC.DataBind()
@@ -144,9 +145,13 @@ Public Class ReconPerUC
         Dim spCreditLineStatus As String = "sp_update_credit_line"
         Dim spUCARStatus As String = "sp_update_recon"
         Dim spAddUCAR As String = ""
+        Dim spAddUCLines As String = "sp_ins_uc_lines"
 
         Dim UCAmount As Decimal = CDec(txtUCAmount.Text)
         Dim loadedAmount As Decimal = CDec(txtLoadedAmount.Text)
+
+        Dim transDateFrom As String = CDate(txtTransDates.Text.Split("-")(0))
+        Dim transDateTo As String = CDate(txtTransDates.Text.Split("-")(1))
 
         Dim creditStatus As String = ""
         Dim reconStatus As String = ""
@@ -170,7 +175,13 @@ Public Class ReconPerUC
 
                 spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
 
-                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus})
+                spAddUCLines = spAddUCLines &
+                    ";VAR|" & creditid &
+                    ":VAR|" & transDateFrom &
+                    ":VAR|" & transDateTo &
+                    ":VAR|" & txtBankInstiCode.Value
+
+                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCLines})
 
                 If dtresult.isDataGet Then
 
@@ -205,6 +216,7 @@ Public Class ReconPerUC
 
                 If dtresult.isDataGet Then
 
+                    tresult.isSuccessful = True
                     tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH AR)"
 
 
@@ -221,7 +233,7 @@ Public Class ReconPerUC
 
                 spAddUCAR = "sp_ins_credit_uc"
 
-                newReconNo = getUCARNo(creditid, "AR")
+                newReconNo = getUCARNo(creditid, "UC")
 
                 spAddUCAR = spAddUCAR &
                     ";VAR|" & creditid &
@@ -231,13 +243,18 @@ Public Class ReconPerUC
                     ":VAR|" & UCAmount - loadedAmount &
                     ":VAR|" & userid
 
+                spAddUCLines = spAddUCLines &
+                    ";VAR|" & creditid &
+                    ":VAR|" & transDateFrom &
+                    ":VAR|" & transDateTo &
+                    ":VAR|" & txtBankInstiCode.Value
 
-                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR})
+                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR, spAddUCLines})
 
                 If dtresult.isDataGet Then
 
-                    tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH AR)"
-
+                    tresult.isSuccessful = True
+                    tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH UC)"
 
                 Else
 
@@ -284,6 +301,7 @@ Public Class ReconPerUC
                 Else
 
                     reconNo = Val(dtRow(0).ToString) + 1
+                    reconNo = reconNo.PadLeft(3, "0")
 
 
                 End If

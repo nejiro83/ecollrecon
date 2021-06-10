@@ -67,6 +67,7 @@
                                     <div class="col-sm-7">
                                         <asp:Label CssClass="form-control b-radius text-right" ID="txtLoadedAmount" runat="server" />
                                     </div>
+                                    <asp:HiddenField id="txtBankInstiCode" runat="server" />
                                 </div>
                                 <hr />
                             </div>
