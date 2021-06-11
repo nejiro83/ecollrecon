@@ -347,6 +347,10 @@ Public Class UCMonitoring
 
             If amountCredited > amountUCAR Then
 
+                creditStatus = "CU" 'closed credit line
+
+                spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
+
                 spAddUCAR = "sp_ins_credit_uc"
 
                 newReconNo = getUCARNo(creditid, "UC")
@@ -360,7 +364,7 @@ Public Class UCMonitoring
                     ":VAR|" & userid
 
 
-                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR})
+                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCAR})
 
                 If dtresult.isDataGet Then
 
@@ -378,6 +382,10 @@ Public Class UCMonitoring
 
             If amountCredited < amountUCAR Then
 
+                creditStatus = "CA" 'closed credit line
+
+                spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
+
                 spAddUCAR = "sp_ins_credit_ar"
 
                 newReconNo = getUCARNo(creditid, "AR")
@@ -391,7 +399,7 @@ Public Class UCMonitoring
                     ":VAR|" & userid
 
 
-                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR})
+                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCAR})
 
                 If dtresult.isDataGet Then
 

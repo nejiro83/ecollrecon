@@ -200,6 +200,10 @@ Public Class ReconPerUC
 
             If loadedAmount > UCAmount Then
 
+                creditStatus = "CA" 'closed credit line
+
+                spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
+
                 spAddUCAR = "sp_ins_credit_ar"
 
                 newReconNo = getUCARNo(creditid, "AR")
@@ -219,7 +223,7 @@ Public Class ReconPerUC
                     ":VAR|" & txtBankInstiCode.Value &
                     ":VAR|A"
 
-                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR, spAddReconLines})
+                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCAR, spAddReconLines})
 
                 If dtresult.isDataGet Then
 
@@ -237,6 +241,10 @@ Public Class ReconPerUC
             End If
 
             If loadedAmount < UCAmount Then
+
+                creditStatus = "CU" 'closed credit line
+
+                spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
 
                 spAddUCAR = "sp_ins_credit_uc"
 
@@ -257,7 +265,7 @@ Public Class ReconPerUC
                     ":VAR|" & txtBankInstiCode.Value &
                     ":VAR|U"
 
-                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR, spAddReconLines})
+                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCAR, spAddReconLines})
 
                 If dtresult.isDataGet Then
 
