@@ -145,7 +145,7 @@ Public Class ReconPerUC
         Dim spCreditLineStatus As String = "sp_update_credit_line"
         Dim spUCARStatus As String = "sp_update_recon"
         Dim spAddUCAR As String = ""
-        Dim spAddUCLines As String = "sp_ins_uc_lines"
+        Dim spAddReconLines As String = "sp_ins_recon_lines"
 
         Dim UCAmount As Decimal = CDec(txtUCAmount.Text)
         Dim loadedAmount As Decimal = CDec(txtLoadedAmount.Text)
@@ -175,13 +175,14 @@ Public Class ReconPerUC
 
                 spCreditLineStatus = spCreditLineStatus & ";VAR|" & creditid & ":VAR|" & creditStatus
 
-                spAddUCLines = spAddUCLines &
+                spAddReconLines = spAddReconLines &
                     ";VAR|" & creditid &
                     ":VAR|" & transDateFrom &
                     ":VAR|" & transDateTo &
-                    ":VAR|" & txtBankInstiCode.Value
+                    ":VAR|" & txtBankInstiCode.Value &
+                    ":VAR|U"
 
-                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCLines})
+                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddReconLines})
 
                 If dtresult.isDataGet Then
 
@@ -211,8 +212,14 @@ Public Class ReconPerUC
                     ":VAR|" & loadedAmount - UCAmount &
                     ":VAR|" & userid
 
+                spAddReconLines = spAddReconLines &
+                    ";VAR|" & creditid &
+                    ":VAR|" & transDateFrom &
+                    ":VAR|" & transDateTo &
+                    ":VAR|" & txtBankInstiCode.Value &
+                    ":VAR|A"
 
-                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR})
+                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR, spAddReconLines})
 
                 If dtresult.isDataGet Then
 
@@ -243,13 +250,14 @@ Public Class ReconPerUC
                     ":VAR|" & UCAmount - loadedAmount &
                     ":VAR|" & userid
 
-                spAddUCLines = spAddUCLines &
+                spAddReconLines = spAddReconLines &
                     ";VAR|" & creditid &
                     ":VAR|" & transDateFrom &
                     ":VAR|" & transDateTo &
-                    ":VAR|" & txtBankInstiCode.Value
+                    ":VAR|" & txtBankInstiCode.Value &
+                    ":VAR|U"
 
-                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR, spAddUCLines})
+                dtresult = svc.IngDataTableMultiProc({spUCARStatus, spAddUCAR, spAddReconLines})
 
                 If dtresult.isDataGet Then
 
