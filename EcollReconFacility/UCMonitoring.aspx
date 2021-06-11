@@ -81,7 +81,7 @@
                                         <asp:BoundField DataField ="creditid" HeaderText="credit id" HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none"/>
                                         <asp:BoundField DataField ="reconno" HeaderText="recon no" HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none"/>
                                         <asp:BoundField DataField="vardate" HeaderText="Recon Date" />
-                                        <asp:BoundField DataField="varamount" HeaderText="UC Amount" ItemStyle-HorizontalAlign="Right"/>
+                                        <asp:BoundField DataField="varamount" HeaderText="Amount" ItemStyle-HorizontalAlign="Right"/>
                                         <asp:BoundField DataField="status" HeaderText="Status" />
 
                                         <asp:TemplateField>
@@ -113,7 +113,7 @@
                 <div Class="modal-header text-light" style="background:#002D62;">
                     <h4 Class="modal-title">Reconcile AR</h4>
                 </div>
-                <div Class="modal-body" style="background:#f6f6ff;">
+                <div Class="modal-body" style="background:#f6f6f6;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-10 mx-auto">
@@ -146,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="background:#f6f6ff;">         
+                <div class="modal-footer" style="background:#f6f6f6;">         
                     <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server"/>
                     <button type="button" id="btnHideModal" class="btn btn-danger" onclick="$('#reconModal').modal('hide');">Cancel</button>
                 </div>

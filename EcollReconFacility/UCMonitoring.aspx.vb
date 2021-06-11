@@ -25,7 +25,7 @@ Public Class UCMonitoring
 
         If IsPostBack Then
 
-            retainGVValues()
+            'retainGVValues()
 
         Else
 
@@ -53,16 +53,10 @@ Public Class UCMonitoring
 
     End Sub
 
+
     Protected Sub OnSelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
 
         loadUCAR()
-
-        Select Case ddlReconType.SelectedValue
-            Case "UC"
-                gvUC.HeaderRow.Cells(4).Text = "UC Amount"
-            Case "AR"
-                gvUC.HeaderRow.Cells(4).Text = "AR Amount"
-        End Select
 
     End Sub
 
@@ -70,6 +64,8 @@ Public Class UCMonitoring
 
         Dim tresult As TransResult = isSaved(txtCreditID.Value,
                                              txtUCARNo.Value)
+
+        loadControls()
 
         ClientScript.RegisterClientScriptBlock(Me.GetType(),
                                             "msgBox",
@@ -170,6 +166,8 @@ Public Class UCMonitoring
                                     "VAR|" & reconYear})
 
         If dtresult.isDataGet Then
+
+            dt.Rows.Clear()
 
             For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
 
@@ -349,9 +347,9 @@ Public Class UCMonitoring
 
             If amountCredited > amountUCAR Then
 
-                spAddUCAR = "sp_ins_credit_ar"
+                spAddUCAR = "sp_ins_credit_uc"
 
-                newReconNo = getUCARNo(creditid, "AR")
+                newReconNo = getUCARNo(creditid, "UC")
 
                 spAddUCAR = spAddUCAR &
                     ";VAR|" & creditid &
@@ -366,7 +364,7 @@ Public Class UCMonitoring
 
                 If dtresult.isDataGet Then
 
-                    tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH AR)"
+                    tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH UC)"
 
 
                 Else
@@ -380,7 +378,7 @@ Public Class UCMonitoring
 
             If amountCredited < amountUCAR Then
 
-                spAddUCAR = "sp_ins_credit_uc"
+                spAddUCAR = "sp_ins_credit_ar"
 
                 newReconNo = getUCARNo(creditid, "AR")
 
