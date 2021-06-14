@@ -44,7 +44,7 @@ input[type="select"] {
 
 #myform {
     width: 450px;
-    background-color:#DEEBF7;
+    background-color:#fefefa;
     border-radius:10px;
 }
 
@@ -55,11 +55,11 @@ input[type="select"] {
 
 body{
     font-size:15px;
-    background-image:linear-gradient(#00337f, #52c7f2);
     background-size:auto;
     height:100%;
     background-repeat: no-repeat;
     background-attachment:fixed;
+    background-color: #f8f8ff;
 }
 
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
@@ -108,19 +108,19 @@ border-color: #dee2e6 #dee2e6 #fff;
 
 #upTabs{
 
-    background:#DEEBF7;
+    background:#fefefa;
 
 }
 
 .body-content{
 
-    background:#DEEBF7;
+    background:#fefefa;
     border-radius:10px;
 }
 
 .sb-content{
 
-    background:#DEEBF7;
+    background:#fefefa;
     border-radius:10px;
 
     top: 100px;
@@ -155,7 +155,7 @@ border-color: #dee2e6 #dee2e6 #fff;
   z-index: 1;
   top: 80px;
   left: 0;
-  background-color: #DEEBF7;
+  background-color: #fefefa;
   overflow-x: hidden;
   padding-top: 20px;
 

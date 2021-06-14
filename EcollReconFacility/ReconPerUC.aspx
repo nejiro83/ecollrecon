@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site1.Master" CodeBehind="ReconPerUC.aspx.vb" Inherits="EcollReconFacility.ReconPerUC" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container body-content">
+    <div class="container body-content shadow">
         <div class="row mt-3">
             <div class="col-sm-10 mx-auto">
                 <div class="row m-3">
@@ -44,6 +44,7 @@
                                 <asp:BoundField DataField="brcode" HeaderText="Branch Code"/>
                                 <asp:BoundField DataField="transcount" HeaderText="No. of Transactions" ItemStyle-HorizontalAlign="Right"/>
                             </Columns>
+                            <RowStyle BackColor="#fefefa" />
                         </asp:GridView>
                     </div>
                 </div>

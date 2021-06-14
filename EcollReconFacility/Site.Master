@@ -59,7 +59,7 @@
             </div>
         </div>  
 
-        <div class="sidenav">
+        <div class="sidenav shadow">
             <asp:UpdatePanel ID="upTabs" runat="server">
                 <ContentTemplate>
                     <ul class="nav nav-tabs flex-column" id="mytabs">

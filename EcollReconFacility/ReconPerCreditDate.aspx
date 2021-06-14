@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site1.Master" CodeBehind="ReconPerCreditDate.aspx.vb" Inherits="EcollReconFacility.WebForm3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container body-content">
+    <div class="container body-content shadow">
         <div class="row mt-3">
             <div class="col-sm-10 mx-auto">
                 <div class="row m-3">

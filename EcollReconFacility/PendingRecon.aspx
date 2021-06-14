@@ -36,14 +36,18 @@
                                     id="gvCreditLines" runat="server" AutoGenerateColumns="false" EnableViewState="true" 
                                     OnRowDeleting="gvCreditLines_RowDeleting">
                                     <Columns>
-                                        <asp:BoundField DataField="rownumber" HeaderText="#" />
+                                        <asp:BoundField DataField="rownumber" HeaderText="#" ItemStyle-BackColor="#fefefa" />
                                         <asp:BoundField DataField="creditid" HeaderText="credit id" HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none"/>
-                                        <asp:BoundField DataField="bankinsti" HeaderText="Collecting Partner" />
-                                        <asp:BoundField DataField="creditdate" HeaderText="Credit Date" />
-                                        <asp:BoundField DataField="transdates" HeaderText="Transaction Date" />
-                                        <asp:BoundField DataField="amtcredited" HeaderText="Amount Credited" ItemStyle-HorizontalAlign="Right" />
-                                        <asp:BoundField DataField="amtonfile" HeaderText="Amount on File" ItemStyle-HorizontalAlign="Right" />
-                                        <asp:BoundField DataField="credittype" HeaderText="Credit Line Type" />
+                                        <asp:BoundField DataField="bankinsti" HeaderText="Collecting Partner" 
+                                            ItemStyle-BackColor="#fefefa" />
+                                        <asp:BoundField DataField="creditdate" HeaderText="Credit Date" ItemStyle-BackColor="#fefefa"/>
+                                        <asp:BoundField DataField="transdates" HeaderText="Transaction Date" ItemStyle-BackColor="#fefefa" />
+                                        <asp:BoundField DataField="amtcredited" HeaderText="Amount Credited" ItemStyle-HorizontalAlign="Right"
+                                            ItemStyle-BackColor="#fefefa" />
+                                        <asp:BoundField DataField="amtonfile" HeaderText="Amount on File" 
+                                            ItemStyle-HorizontalAlign="Right" ItemStyle-BackColor="#fefefa" />
+                                        <asp:BoundField DataField="credittype" HeaderText="Credit Line Type" 
+                                            ItemStyle-BackColor="#fefefa" />
                                         <asp:BoundField DataField="status" HeaderText="Status" />
                             
                                         <asp:TemplateField ItemStyle-CssClass="text-center">

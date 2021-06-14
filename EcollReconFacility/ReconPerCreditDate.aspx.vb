@@ -149,6 +149,10 @@ Public Class WebForm3
 
             lblAmountExcluded.Text = CDec(lblAmountExcluded.Text - selectedAmt).ToString("#,###,##0.00")
 
+        Else
+
+            lblAmountExcluded.Text = "error"
+
         End If
 
     End Sub
