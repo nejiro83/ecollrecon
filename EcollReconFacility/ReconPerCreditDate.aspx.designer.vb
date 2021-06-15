@@ -275,6 +275,15 @@ Partial Public Class WebForm3
     Protected WithEvents txtRemarks As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''lblUpdateAmountMsg control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblUpdateAmountMsg As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''btnModalAdd control.
     '''</summary>
     '''<remarks>

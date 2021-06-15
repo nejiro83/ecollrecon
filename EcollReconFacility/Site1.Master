@@ -15,13 +15,13 @@
     <%--<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />--%>
     <link href="~/images/logo-pagibigfund.png" rel="shortcut icon" type="image/x-icon" />
     <script src="Scripts/jquery-3.5.1.js"></script>
+    <script src="Scripts/ecollreconscript.js"></script>
     <link href="Content/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap-grid.css" rel="stylesheet" />
     <script src="Scripts/popper.min.js"></script>
     <link href="Scripts/jquery-ui/jquery-ui.css" rel="stylesheet" />
     <link href="Content/font-awesome.min.css" rel="stylesheet" />
     <link href="Content/Site.css" rel="stylesheet" type="text/css" />
-    <script src="Scripts/ecollreconscript.js"></script>
     
 </head>
 <body>

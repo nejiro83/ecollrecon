@@ -67,11 +67,14 @@
                     <div class="w-100 overflow-scroll" style="height: 250px;">
                         <asp:GridView CssClass="table table-primary beta" ShowHeaderWhenEmpty="true" ID="gvTransPerCreditLine" runat="server" AutoGenerateColumns="false">
                             <Columns>                  
-                                <asp:BoundField DataField="transdate" HeaderText="Transaction Date" />
-                                <asp:BoundField DataField="amount" HeaderText="Amount on File" ItemStyle-HorizontalAlign="Right" />
-                                <asp:BoundField DataField="paytype" HeaderText="Payment Type" />
-                                <asp:BoundField DataField="brcode" HeaderText="Branch Code"/>
-                                <asp:BoundField DataField="transcount" HeaderText="No. of Transactions" ItemStyle-HorizontalAlign="Right"/>
+                                <asp:BoundField DataField="transdate" HeaderText="Transaction Date" ItemStyle-BackColor="#fefefa" />
+                                <asp:BoundField DataField="amount" HeaderText="Amount on File" 
+                                    ItemStyle-HorizontalAlign="Right" ItemStyle-BackColor="#fefefa"/>
+                                <asp:BoundField DataField="paytype" HeaderText="Payment Type" 
+                                    ItemStyle-BackColor="#fefefa"/>
+                                <asp:BoundField DataField="brcode" HeaderText="Branch Code" ItemStyle-BackColor="#fefefa"/>
+                                <asp:BoundField DataField="transcount" HeaderText="No. of Transactions" 
+                                    ItemStyle-HorizontalAlign="Right" ItemStyle-BackColor="#fefefa"/>
                             </Columns>
                         </asp:GridView>
                     </div>
@@ -129,10 +132,10 @@
                                                     ShowHeaderWhenEmpty="true" ID="gvTrans" runat="server" AutoGenerateColumns="false"
                                                     OnRowDeleting="gvTrans_RowDeleting">
                                                 <Columns>                  
-                                                    <asp:BoundField DataField="transrefno" HeaderText="Transaction Ref No" />
-                                                    <asp:BoundField DataField="transdate" HeaderText="Transaction Date" />
+                                                    <asp:BoundField DataField="transrefno" HeaderText="Transaction Ref No"/>
+                                                    <asp:BoundField DataField="transdate" HeaderText="Transaction Date"/>
                                                     <asp:BoundField DataField="paytype" HeaderText="Payment Type" />
-                                                    <asp:BoundField DataField="amount" HeaderText="Amount" />
+                                                    <asp:BoundField DataField="amount" HeaderText="Amount"/>
                                                     <asp:BoundField DataField="remarks" HeaderText="Remarks" />
                                                     <asp:CommandField ShowDeleteButton="true" DeleteText="Remove" />
 
@@ -222,8 +225,8 @@
 
     <div class="modal hide fade" tabindex="1" role="dialog" id="modalUpdate" aria-labelledby="modalUpdateLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content" style="background:#E0FFFF;">
-                <div Class="modal-header bg-primary text-light">
+            <div class="modal-content" style="background:#fefefa;">
+                <div Class="modal-header modal-bg-header text-light">
                     <h4 Class="modal-title">Update Amount Credited</h4>
                 </div>
                 <div Class="modal-body">
@@ -233,8 +236,9 @@
                                 <div class="row mt-2">
                                     <label class="col-sm-5 col-form-label font-weight-bold">Updated Amount</label>
                                     <div class="col-sm-7">
-                                        <asp:TextBox ID="txtUpdatedAmtCredited" 
-                                            CssClass="form-control border border-primary b-radius" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtUpdatedAmtCredited" ClientIDMode="Static"
+                                            CssClass="form-control border border-primary b-radius" runat="server"
+                                            required="required"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -242,7 +246,8 @@
                                     <div class="col-sm-7">
                                         <asp:TextBox 
                                             CssClass="form-control border border-primary b-radius" 
-                                            ID="txtSupervisorUserID" runat="server" />
+                                            ID="txtSupervisorUserID" ClientIDMode="Static"
+                                            runat="server" required="required" />
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -250,7 +255,8 @@
                                     <div class="col-sm-7">
                                         <asp:TextBox 
                                             CssClass="form-control border border-primary b-radius" 
-                                            ID="txtSupervisorPassword" TextMode="Password" runat="server" />
+                                            ID="txtSupervisorPassword" ClientIDMode="Static"
+                                             TextMode="Password" runat="server" required="required" />
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -258,15 +264,19 @@
                                     <div class="col-sm-7">
                                         <asp:TextBox 
                                             CssClass="form-control border border-primary b-radius" 
-                                            ID="txtRemarks"  runat="server" />
+                                            ID="txtRemarks" ClientIDMode="Static" runat="server"
+                                            required="required" />
                                     </div>
                                 </div>                                
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">         
-                    <asp:Button ID="btnModalAdd" CssClass="btn btn-primary" Text="Update" runat="server"/>
+                <div class="modal-footer">
+                    <asp:Label ID="lblUpdateAmountMsg" ForeColor="#f00000" runat="server" ClientIDMode="Static" />  
+                    <asp:Button ID="btnModalAdd" CssClass="btn btn-primary" 
+                         OnClick="btnModalAdd_Click" OnClientClick="return checkUpdatedAmount();"
+                        Text="Update" runat="server"/>
                     <button type="button" id="btnHideCreditLineModal" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

@@ -147,7 +147,8 @@
                 </div>
                 <div class="modal-footer" style="background:#F6F6F6;">       
                     <asp:Label ID="lblMessage" ForeColor="#f00000" runat="server" ClientIDMode="Static" />  
-                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" OnClick="btnModalSave_Click" OnClientClick="return checkCreditLineFields();" Text="Save" runat="server" />
+                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" OnClick="btnModalSave_Click" 
+                        OnClientClick="return checkCreditLineFields();" Text="Save" runat="server" />
                     <button type="button" id="btnHideCreditLineModal" class="btn btn-danger" onclick="$('#creditLineModal').modal('hide');">Cancel</button>
                 </div>
             </div>

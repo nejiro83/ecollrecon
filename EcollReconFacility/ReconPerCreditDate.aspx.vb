@@ -110,7 +110,7 @@ Public Class WebForm3
 
     End Sub
 
-    Protected Sub btnModalAdd_Click(sender As Object, e As EventArgs) Handles btnModalAdd.Click
+    Protected Sub btnModalAdd_Click(sender As Object, e As EventArgs)
 
         Dim result As TransResult = updateAmountCredited(Session("CreditID"),
                                                          txtSupervisorUserID.Text,

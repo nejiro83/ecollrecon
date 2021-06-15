@@ -41,12 +41,26 @@
         });
     });
 
+
+    /* PENDING RECON */
     $('#creditLineModal').on('hidden.bs.modal', function () {
 
         $('#txtAmountCredited').val(0);
         $('#dtpmodalCreditDate').val(datestring);
         $('#dtpTransDateFrom').val(datestring);
         $('#dtpTransDateTo').val(datestring);
+        $('#lblMessage').text('');
+
+    });
+
+    /* UPDATE AMOUNT CREDITED */
+    $('#modalUpdate').on('hidden.bs.modal', function () {
+
+        $('#txtUpdatedAmtCredited').val('');
+        $('#txtSupervisorUserID').val('');
+        $('#txtSupervisorPassword').val('');
+        $('#txtRemarks').val('');
+        $('#lblUpdateAmountMsg').text('');
 
     });
 }
@@ -156,10 +170,39 @@ function checkCreditLineFields() {
 
     }
 
+    if (amountCredited === 0) {
+
+        $('#lblMessage').text('Amount Credited is 0');
+        return false;
+
+    }
+
+
     if (Date.parse(transDateFrom) > Date.parse(transDateTo)) {
 
         $('#lblMessage').text('Invalid placement of transaction dates.');
         return false;
 
     }
+
+}
+
+function checkUpdatedAmount() {
+
+    var updatedAmount = $('#txtUpdatedAmtCredited').val();
+
+    if (updatedAmount === 0) {
+
+        $('#lblUpdateAmountMsg').text('Amount Credited is 0');
+        return false;
+
+    }
+
+    if (isNaN(updatedAmount)) {
+
+        $('#lblUpdateAmountMsg').text('Invalid Amount Credited');
+        return false;
+
+    }
+
 }
