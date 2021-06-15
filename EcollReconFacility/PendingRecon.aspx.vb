@@ -57,14 +57,13 @@ Public Class PendingRecon
 
     End Sub
 
-
     Protected Sub OnSelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
 
         loadPendingCreditLines()
 
     End Sub
 
-    Protected Sub btnModalSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnModalSave.Click
+    Protected Sub btnModalSave_Click(ByVal sender As Object, ByVal e As System.EventArgs)
 
         Dim trResult As TransResult = SaveCreditLines()
 
@@ -161,7 +160,7 @@ Public Class PendingRecon
 
     Private Sub loadControls()
 
-        txtAmountCredited.Value = 0
+        txtAmountCredited.Text = 0
 
         'Modal BANK INSTI DROPDOWN
         Dim dtBankInsti As DataTable = getBankInsti()
@@ -325,7 +324,7 @@ Public Class PendingRecon
                 "VAR|" & transDateTo,
                 "VAR|" & bankinsticode,
                 "VAR|" & modalCreditDate,
-                "VAR|" & txtAmountCredited.Value.Trim(","),
+                "VAR|" & txtAmountCredited.Text.Trim(","),
                 "VAR|" & userid
                 }
 
@@ -336,16 +335,17 @@ Public Class PendingRecon
 
             If dtresult.isDataGet Then
 
-                isSaved = True
-
                 gvSource = getPendingCreditLines(userid, ddlBankInsti.SelectedValue)
 
                 retainGVValues()
+
+                isSaved = True
 
                 With trResult
                     .isSuccessful = isSaved
                     .TransType = 1
                 End With
+
 
             Else
 
@@ -359,6 +359,14 @@ Public Class PendingRecon
 
 
             End If
+
+        Catch ingEx As Ingres.Client.IngresException
+
+            With trResult
+                .isSuccessful = False
+                .TransType = 1
+                .errMsg = ingEx.Message
+            End With
 
         Catch ex As Exception
 

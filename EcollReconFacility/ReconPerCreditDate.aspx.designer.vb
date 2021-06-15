@@ -203,6 +203,15 @@ Partial Public Class WebForm3
     Protected WithEvents lblAmtToReconcile As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''divExcluded control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divExcluded As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''lblAmountExcluded control.
     '''</summary>
     '''<remarks>

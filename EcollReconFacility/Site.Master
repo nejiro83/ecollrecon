@@ -65,27 +65,51 @@
                     <ul class="nav nav-tabs flex-column" id="mytabs">
                         <li class="nav-item">
                             <a class="nav-link" href="<%= Page.ResolveUrl("~/PendingRecon.aspx") %>">
-                                <span class="fa fa-hourglass-2 fa-lg">
-                                </span>
-                                Pending Credit Date Lines
+                                <div class="row">
+                                    <div class="col-sm-1 text-center">
+                                        <span class="fa fa-hourglass-2 fa-lg">
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        Pending Credit Date Lines
+                                    </div>
+                                </div>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<%= Page.ResolveUrl("~/SearchRecon.aspx") %>">
-                                <span class="fa fa-search fa-lg"></span>
-                                Search Credit Lines
+                                <div class="row">
+                                    <div class="col-sm-1 text-center">
+                                        <span class="fa fa-search fa-lg"></span>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        Search Credit Lines
+                                    </div>
+                                </div>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<%= Page.ResolveUrl("~/UncreditedTrans.aspx") %>">
-                                <span class="fa fa-warning fa-lg"></span>
-                                Uncredited Transactions
+                                <div class="row">
+                                    <div class="col-sm-1 text-center">
+                                        <span class="fa fa-warning fa-lg"></span>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        Uncredited Transactions
+                                    </div>
+                                </div>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<%= Page.ResolveUrl("~/UCMonitoring.aspx") %>">
-                                <span class="fa fa-desktop"></span>
-                                UC/AR Monitoring
+                                <div class="row">
+                                    <div class="col-sm-1 text-center">
+                                        <span class="fa fa-desktop"></span>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        UC/AR Monitoring
+                                    </div>
+                                </div>
                             </a>
                         </li>
                     </ul>

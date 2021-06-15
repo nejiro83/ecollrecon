@@ -92,7 +92,7 @@ Partial Public Class PendingRecon
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtAmountCredited As Global.System.Web.UI.HtmlControls.HtmlInputText
+    Protected WithEvents txtAmountCredited As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''lblMessage control.

@@ -1,10 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="PendingRecon.aspx.vb" Inherits="EcollReconFacility.PendingRecon" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <script type="text/javascript">
-  //Total out of range dialog
- 
-</script>
     <%@ Reference VirtualPath="~/Site.Master" %>
 
     <div class="container sb-content shadow">
@@ -139,10 +135,10 @@
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Amount Credited</label>
                                     <div class="col-9">
-                                        <input type="text" id="txtAmountCredited" 
-                                            class="form-control border border-primary b-radius font-weight-bold" 
-                                            runat="server" required="required"/>
-                                     
+                                        <asp:TextBox ID="txtAmountCredited" runat="server" ClientIDMode="Static"
+                                            CssClass="form-control border border-primary b-radius font-weight-bold"
+                                            required="required" />
+
                                     </div>
                                 </div>
                             </div>
@@ -150,8 +146,8 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="background:#F6F6F6;">       
-                    <asp:Label ID="lblMessage" ForeColor="#f00" runat="server" ClientIDMode="Static" />  
-                    <asp:Button ID="btnModalSave" OnClientClick="checkCreditLineFields();" OnClick="btnModalSave_Click"  CssClass="btn btn-primary" Text="Save" runat="server"/>
+                    <asp:Label ID="lblMessage" ForeColor="#f00000" runat="server" ClientIDMode="Static" />  
+                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" OnClick="btnModalSave_Click" OnClientClick="return checkCreditLineFields();" Text="Save" runat="server" />
                     <button type="button" id="btnHideCreditLineModal" class="btn btn-danger" onclick="$('#creditLineModal').modal('hide');">Cancel</button>
                 </div>
             </div>

@@ -189,7 +189,7 @@
                                         <asp:Label CssClass="form-control b-radius" ID="lblAmtToReconcile" runat="server" />
                                     </div>
                                 </div>
-                                <div class="row m-2">
+                                <div class="row m-2" id="divExcluded" runat="server">
                                     <label class="col-form-label col-sm-5">Amount Excluded:</label>
                                     <div class="col-sm-7">
                                         <asp:Label CssClass="form-control b-radius" ID="lblAmountExcluded" runat="server" ForeColor="Red" />

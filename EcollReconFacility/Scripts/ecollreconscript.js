@@ -2,16 +2,26 @@
 
     var d = new Date();
     var day = d.getDate();
-    var month = d.getMonth() + 1;
+    var month = d.getMonth();
     var year = d.getFullYear();
-    var datestring = month + "/" + day + "/" + year
+    var datestring = month + "/" + day + "/" + year;
+
+    const months = ['January', 'February', 'March', 'April',
+        'May', 'June', 'July', 'August',
+        'September', 'October', 'November', 'December'
+    ];
+
+    datestring = months[month] + " " + day + ", " + year;
 
     $(function () {
         $('.datepicker').on('change blur', function () {
-            if ($(this).val().trim().length === 0) {
+
+            var isvalid = Date.parse($(this).val());
+
+            if ($(this).val().trim().length === 0 || isNaN(isvalid)) {
                 $(this).val(datestring);
             }
-        })
+        });
 
         $(".datepicker").datepicker({
             dateFormat: 'MM d, yy',
@@ -29,6 +39,15 @@
                 $(this).find('a').addClass('active');
             }
         });
+    });
+
+    $('#creditLineModal').on('hidden.bs.modal', function () {
+
+        $('#txtAmountCredited').val(0);
+        $('#dtpmodalCreditDate').val(datestring);
+        $('#dtpTransDateFrom').val(datestring);
+        $('#dtpTransDateTo').val(datestring);
+
     });
 }
 
@@ -107,7 +126,7 @@ function checkCreditLineFields() {
 
     if (isNaN(isValid)) {
 
-        $('#lblMessage').val('Invalid Credit Date');
+        $('#lblMessage').text('Invalid Credit Date');
         return false;
 
     }
@@ -116,7 +135,7 @@ function checkCreditLineFields() {
 
     if (isNaN(isValid)) {
 
-        $('#lblMessage').val('Invalid Transaction Date From');
+        $('#lblMessage').text('Invalid Transaction Date From');
         return false;
 
     }
@@ -125,14 +144,21 @@ function checkCreditLineFields() {
 
     if (isNaN(isValid)) {
 
-        $('#lblMessage').val('Invalid Transaction Date To');
+        $('#lblMessage').text('Invalid Transaction Date To');
         return false;
 
     }
 
     if (isNaN(amountCredited)) {
 
-        $('#lblMessage').val('Invalid Amount Credited');
+        $('#lblMessage').text('Invalid Amount Credited');
+        return false;
+
+    }
+
+    if (Date.parse(transDateFrom) > Date.parse(transDateTo)) {
+
+        $('#lblMessage').text('Invalid placement of transaction dates.');
         return false;
 
     }

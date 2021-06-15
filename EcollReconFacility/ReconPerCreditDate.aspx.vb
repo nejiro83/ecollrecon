@@ -197,10 +197,12 @@ Public Class WebForm3
         If totalAmount > CDec(txtAmCredited.Text) Then
 
             lstExcluded.Visible = True
+            divExcluded.Visible = True
 
         Else
 
             lstExcluded.Visible = False
+            divExcluded.Visible = False
 
         End If
 
