@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site1.Master" CodeBehind="ReconViewerforClosed.aspx.vb" Inherits="EcollReconFacility.WebForm8" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container body-content">
+    <div class="container body-content shadow">
         <div class="row mt-2">
             <div class="col-sm-11 mx-auto">
                 <div class="row m-3">
@@ -21,7 +21,8 @@
                                 <asp:BoundField DataField="transdate" HeaderText="Transaction Date" />
                                 <asp:BoundField DataField="transrefno" HeaderText="Transaction Ref No" />
                                 <asp:BoundField DataField="paytype" HeaderText="Payment Type" />
-                                <asp:BoundField DataField="amount" HeaderText="Amount" />
+                                <asp:BoundField DataField="amount" HeaderText="Amount" 
+                                    ItemStyle-HorizontalAlign="Right" />
                             </Columns>
                             <PagerSettings Mode="Numeric" PageButtonCount="10" />
                         </asp:GridView>
@@ -38,7 +39,7 @@
                     <div class="col-sm-4">
                         <%--<button class="btn btn-danger d-block mx-auto w-100">Back</button> --%>
                         <asp:Button runat="server" ID="btnBack" 
-                            CssClass="btn btn-danger d-block mx-auto w-100" Text="Back" PostBackUrl="~/SearchRecon.aspx" />
+                            CssClass="btn btn-danger d-block mx-auto w-100" Text="Back" />
                     </div>
                 </div>
             </div>

@@ -86,10 +86,54 @@ function checkExcFields() {
 
     if ($('#txtTransRefNo').val().length === 0) {
         $('#lblMessage').val('Trans Ref No is blank');
+        return false;
     }
 
     if ($('#txtExcRemarks').val().length === 0) {
         $('#lblMessage').val('Trans Ref No is blank');
+        return false;
 }
 
+}
+
+function checkCreditLineFields() {
+
+    var creditDate = $('#dtpmodalCreditDate').val();
+    var transDateFrom = $('#dtpTransDateFrom').val();
+    var transDateTo = $('#dtpTransDateTo').val();
+    var amountCredited = $('#txtAmountCredited').val();
+
+    var isValid = Date.parse(creditDate);
+
+    if (isNaN(isValid)) {
+
+        $('#lblMessage').val('Invalid Credit Date');
+        return false;
+
+    }
+
+    isValid = Date.parse(transDateFrom);
+
+    if (isNaN(isValid)) {
+
+        $('#lblMessage').val('Invalid Transaction Date From');
+        return false;
+
+    }
+
+    isValid = Date.parse(transDateTo);
+
+    if (isNaN(isValid)) {
+
+        $('#lblMessage').val('Invalid Transaction Date To');
+        return false;
+
+    }
+
+    if (isNaN(amountCredited)) {
+
+        $('#lblMessage').val('Invalid Amount Credited');
+        return false;
+
+    }
 }

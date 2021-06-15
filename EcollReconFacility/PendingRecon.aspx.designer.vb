@@ -65,7 +65,7 @@ Partial Public Class PendingRecon
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dtpmodalCreditDate As Global.System.Web.UI.HtmlControls.HtmlInputText
+    Protected WithEvents dtpmodalCreditDate As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''dtpTransDateFrom control.
@@ -74,7 +74,7 @@ Partial Public Class PendingRecon
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dtpTransDateFrom As Global.System.Web.UI.HtmlControls.HtmlInputText
+    Protected WithEvents dtpTransDateFrom As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''dtpTransDateTo control.
@@ -83,7 +83,7 @@ Partial Public Class PendingRecon
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dtpTransDateTo As Global.System.Web.UI.HtmlControls.HtmlInputText
+    Protected WithEvents dtpTransDateTo As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtAmountCredited control.
@@ -93,6 +93,15 @@ Partial Public Class PendingRecon
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtAmountCredited As Global.System.Web.UI.HtmlControls.HtmlInputText
+    
+    '''<summary>
+    '''lblMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblMessage As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''btnModalSave control.

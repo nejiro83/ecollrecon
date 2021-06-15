@@ -86,13 +86,13 @@
 
                                         <asp:TemplateField>
                                             <ItemTemplate>
-                                                <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" 
+<%--                                                <asp:LinkButton ID="lnkReconcile" Text="Reconcile" runat="server" 
                                                     OnClientClick=<%# "reconDetails('" +
                                                                                 Eval("rownumber") + "','" +
                                                                                 Eval("varamount") + "','" +
                                                                                 Eval("creditid") + "','" +
                                                                                 Eval("reconno") + "','" +
-                                                                                ddlReconType.SelectedValue + "');"  %>></asp:LinkButton>
+                                                                                ddlReconType.SelectedValue + "');"  %>></asp:LinkButton>--%>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 

@@ -48,15 +48,16 @@
                                             ItemStyle-HorizontalAlign="Right" ItemStyle-BackColor="#fefefa" />
                                         <asp:BoundField DataField="credittype" HeaderText="Credit Line Type" 
                                             ItemStyle-BackColor="#fefefa" />
-                                        <asp:BoundField DataField="status" HeaderText="Status" />
+                                        <asp:BoundField DataField="status" HeaderText="Status" 
+                                            ItemStyle-BackColor="#fefefa"/>
                             
-                                        <asp:TemplateField ItemStyle-CssClass="text-center">
+                                        <asp:TemplateField ItemStyle-CssClass="text-center" ItemStyle-BackColor="#fefefa">
                                             <ItemTemplate>
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
                             
-                                        <asp:TemplateField>
+                                        <asp:TemplateField ItemStyle-BackColor="#fefefa">
                                             <Itemtemplate>
                                                 <asp:LinkButton ID="lblDelete" runat="server" CommandName="Delete" 
                                                     OnClientClick="return confirm('Do you want to delete this credit line?');" Text="Delete" />
@@ -101,9 +102,11 @@
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Credit Date</label>
                                     <div class="col-9">
-                                        <input type="text" id="dtpmodalCreditDate" runat="server" 
-                                            class="form-control datepicker border border-primary b-radius"
-                                             required="required" />
+                                        <asp:TextBox ID="dtpmodalCreditDate" runat="server" 
+                                             ClientIDMode ="Static" 
+                                            CssClass="form-control datepicker border border-primary b-radius"
+                                             required="required"
+                                            />
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -113,17 +116,21 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="col-form-label">From</label>
-                                                    <input type="text" id="dtpTransDateFrom" 
-                                                        class="form-control datepicker border border-primary b-radius" 
-                                                        runat="server" required="required" />
+                                                        <asp:TextBox ID="dtpTransDateFrom" runat="server" 
+                                                             ClientIDMode ="Static" 
+                                                            CssClass="form-control datepicker border border-primary b-radius"
+                                                             required="required"
+                                                            />
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label class="col-form-label">To</label>
-                                                    <input type="text" id="dtpTransDateTo" 
-                                                        class="form-control datepicker border border-primary b-radius" 
-                                                        runat="server" required="required"/>
+                                                        <asp:TextBox ID="dtpTransDateTo" runat="server" 
+                                                             ClientIDMode ="Static" 
+                                                            CssClass="form-control datepicker border border-primary b-radius"
+                                                             required="required"
+                                                            />
                                                 </div>
                                             </div>
                                         </div>
@@ -142,8 +149,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="background:#F6F6F6;">         
-                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server"/>
+                <div class="modal-footer" style="background:#F6F6F6;">       
+                    <asp:Label ID="lblMessage" ForeColor="#f00" runat="server" ClientIDMode="Static" />  
+                    <asp:Button ID="btnModalSave" OnClientClick="checkCreditLineFields();" OnClick="btnModalSave_Click"  CssClass="btn btn-primary" Text="Save" runat="server"/>
                     <button type="button" id="btnHideCreditLineModal" class="btn btn-danger" onclick="$('#creditLineModal').modal('hide');">Cancel</button>
                 </div>
             </div>

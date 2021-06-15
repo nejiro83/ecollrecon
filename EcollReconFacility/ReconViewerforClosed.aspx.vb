@@ -39,27 +39,28 @@ Public Class WebForm8
 
     Public Sub loadControls()
 
+        Dim creditid As String = Request.QueryString("crid")
 
-        Dim bankinsticode As String = Session("ActiveBankInstiCode")
-        Dim bankinstiname As String = Session("ActiveBankInstiName")
+        getCreditLineInfo(creditid)
 
-        lblRMCollPartner.Text = bankinstiname
-        lblRMSelectedTransDate.Text = Request.QueryString("t1") & " - " & Request.QueryString("t2")
-
-        dt = getTransByCreditDate()
+        dt = getTransByCreditDate(creditid)
 
         gvRMTransPerDate.DataSource = dt
         gvRMTransPerDate.DataBind()
 
+        If IsNothing(Session("ClosedReconBackPage")) = False Then
+
+            btnBack.PostBackUrl = Session("ClosedReconBackPage")
+
+        Else
+
+            btnBack.PostBackUrl = "#"
+
+        End If
+
     End Sub
 
-    Public Function getTransByCreditDate() As DataTable
-
-        Dim creditDate As String = Request.QueryString("cd")
-        Dim creditID As String = Request.QueryString("crid")
-        Dim status As String = Request.QueryString("status")
-
-        creditDate = CDate(creditDate).ToString("MM/dd/yyyy")
+    Public Function getTransByCreditDate(creditid As String) As DataTable
 
         Dim dt As New DataTable
 
@@ -70,6 +71,30 @@ Public Class WebForm8
             .Add("paytype")
             .Add("amount")
         End With
+
+
+        'WCF MODE
+
+        Dim svc As New Service1Client
+        Dim dtresult As New IngDTResult
+
+        dtresult = svc.IngDataTable("sp_get_credit_line_trans", {"VAR|" & creditid})
+
+        If dtresult.isDataGet Then
+
+            For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+                dt.Rows.Add({
+                            CDate(dtRow(0).ToString).ToString("MMMM dd, yyyy"),
+                            dtRow(1).ToString,
+                            dtRow(2).ToString,
+                            CDec(dtRow(3).ToString).ToString("#,###,##0.00")}
+                            )
+
+
+            Next
+
+        End If
 
         'INGRES CLIENT MODE
 
@@ -117,30 +142,30 @@ Public Class WebForm8
         'ingConn.Close()
 
 
-        'WCF MODE
+        Return dt
+    End Function
+
+    Private Sub getCreditLineInfo(creditid As String)
+
+        'CREDIT LINE MAIN INFO'
+        Dim cmdText As String = "sp_get_creditline_info"
 
         Dim svc As New Service1Client
         Dim dtresult As New IngDTResult
 
-        dtresult = svc.IngDataTable("sp_get_credit_line_trans", {"VAR|" & creditID})
+        dtresult = svc.IngDataTable(cmdText, {"VAR|" & creditid})
 
         If dtresult.isDataGet Then
 
             For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
 
-                dt.Rows.Add({
-                            CDate(dtRow(0).ToString).ToString("MMMM dd, yyyy"),
-                            dtRow(1).ToString,
-                            dtRow(2).ToString,
-                            CDec(dtRow(3).ToString).ToString("#,###,##0.00")}
-                            )
-
+                lblRMCollPartner.Text = dtRow(5).ToString
+                lblRMSelectedTransDate.Text = CDate(dtRow(1).ToString).ToString("MMMM dd, yyyy") & " - " &
+                    CDate(dtRow(2).ToString).ToString("MMMM dd, yyyy")
 
             Next
 
         End If
 
-
-        Return dt
-    End Function
+    End Sub
 End Class

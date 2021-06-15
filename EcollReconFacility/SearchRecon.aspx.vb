@@ -83,16 +83,14 @@ Public Class SearchRecon
                         .ID = "hlView"
                         .Text = "View"
                         .NavigateUrl = "ReconViewerforClosed.aspx?" &
-                            "crid=" & e.Row.Cells(1).Text &
-                            "&cd=" & e.Row.Cells(2).Text &
-                            "&t1=" & e.Row.Cells(3).Text &
-                            "&t2=" & e.Row.Cells(4).Text &
-                            "&status=" & e.Row.Cells(8).Text
+                            "crid=" & e.Row.Cells(1).Text
                     End With
 
                     e.Row.Cells(9).Controls.Add(hlink1)
 
                     e.Row.Cells(10).Text = ""
+
+                    Session("ClosedReconBackPage") = "~/SearchRecon.aspx"
 
 
                 Case "PENDING"

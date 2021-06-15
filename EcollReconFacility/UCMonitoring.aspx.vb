@@ -73,6 +73,54 @@ Public Class UCMonitoring
 
     End Sub
 
+    Private Sub gvUC_RowDataBound(ByVal sender As Object, ByVal e As GridViewRowEventArgs) Handles gvUC.RowDataBound
+
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Select Case e.Row.Cells(5).Text
+
+                Case "CLOSED"
+
+                    Dim hlink1 As New HyperLink
+
+                    With hlink1
+                        .ID = "hlView"
+                        .Text = "View"
+                        .NavigateUrl = "ReconViewerforClosed.aspx?" &
+                            "crid=" & e.Row.Cells(1).Text
+                    End With
+
+                    e.Row.Cells(6).Controls.Add(hlink1)
+
+                    Session("ClosedReconBackPage") = "~/UCMonitoring.aspx"
+
+                Case "PENDING"
+
+                    Dim lnkBtn As New LinkButton
+
+                    With lnkBtn
+                        .ID = "lnkReconcile"
+                    End With
+
+                    lnkBtn.Text = "Reconcile"
+                    lnkBtn.OnClientClick = "reconDetails('" &
+                        e.Row.Cells(0).Text & "','" & 'rownumber
+                        e.Row.Cells(4).Text & "','" & 'varamount
+                        e.Row.Cells(1).Text & "','" & 'creditid
+                        e.Row.Cells(2).Text & "','" & 'reconno
+                        ddlReconType.SelectedValue & "')" 'recontype
+
+
+                    e.Row.Cells(6).Controls.Add(lnkBtn)
+
+
+            End Select
+
+
+        End If
+
+    End Sub
+
 
     Private Sub loadControls()
 

@@ -64,7 +64,7 @@ Public Class PendingRecon
 
     End Sub
 
-    Private Sub btnModalSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnModalSave.Click
+    Protected Sub btnModalSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnModalSave.Click
 
         Dim trResult As TransResult = SaveCreditLines()
 
@@ -103,11 +103,7 @@ Public Class PendingRecon
                         .ID = "hlView"
                         .Text = "View"
                         .NavigateUrl = "ReconViewerforClosed.aspx?" &
-                            "crid=" & e.Row.Cells(1).Text &
-                            "&cd=" & e.Row.Cells(2).Text &
-                            "&t1=" & e.Row.Cells(3).Text &
-                            "&t2=" & e.Row.Cells(4).Text &
-                            "&status=" & e.Row.Cells(8).Text
+                            "crid=" & e.Row.Cells(1).Text
                     End With
 
                     e.Row.Cells(9).Controls.Add(hlink1)
@@ -192,9 +188,9 @@ Public Class PendingRecon
 
         ddlBankInsti.SelectedIndex = 0
 
-        dtpmodalCreditDate.Value = Today.ToString("MMMM dd, yyyy")
-        dtpTransDateFrom.Value = Today.ToString("MMMM dd, yyyy")
-        dtpTransDateTo.Value = Today.ToString("MMMM dd, yyyy")
+        dtpmodalCreditDate.Text = Today.ToString("MMMM dd, yyyy")
+        dtpTransDateFrom.Text = Today.ToString("MMMM dd, yyyy")
+        dtpTransDateTo.Text = Today.ToString("MMMM dd, yyyy")
 
         loadPendingCreditLines()
 
@@ -295,21 +291,6 @@ Public Class PendingRecon
 
             Next
 
-            'If gvCreditLines.Rows.Count > 1 Then
-
-            '    lbltotalAmtPerCreditPeriod.Text = "Total amount for credit period " & vbCrLf &
-            'creditDateFrom & " to " & creditDateTo & vbCrLf &
-            '"is " & totalAmt.ToString("#,###,##0.00")
-
-            'Else
-
-            '    lbltotalAmtPerCreditPeriod.Text = "Total amount for credit period " & vbCrLf &
-            'creditDateFrom & vbCrLf &
-            '"is " & totalAmt.ToString("#,###,##0.00")
-
-
-            'End If
-
             lbltotalAmtPerCreditPeriod.Text = ""
 
         Else
@@ -332,9 +313,9 @@ Public Class PendingRecon
 
             Dim bankinsticode As String = ddlModalBankInsti.SelectedValue.Split("|")(0)
 
-            Dim modalCreditDate As String = CDate(dtpmodalCreditDate.Value).ToString("MM/dd/yyyy")
-            Dim transDateFrom As String = CDate(dtpTransDateFrom.Value).ToString("MM/dd/yyyy")
-            Dim transDateTo As String = CDate(dtpTransDateTo.Value).ToString("MM/dd/yyyy")
+            Dim modalCreditDate As String = CDate(dtpmodalCreditDate.Text).ToString("MM/dd/yyyy")
+            Dim transDateFrom As String = CDate(dtpTransDateFrom.Text).ToString("MM/dd/yyyy")
+            Dim transDateTo As String = CDate(dtpTransDateTo.Text).ToString("MM/dd/yyyy")
 
             Dim creditID As String = GetCreditID(bankinsticode, modalCreditDate)
 
