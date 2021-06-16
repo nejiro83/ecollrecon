@@ -62,6 +62,26 @@
         $('#txtRemarks').val('');
         $('#lblUpdateAmountMsg').text('');
 
+        $('#txtTransRefNo').prop('required', true);
+
+        $('#txtUpdatedAmtCredited').prop('required', false);
+        $('#txtSupervisorUserID').prop('required', false);
+        $('#txtSupervisorPassword').prop('required', false);
+        $('#txtRemarks').prop('required', false);
+        $('#lblUpdateAmountMsg').prop('required', false);
+
+    });
+
+    $('#modalUpdate').on('shown.bs.modal', function () {
+
+        $('#txtUpdatedAmtCredited').prop('required', true);
+        $('#txtSupervisorUserID').prop('required', true);
+        $('#txtSupervisorPassword').prop('required', true);
+        $('#txtRemarks').prop('required', true);
+        $('#lblUpdateAmountMsg').prop('required', true);
+
+        $('#txtTransRefNo').prop('required', false);
+
     });
 }
 
@@ -191,11 +211,15 @@ function checkUpdatedAmount() {
 
     var updatedAmount = $('#txtUpdatedAmtCredited').val();
 
-    if (updatedAmount === 0) {
+    if (updatedAmount == 0) {
 
-        $('#lblUpdateAmountMsg').text('Amount Credited is 0');
+        $('#lblUpdateAmountMsg').text('Updated Amount is 0');
         return false;
 
+    }
+    else
+    {
+        $('#lblUpdateAmountMsg').text('');
     }
 
     if (isNaN(updatedAmount)) {
@@ -203,6 +227,9 @@ function checkUpdatedAmount() {
         $('#lblUpdateAmountMsg').text('Invalid Amount Credited');
         return false;
 
+    } else {
+
+        $('#lblUpdateAmountMsg').text('');
     }
 
 }

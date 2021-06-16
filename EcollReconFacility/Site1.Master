@@ -15,7 +15,7 @@
     <%--<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />--%>
     <link href="~/images/logo-pagibigfund.png" rel="shortcut icon" type="image/x-icon" />
     <script src="Scripts/jquery-3.5.1.js"></script>
-    <script src="Scripts/ecollreconscript.js"></script>
+    <script src="Scripts/ecoll-recon/ecollreconscript.js"></script>
     <link href="Content/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap-grid.css" rel="stylesheet" />
     <script src="Scripts/popper.min.js"></script>
@@ -61,12 +61,10 @@
             border: 1px solid #002D62;
             color: #FFFFFF;
             font-weight: bold;
-            opacity:1;
          }
-
-
+         
          .ui-widget-overlay, .ui-front{
-             opacity: 1;
+             opacity: .75;
          }
     </style>
 

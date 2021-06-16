@@ -35,6 +35,10 @@ Public Class WebForm3
 
         If IsPostBack Then
 
+        Else
+
+            loadControls()
+
             If IsNothing(Session("IsCreditAmountUpdated")) = False And Session("IsCreditAmountUpdated") = True Then
 
                 Page.ClientScript.RegisterClientScriptBlock(Me.GetType(),
@@ -46,10 +50,6 @@ Public Class WebForm3
                 Session("UpdateAmountMsg") = Nothing
 
             End If
-
-        Else
-
-            loadControls()
 
         End If
 
@@ -77,7 +77,6 @@ Public Class WebForm3
     End Sub
 
     Protected Sub btnAddTrans_Click(sender As Object, e As EventArgs) Handles btnAddTrans.Click
-
         Dim tr As TransResult = GetTransToExclude()
 
         If tr.isSuccessful = False Then
@@ -91,7 +90,6 @@ Public Class WebForm3
         End If
 
         txtTransRefNo.Text = ""
-        txtExcRemarks.Text = ""
 
         ClientScript.RegisterStartupScript(Me.GetType(), "kulaps", "$('#lst').collapse('show')", True)
 
@@ -409,7 +407,7 @@ Public Class WebForm3
             Dim strparam As String() = {
                     "VAR|" & creditID,
                     "VAR|" & txtTransRefNo.Text,
-                    "VAR|" & txtExcRemarks.Text,
+                    "VAR|" & ddlRemarks.Text,
                     "VAR|" & userid
                 }
 
@@ -551,6 +549,8 @@ Public Class WebForm3
         Dim svc As New Service1Client
         Dim dtresult As New IngDTResult
 
+
+
         'Dim ws As New ADWS.Service
 
         'Dim loginResult As LoginResult = ws.AuthenticateUserWithDetails(userid, password)
@@ -560,6 +560,24 @@ Public Class WebForm3
         dtresult = svc.IngDataTableCmdText(cmdText)
 
         If dtresult.isDataGet Then
+
+            If CDec(updatedAmount) > CDec(lblPanelTotalTransAmount.Text) Then
+
+                cmdText = "delete from credit_amount_history where creditid = '" & creditid & "'"
+
+                dtresult = svc.IngDataTableCmdText(cmdText)
+
+                If dtresult.isDataGet Then
+
+                    gvTrans.DataSource = New DataTable
+                    gvTrans.DataBind()
+
+                    lblAmountExcluded.Text = ""
+
+                End If
+
+            End If
+
 
             cmdText = "sp_ins_updated_credit_amount"
 
@@ -579,6 +597,7 @@ Public Class WebForm3
             If dtresult.isDataGet Then
 
                 result.isSuccessful = True
+                result.resultMsg = "Amount Credited updated successfully"
 
             End If
 

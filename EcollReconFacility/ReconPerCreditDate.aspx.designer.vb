@@ -140,13 +140,13 @@ Partial Public Class WebForm3
     Protected WithEvents btnClearTrans As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
-    '''txtExcRemarks control.
+    '''ddlRemarks control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtExcRemarks As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlRemarks As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
     '''gvTrans control.

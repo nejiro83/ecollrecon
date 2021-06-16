@@ -85,13 +85,10 @@
                         <div id="lstExcluded" runat="server" class="row m-2" style="background:#f0f7de">
                             <div class="col">
                                 <div class="row m-2">
-                                    <a href="#" data-toggle="collapse" data-target="#lst"  style="text-decoration:underline">
-                                        <span class="h6 font-weight-bold">Add Transactions to AR</span>
-                                        <span class="fa fa-arrow-circle-o-down fa-lg"></span>
-                                    </a>
+                                    <span class="h5">Add Transactions to AR</span>
                                 </div>
                                 <hr />
-                                <div id="lst" class="collapse">
+                                <div id="lst">
                                     <div class="row m-2">
                                         <div class="col-sm-8">
                                             <div class="row m-2">
@@ -105,7 +102,7 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <asp:Button ID="btnAddTrans" CssClass="btn btn-primary d-block mx-auto btn-sm w-100" 
-                                                        runat="server" Text="Add" OnClientClick="checkExcFields();" />
+                                                        runat="server" Text="Add" />
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <asp:Button ID="btnClearTrans" CssClass="btn btn-danger d-block mx-auto btn-sm w-100" runat="server" Text="Clear"/>
@@ -117,9 +114,14 @@
                                         <div class="col-sm-8">
                                             <div class="row m-2">
                                                 <label class="col-form-label col-sm-5 font-weight-bold">Remarks:</label>
-                                                <asp:TextBox ID="txtExcRemarks" 
+                                                <%--<asp:TextBox ID="txtExcRemarks" 
                                                     CssClass="form-control col-sm-7 b-radius border border-danger" 
-                                                    runat="server" ClientIDMode="Static"></asp:TextBox>
+                                                    runat="server" ClientIDMode="Static"></asp:TextBox>--%>
+                                                <asp:DropDownList ID="ddlRemarks" runat="server" ClientIDMode="Static"
+                                                    CssClass="form-control col-sm-7 b-radius border border-danger" >
+                                                    <asp:ListItem Text="OVERPAYMENT" Value="0" />
+                                                </asp:DropDownList>
+
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -237,8 +239,7 @@
                                     <label class="col-sm-5 col-form-label font-weight-bold">Updated Amount</label>
                                     <div class="col-sm-7">
                                         <asp:TextBox ID="txtUpdatedAmtCredited" ClientIDMode="Static"
-                                            CssClass="form-control border border-primary b-radius" runat="server"
-                                            required="required"></asp:TextBox>
+                                            CssClass="form-control border border-primary b-radius" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -247,7 +248,7 @@
                                         <asp:TextBox 
                                             CssClass="form-control border border-primary b-radius" 
                                             ID="txtSupervisorUserID" ClientIDMode="Static"
-                                            runat="server" required="required" />
+                                            runat="server"/>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -256,7 +257,7 @@
                                         <asp:TextBox 
                                             CssClass="form-control border border-primary b-radius" 
                                             ID="txtSupervisorPassword" ClientIDMode="Static"
-                                             TextMode="Password" runat="server" required="required" />
+                                             TextMode="Password" runat="server"/>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -264,8 +265,7 @@
                                     <div class="col-sm-7">
                                         <asp:TextBox 
                                             CssClass="form-control border border-primary b-radius" 
-                                            ID="txtRemarks" ClientIDMode="Static" runat="server"
-                                            required="required" />
+                                            ID="txtRemarks" ClientIDMode="Static" runat="server" />
                                     </div>
                                 </div>                                
                             </div>
