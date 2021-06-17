@@ -114,12 +114,9 @@
                                         <div class="col-sm-8">
                                             <div class="row m-2">
                                                 <label class="col-form-label col-sm-5 font-weight-bold">Remarks:</label>
-                                                <%--<asp:TextBox ID="txtExcRemarks" 
-                                                    CssClass="form-control col-sm-7 b-radius border border-danger" 
-                                                    runat="server" ClientIDMode="Static"></asp:TextBox>--%>
                                                 <asp:DropDownList ID="ddlRemarks" runat="server" ClientIDMode="Static"
                                                     CssClass="form-control col-sm-7 b-radius border border-danger" >
-                                                    <asp:ListItem Text="OVERPAYMENT" Value="0" />
+                                                    <asp:ListItem Text="OVERPAYMENT" Value="OVERPAYMENT" />
                                                 </asp:DropDownList>
 
                                             </div>
@@ -130,7 +127,7 @@
                                     </div>
                                     <div class="row m-2">
                                         <div class="w-100">
-                                                <asp:GridView CssClass="table table-bordered table-sm" 
+                                                <asp:GridView CssClass="table table-bordered table-sm" ClientIDMode="Static" 
                                                     ShowHeaderWhenEmpty="true" ID="gvTrans" runat="server" AutoGenerateColumns="false"
                                                     OnRowDeleting="gvTrans_RowDeleting">
                                                 <Columns>                  
@@ -171,7 +168,8 @@
                                                             runat="server" ID="txtAmCredited" ClientIDMode="Static"/>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalUpdate">
+                                                        <button type="button" class="btn btn-primary" 
+                                                            data-toggle="modal" data-target="#modalUpdate">
                                                             Update
                                                         </button>
                                                     </div>
@@ -197,7 +195,9 @@
                                 <div class="row m-2" id="divExcluded" runat="server">
                                     <label class="col-form-label col-sm-5">Amount Excluded:</label>
                                     <div class="col-sm-7">
-                                        <asp:Label CssClass="form-control b-radius" ID="lblAmountExcluded" runat="server" ForeColor="Red" />
+                                        <asp:Label CssClass="form-control b-radius" ID="lblAmountExcluded" 
+                                             ClientIDMode="Static"
+                                            runat="server" ForeColor="Red" />
                                     </div>
                                 </div>
                                 <hr />
@@ -212,10 +212,13 @@
                             <div class="col-sm-8">
                             </div>
                             <div class="col-sm-2">
-                                <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary d-block mx-auto w-100" />
+                                <asp:Button ID="btnSave" runat="server" Text="Save" 
+                                    CssClass="btn btn-primary d-block mx-auto w-100" 
+                                    OnClientClick="return checkAR();" OnClick="btnSave_Click" />
                             </div>
                             <div class="col-sm-2">
-                                <asp:Button CssClass="btn btn-danger d-block mx-auto w-100" ID="btnBack" runat="server" text="Back" PostBackUrl="~/PendingRecon.aspx"/>
+                                <asp:Button CssClass="btn btn-danger d-block mx-auto w-100" ID="btnBack" 
+                                    runat="server" text="Back" PostBackUrl="~/PendingRecon.aspx"/>
                             </div>
                         </div>
                     </div>

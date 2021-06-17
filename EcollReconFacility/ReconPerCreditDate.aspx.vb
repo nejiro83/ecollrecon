@@ -55,17 +55,7 @@ Public Class WebForm3
 
     End Sub
 
-    Public Sub btnSave_Click(sender As Object, e As System.EventArgs) Handles btnSave.Click
-
-        If (CDec(txtAmCredited.Text) < CDec(lblPanelTotalTransAmount.Text)) And
-            (gvTrans.Rows.Count = 0) Then
-
-            ClientScript.RegisterClientScriptBlock(Me.GetType, "alert",
-                                                   "alert('Please add transactions not included in Amount Credited (Add to AR)');", True)
-
-            Exit Sub
-
-        End If
+    Public Sub btnSave_Click(sender As Object, e As System.EventArgs)
 
         Dim trResult As TransResult = isStatusSaved(Request.QueryString("crid"))
 
@@ -91,8 +81,6 @@ Public Class WebForm3
 
         txtTransRefNo.Text = ""
 
-        ClientScript.RegisterStartupScript(Me.GetType(), "kulaps", "$('#lst').collapse('show')", True)
-
     End Sub
 
     Protected Sub btnClearTrans_Click(sender As Object, e As EventArgs) Handles btnClearTrans.Click
@@ -100,11 +88,9 @@ Public Class WebForm3
         gvTrans.DataSource = New DataTable
         gvTrans.DataBind()
 
-        If IsNothing(ViewState("gvTrans")) = False Then ViewState("gvTrans") = Nothing
+        'If IsNothing(ViewState("gvTrans")) = False Then ViewState("gvTrans") = Nothing
 
         lblAmountExcluded.Text = 0.0
-
-        ClientScript.RegisterStartupScript(Me.GetType(), "Popup", "$('#lst').collapse('show')", True)
 
     End Sub
 
@@ -129,21 +115,39 @@ Public Class WebForm3
     Protected Sub gvTrans_RowDeleting(sender As Object, e As GridViewDeleteEventArgs)
 
         Dim index As Integer = Convert.ToInt32(e.RowIndex)
-        Dim dt As DataTable = ViewState("gvTrans")
+        'Dim dt As DataTable = ViewState("gvTrans")
 
-        Dim selectedAmt As String = dt.Rows(index)(3).ToString
-        Dim selectedTrans As String = dt.Rows(index)(0).ToString
+        Dim dt As New DataTable
+
+        With dt.Columns
+            .Clear()
+            .Add("transrefno")
+            .Add("transdate")
+            .Add("paytype")
+            .Add("amount")
+            .Add("remarks")
+        End With
+
+        Dim selectedAmt As String = gvTrans.Rows(index).Cells(3).Text
+        Dim selectedTrans As String = gvTrans.Rows(index).Cells(0).Text
+
+        For Each gRow As GridViewRow In gvTrans.Rows
+
+            dt.Rows.Add({
+                    gRow.Cells(0).Text,
+                    gRow.Cells(1).Text,
+                    gRow.Cells(2).Text,
+                    gRow.Cells(3).Text,
+                    gRow.Cells(4).Text})
+
+        Next
 
         If deleteExcludedTrans(selectedTrans) Then
 
             dt.Rows(index).Delete()
 
-            ViewState("gvTrans") = dt
-
             gvTrans.DataSource = dt
             gvTrans.DataBind()
-
-            If gvTrans.Rows.Count = 0 Then ViewState("gvTrans") = Nothing
 
             lblAmountExcluded.Text = CDec(lblAmountExcluded.Text - selectedAmt).ToString("#,###,##0.00")
 
@@ -380,22 +384,20 @@ Public Class WebForm3
 
         Dim dt As New DataTable
 
-        If IsNothing(ViewState("gvTrans")) = False Then
+        'If IsNothing(ViewState("gvTrans")) = False Then
 
-            dt = ViewState("gvTrans")
+        'Else
 
-        Else
+        'End If
 
-            With dt.Columns
-                .Clear()
-                .Add("transrefno")
-                .Add("transdate")
-                .Add("paytype")
-                .Add("amount")
-                .Add("remarks")
-            End With
-
-        End If
+        With dt.Columns
+            .Clear()
+            .Add("transrefno")
+            .Add("transdate")
+            .Add("paytype")
+            .Add("amount")
+            .Add("remarks")
+        End With
 
         Try
 
@@ -407,7 +409,7 @@ Public Class WebForm3
             Dim strparam As String() = {
                     "VAR|" & creditID,
                     "VAR|" & txtTransRefNo.Text,
-                    "VAR|" & ddlRemarks.Text,
+                    "VAR|" & ddlRemarks.SelectedValue,
                     "VAR|" & userid
                 }
 
@@ -437,7 +439,7 @@ Public Class WebForm3
                 gvTrans.DataSource = dt
                 gvTrans.DataBind()
 
-                ViewState("gvTrans") = dt
+                'ViewState("gvTrans") = dt
 
                 trResult.isSuccessful = True
 
@@ -527,7 +529,7 @@ Public Class WebForm3
             gvTrans.DataSource = dt
             gvTrans.DataBind()
 
-            ViewState("gvTrans") = dt
+            'ViewState("gvTrans") = dt
 
         End If
 

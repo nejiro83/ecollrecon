@@ -233,3 +233,22 @@ function checkUpdatedAmount() {
     }
 
 }
+
+function checkAR() {
+
+    var rowCount = $('#gvTrans tr').length;
+    var amountCredited = parseFloat($('#txtAmCredited').text().replace(',', ''));
+    var amountOnFile = parseFloat($('#lblPanelTotalTransAmount').text().replace(',', ''));
+    var amountExcluded = parseFloat($('#lblAmountExcluded').text().replace(',', ''));
+
+    if (amountCredited < amountOnFile) {
+
+        if (amountExcluded == 0) {
+
+            alert('Please include transactions for AR');
+            return false;
+        }
+
+    }
+
+}
