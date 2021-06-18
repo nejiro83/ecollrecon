@@ -102,7 +102,7 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <asp:Button ID="btnAddTrans" CssClass="btn btn-primary d-block mx-auto btn-sm w-100" 
-                                                        runat="server" Text="Add" />
+                                                        runat="server" Text="Add"/>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <asp:Button ID="btnClearTrans" CssClass="btn btn-danger d-block mx-auto btn-sm w-100" runat="server" Text="Clear"/>

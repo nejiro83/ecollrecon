@@ -9,6 +9,8 @@ Public Class EcollReconWS
 
 
     Dim dtResult As New IngDTResult
+    Dim connStringEcoll As String = ConfigurationManager.ConnectionStrings("EcollConn").ConnectionString
+    Dim connStringTKT As String = ConfigurationManager.ConnectionStrings("TKTDEMOHO").ConnectionString
 
 
     Public Sub New()
@@ -44,7 +46,7 @@ Public Class EcollReconWS
         Dim OutputSet As New DataSet
 
         With comIngres
-            .Connection = IngConnection(False)
+            .Connection = IngConnection(False, connStringEcoll)
             .Parameters.Clear()
             .CommandText = ProcedureName
             .CommandType = Data.CommandType.StoredProcedure
@@ -131,7 +133,7 @@ Public Class EcollReconWS
         Dim OutputSet As New DataSet
 
         With comIngres
-            .Connection = IngConnection(True)
+            .Connection = IngConnection(True, connStringEcoll)
             Try
                 .CommandText = CommandText
                 If .ExecuteNonQuery() <> 0 Then
@@ -169,7 +171,7 @@ Public Class EcollReconWS
         Dim OutputSet As New DataSet
 
         With comIngres
-            .Connection = IngConnection(False)
+            .Connection = IngConnection(False, connStringEcoll)
             Dim IngTransaction As IngresTransaction = .Connection.BeginTransaction()
             .Transaction = IngTransaction
             Try
@@ -233,8 +235,8 @@ Public Class EcollReconWS
         Return mydt
     End Function
 
-    Private Shared Function IngConnection(ByVal isAdmin As Boolean) As IngresConnection
-        Dim ConIngres As New IngresConnection(ConfigurationManager.ConnectionStrings("EcollConn").ConnectionString)
+    Private Shared Function IngConnection(ByVal isAdmin As Boolean, connString As String) As IngresConnection
+        Dim ConIngres As New IngresConnection(connString)
 
         Try
             If ConIngres.State = ConnectionState.Closed Then
@@ -256,4 +258,224 @@ Public Class EcollReconWS
         End If
         IngresCm.Dispose()
     End Sub
+
+#Region "Accounting Entries"
+
+    Public Function genTransSRTNoNew(noOfSRT As Integer, tranMatrix As String) As IngDTResult Implements IService1.genTransSRTNoNew
+
+        Dim myDT As New IngDTResult
+        myDT.isDataGet = False
+        myDT.DataSetResult = Nothing
+        myDT.DTErrorMsg = ""
+
+        Dim comIngres As New IngresCommand
+        Dim dr As New IngresDataAdapter
+
+        Dim OutputTable As New DataTable
+        Dim OutputSet As New DataSet
+
+        With comIngres
+            .Connection = IngConnection(False, connStringEcoll)
+            .CommandText = "sp_ecoll_gentransrtnonew"
+            .CommandType = CommandType.StoredProcedure
+
+            With .Parameters
+                .Clear()
+                .Add("noofsrt", IngresType.VarChar).Value = noOfSRT
+                .Add("tran_matrix", IngresType.VarChar).Value = tranMatrix
+            End With
+        End With
+
+        Try
+
+            dr.SelectCommand = comIngres
+            dr.Fill(OutputTable)
+            OutputSet.Tables.Add(OutputTable)
+            myDT.DataSetResult = OutputSet
+            myDT.isDataGet = True
+
+        Catch x As IngresException
+
+            myDT.DTErrorMsg = x.Message.ToString
+
+        Catch x As Exception
+
+            myDT.DTErrorMsg = x.Message.ToString
+
+        Finally
+
+            If comIngres.Connection.State = ConnectionState.Open Then
+
+                comIngres.Connection.Close()
+
+            End If
+
+            comIngres.Dispose()
+
+        End Try
+
+        dtResult = myDT
+
+        Return dtResult
+    End Function
+
+    Public Function IngDataTableMultiProcWithTKT(ProcedureName() As String,
+                                                 tktProcedureName As String, tktParams As String()) As IngDTResult Implements IService1.IngDataTableMultiProcWithTKT
+
+        Dim mydt As New IngDTResult
+        mydt.isDataGet = False
+        mydt.DataSetResult = Nothing
+        mydt.DTErrorMsg = ""
+
+        Dim comIngres As New IngresCommand
+        Dim dr As New IngresDataAdapter
+
+        Dim OutputSet As New DataSet
+
+        Dim IngTransaction As IngresTransaction = Nothing
+        Dim IngTransactionTKT As IngresTransaction = Nothing
+
+        Dim OutputTable As New DataTable
+
+        With comIngres
+            .Connection = IngConnection(False, connStringEcoll)
+            IngTransaction = .Connection.BeginTransaction()
+            .Transaction = IngTransaction
+            Try
+                For Each StrProc As String In ProcedureName
+                    Dim procname As String = StrProc.Split(";").GetValue(0)
+                    .Parameters.Clear()
+                    .CommandText = procname
+                    .CommandType = Data.CommandType.StoredProcedure
+                    Dim paramnames As String = StrProc.Split(";").GetValue(1)
+                    Dim i As Integer = 0
+                    For Each params As String In paramnames.Split(":")
+                        Dim StrDataType As String = params.Split("|").GetValue(0)
+                        Dim StrValue As String = params.Split("|").GetValue(1)
+                        Select Case StrDataType.ToUpper
+                            Case Is = "INT"
+                                If Not IsNumeric(StrValue) Then
+                                    Throw New Exception("INVALID FOR DATA TYPE INT : '" & StrValue & "' FROM SP " & procname)
+                                End If
+                                comIngres.Parameters.Add("Parameter" & i.ToString(), IngresType.Int).Value = CInt(StrValue)
+                            Case Is = "VAR"
+                                comIngres.Parameters.Add("Parameter" & i.ToString(), IngresType.VarChar).Value = StrValue
+                            Case Is = "CHR"
+                                comIngres.Parameters.Add("Parameter" & i.ToString(), IngresType.Char).Value = StrValue
+                            Case Is = "DTE"
+                                If Not IsDate(StrValue) Then
+                                    Throw New Exception("INVALID FOR DATA TYPE DATE : '" & StrValue & "' FROM SP " & procname)
+                                End If
+                                comIngres.Parameters.Add("Parameter" & i.ToString(), IngresType.Date).Value = CDate(StrValue)
+                            Case Is = "MON"
+                                If Not IsNumeric(StrValue) Then
+                                    Throw New Exception(mydt.DTErrorMsg = "INVALID FOR DATA TYPE MONEY : '" & StrValue & "' FROM SP " & procname)
+                                End If
+                                comIngres.Parameters.Add("Parameter" & i.ToString(), IngresType.Decimal).Value = CDbl(StrValue)
+                            Case Else
+                                Throw New Exception(mydt.DTErrorMsg = "INVALID DATA TYPE CODE : " & StrDataType & "' FROM SP " & procname)
+                        End Select
+                        i += 1
+                    Next
+                    dr.SelectCommand = comIngres
+                    dr.Fill(OutputTable)
+                    OutputSet.Tables.Add(OutputTable)
+                    mydt.DataSetResult = OutputSet
+                Next
+
+                If Trim(tktProcedureName) <> "" And (tktParams.Count > 0) Then
+
+                    comIngres = New IngresCommand
+
+                    With comIngres
+                        .Connection = IngConnection(False, connStringTKT)
+                        IngTransactionTKT = .Connection.BeginTransaction
+                        .Parameters.Clear()
+                        .CommandText = tktProcedureName
+                        .CommandType = Data.CommandType.StoredProcedure
+                    End With
+                    For i = 0 To UBound(tktParams)
+                        Dim StrDataType As String = tktParams(i).Split("|").GetValue(0)
+                        Dim StrValue As String = tktParams(i).Split("|").GetValue(1)
+                        Select Case StrDataType.ToUpper
+                            Case Is = "INT"
+                                If Not IsNumeric(StrValue) Then
+                                    mydt.DTErrorMsg = "INVALID FOR DATA TYPE INT : '" & StrDataType & "'"
+                                    If comIngres.Connection.State = ConnectionState.Open Then
+                                        comIngres.Connection.Close()
+                                    End If
+                                    comIngres.Dispose()
+                                    Return mydt
+                                End If
+                                comIngres.Parameters.Add("Parameter" & i, IngresType.Int).Value = CInt(StrValue)
+                            Case Is = "VAR"
+                                comIngres.Parameters.Add("Parameter" & i, IngresType.VarChar).Value = StrValue
+                            Case Is = "CHR"
+                                comIngres.Parameters.Add("Parameter" & i, IngresType.Char).Value = StrValue
+                            Case Is = "DTE"
+                                If Not IsDate(StrValue) Then
+                                    mydt.DTErrorMsg = "INVALID FOR DATA TYPE DATE : '" & StrDataType & "'"
+                                    If comIngres.Connection.State = ConnectionState.Open Then
+                                        comIngres.Connection.Close()
+                                    End If
+                                    comIngres.Dispose()
+                                    Return mydt
+                                End If
+                                comIngres.Parameters.Add("Parameter" & i, IngresType.Date).Value = CDate(StrValue)
+                            Case Is = "MON"
+                                If Not IsNumeric(StrValue) Then
+                                    mydt.DTErrorMsg = "INVALID FOR DATA TYPE MONEY : '" & StrDataType & "'"
+                                    If comIngres.Connection.State = ConnectionState.Open Then
+                                        comIngres.Connection.Close()
+                                    End If
+                                    comIngres.Dispose()
+                                    Return mydt
+                                End If
+                                comIngres.Parameters.Add("Parameter" & i, IngresType.Decimal).Value = CDbl(StrValue)
+                            Case Else
+                                mydt.DTErrorMsg = "INVALID DATA TYPE CODE : " & StrDataType
+                                If comIngres.Connection.State = ConnectionState.Open Then
+                                    comIngres.Connection.Close()
+                                End If
+                                comIngres.Dispose()
+                                Return mydt
+                        End Select
+                    Next
+
+                    dr.SelectCommand = comIngres
+                    dr.Fill(OutputTable)
+                    mydt.DataSetResult.Tables.Add(OutputTable)
+                End If
+
+                If IsNothing(IngTransactionTKT) = False Then IngTransactionTKT.Commit()
+                IngTransaction.Commit()
+                mydt.isDataGet = True
+
+            Catch x As IngresException
+
+                IngTransaction.Rollback()
+                If IsNothing(IngTransactionTKT) = False Then IngTransactionTKT.Rollback()
+                mydt.DTErrorMsg = "IngDataTableMultiProc " & x.Message.ToString
+
+            Catch x As Exception
+
+                IngTransaction.Rollback()
+                If IsNothing(IngTransactionTKT) = False Then IngTransactionTKT.Rollback()
+                mydt.DTErrorMsg = "IngDataTableMultiProc " & x.Message.ToString
+
+            Finally
+
+                If comIngres.Connection.State = ConnectionState.Open Then
+                    comIngres.Connection.Close()
+                End If
+                comIngres.Dispose()
+
+            End Try
+        End With
+
+        Return mydt
+
+    End Function
+
+#End Region
 End Class

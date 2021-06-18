@@ -39,6 +39,18 @@
   <wsdl:message name="IService1_IngDataTableMultiProc_OutputMessage">
     <wsdl:part name="parameters" element="tns:IngDataTableMultiProcResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_genTransSRTNoNew_InputMessage">
+    <wsdl:part name="parameters" element="tns:genTransSRTNoNew" />
+  </wsdl:message>
+  <wsdl:message name="IService1_genTransSRTNoNew_OutputMessage">
+    <wsdl:part name="parameters" element="tns:genTransSRTNoNewResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_IngDataTableMultiProcWithTKT_InputMessage">
+    <wsdl:part name="parameters" element="tns:IngDataTableMultiProcWithTKT" />
+  </wsdl:message>
+  <wsdl:message name="IService1_IngDataTableMultiProcWithTKT_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IngDataTableMultiProcWithTKTResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService1">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetData" message="tns:IService1_GetData_InputMessage" />
@@ -59,6 +71,14 @@
     <wsdl:operation name="IngDataTableMultiProc">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/IngDataTableMultiProc" message="tns:IService1_IngDataTableMultiProc_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/IngDataTableMultiProcResponse" message="tns:IService1_IngDataTableMultiProc_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="genTransSRTNoNew">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/genTransSRTNoNew" message="tns:IService1_genTransSRTNoNew_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/genTransSRTNoNewResponse" message="tns:IService1_genTransSRTNoNew_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IngDataTableMultiProcWithTKT">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/IngDataTableMultiProcWithTKT" message="tns:IService1_IngDataTableMultiProcWithTKT_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/IngDataTableMultiProcWithTKTResponse" message="tns:IService1_IngDataTableMultiProcWithTKT_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
@@ -101,6 +121,24 @@
     </wsdl:operation>
     <wsdl:operation name="IngDataTableMultiProc">
       <soap:operation soapAction="http://tempuri.org/IService1/IngDataTableMultiProc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="genTransSRTNoNew">
+      <soap:operation soapAction="http://tempuri.org/IService1/genTransSRTNoNew" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IngDataTableMultiProcWithTKT">
+      <soap:operation soapAction="http://tempuri.org/IService1/IngDataTableMultiProcWithTKT" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -189,6 +189,18 @@ Namespace EcollReconWCF
         
         <System.ServiceModel.OperationContractAttribute(Action:="http://tempuri.org/IService1/IngDataTableMultiProc", ReplyAction:="http://tempuri.org/IService1/IngDataTableMultiProcResponse")>  _
         Function IngDataTableMultiProcAsync(ByVal ProcedureName() As String) As System.Threading.Tasks.Task(Of EcollReconWCF.IngDTResult)
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="http://tempuri.org/IService1/genTransSRTNoNew", ReplyAction:="http://tempuri.org/IService1/genTransSRTNoNewResponse")>  _
+        Function genTransSRTNoNew(ByVal noOfSRT As Integer, ByVal tranMatrix As String) As EcollReconWCF.IngDTResult
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="http://tempuri.org/IService1/genTransSRTNoNew", ReplyAction:="http://tempuri.org/IService1/genTransSRTNoNewResponse")>  _
+        Function genTransSRTNoNewAsync(ByVal noOfSRT As Integer, ByVal tranMatrix As String) As System.Threading.Tasks.Task(Of EcollReconWCF.IngDTResult)
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="http://tempuri.org/IService1/IngDataTableMultiProcWithTKT", ReplyAction:="http://tempuri.org/IService1/IngDataTableMultiProcWithTKTResponse")>  _
+        Function IngDataTableMultiProcWithTKT(ByVal ProcedureName() As String, ByVal tktProcedureName As String, ByVal tktParams() As String) As EcollReconWCF.IngDTResult
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="http://tempuri.org/IService1/IngDataTableMultiProcWithTKT", ReplyAction:="http://tempuri.org/IService1/IngDataTableMultiProcWithTKTResponse")>  _
+        Function IngDataTableMultiProcWithTKTAsync(ByVal ProcedureName() As String, ByVal tktProcedureName As String, ByVal tktParams() As String) As System.Threading.Tasks.Task(Of EcollReconWCF.IngDTResult)
     End Interface
     
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>  _
@@ -260,6 +272,22 @@ Namespace EcollReconWCF
         
         Public Function IngDataTableMultiProcAsync(ByVal ProcedureName() As String) As System.Threading.Tasks.Task(Of EcollReconWCF.IngDTResult) Implements EcollReconWCF.IService1.IngDataTableMultiProcAsync
             Return MyBase.Channel.IngDataTableMultiProcAsync(ProcedureName)
+        End Function
+        
+        Public Function genTransSRTNoNew(ByVal noOfSRT As Integer, ByVal tranMatrix As String) As EcollReconWCF.IngDTResult Implements EcollReconWCF.IService1.genTransSRTNoNew
+            Return MyBase.Channel.genTransSRTNoNew(noOfSRT, tranMatrix)
+        End Function
+        
+        Public Function genTransSRTNoNewAsync(ByVal noOfSRT As Integer, ByVal tranMatrix As String) As System.Threading.Tasks.Task(Of EcollReconWCF.IngDTResult) Implements EcollReconWCF.IService1.genTransSRTNoNewAsync
+            Return MyBase.Channel.genTransSRTNoNewAsync(noOfSRT, tranMatrix)
+        End Function
+        
+        Public Function IngDataTableMultiProcWithTKT(ByVal ProcedureName() As String, ByVal tktProcedureName As String, ByVal tktParams() As String) As EcollReconWCF.IngDTResult Implements EcollReconWCF.IService1.IngDataTableMultiProcWithTKT
+            Return MyBase.Channel.IngDataTableMultiProcWithTKT(ProcedureName, tktProcedureName, tktParams)
+        End Function
+        
+        Public Function IngDataTableMultiProcWithTKTAsync(ByVal ProcedureName() As String, ByVal tktProcedureName As String, ByVal tktParams() As String) As System.Threading.Tasks.Task(Of EcollReconWCF.IngDTResult) Implements EcollReconWCF.IService1.IngDataTableMultiProcWithTKTAsync
+            Return MyBase.Channel.IngDataTableMultiProcWithTKTAsync(ProcedureName, tktProcedureName, tktParams)
         End Function
     End Class
 End Namespace

@@ -6,11 +6,28 @@ Public Class WebForm3
 
     Dim userid As String = ""
     Dim creditLineStatus As String = ""
+    Dim bankinsticode As String = ""
+    Dim processType As String = ""
 
     Public Class TransResult
         Public TransType As Integer
         Public isSuccessful As Boolean = False
         Public resultMsg As String = ""
+
+    End Class
+
+    Private Class GLEntries
+
+        Public tranNo As String
+        Public noOfSRT As Integer
+        Public bankCode As String
+        Public debitAmount As Decimal
+        Public ecollUser As String
+        Public particular As String
+        Public tktDate As Date
+        Public tranMatrixDueTo As String
+        Public noOfOtherAccts As Integer
+        Public tranMatrixOther As String
 
     End Class
 
@@ -167,7 +184,7 @@ Public Class WebForm3
 
         getCreditLineInfo(Session("CreditID"))
 
-        Dim bankinsticode As String = Session("CreditID").ToString.Substring(0, 4)
+        bankinsticode = Session("CreditID").ToString.Substring(0, 4)
 
         Dim dt As DataTable = getTransPerCreditLine(bankinsticode,
                                                     CDate(txtCreditDate.Text).ToString("MM/dd/yyyy"),
@@ -256,8 +273,6 @@ Public Class WebForm3
 
         End If
 
-        txtTransDates.Text = dt.Rows(0)(0).ToString & " - " & dt.Rows(dt.Rows.Count - 1)(0).ToString
-
         Return dt
     End Function
 
@@ -287,6 +302,9 @@ Public Class WebForm3
             Dim hasVariance As Boolean = False
 
             Dim strSPs As String() = {}
+
+            Dim spGLEntriesNew As String = "sp_ecoll_ins_glentriesnew"
+            Dim tktParams As String() = {}
 
             If amountcredited > amountonfile Then
 
@@ -328,6 +346,8 @@ Public Class WebForm3
 
             cmdReconStatusSP = cmdReconStatusSP & ";VAR|" & creditid & ":VAR|" & status
 
+
+
             If hasVariance Then
 
                 Dim reconNo As String = getUCARNo(creditid, reconType)
@@ -343,12 +363,15 @@ Public Class WebForm3
 
                 strSPs = {cmdReconStatusSP, cmdReconTypeSP}
 
+                'ACCOUNTING ENTRIES
+
 
             Else
 
                 strSPs = {cmdReconStatusSP}
 
             End If
+
 
             dtresult = svc.IngDataTableMultiProc(strSPs)
 
@@ -487,6 +510,7 @@ Public Class WebForm3
                 txtTransDates.Text = dtRow(1).ToString & " - " & dtRow(2).ToString
                 txtAmCredited.Text = CDec(dtRow(3).ToString).ToString("#,###,##0.00")
                 creditLineStatus = dtRow(4).ToString
+                processType = dtRow(11).ToString
 
             Next
 
@@ -565,7 +589,7 @@ Public Class WebForm3
 
             If CDec(updatedAmount) > CDec(lblPanelTotalTransAmount.Text) Then
 
-                cmdText = "delete from credit_amount_history where creditid = '" & creditid & "'"
+                cmdText = "delete from collection_credit_excluded where creditid = '" & creditid & "'"
 
                 dtresult = svc.IngDataTableCmdText(cmdText)
 
@@ -683,5 +707,63 @@ Public Class WebForm3
         Return creditStatus
 
     End Function
+
+    Private Function generateSRT(recontype As String, processtype As String) As GLEntries
+
+        Dim noofSRT As Integer = 0
+        Dim tranMatrix As String = ""
+
+        Dim svc As New Service1Client
+        Dim dtresult As New IngDTResult
+
+        Dim outputGL As New GLEntries
+
+        Dim dtTrans As DataTable = getTransPerCreditLine(bankinsticode,
+                                                         CDate(txtCreditDate.Text).ToShortDateString,
+                                                         Session("CreditID").ToString,
+                                                         creditLineStatus)
+
+        Dim dtTKTParams As New DataTable
+
+        With dtTKTParams.Columns
+            .Clear()
+            .Add("tranno")
+            .Add("tranmatrix")
+        End With
+
+        For Each dtRow As DataRow In dtTrans.Rows
+
+            Dim amount As String = dtRow(1).ToString
+            Dim paytype As String = dtRow(2).ToString
+            Dim brcode As String = dtRow(3).ToString
+
+
+
+
+            tranMatrix = tranMatrix & brcode.PadLeft(3, "0") & " " &
+                paytype & amount.PadRight(13, " ") & "|"
+
+        Next
+
+        noofSRT = dtTrans.Rows.Count
+
+        dtresult = svc.genTransSRTNoNew(noofSRT, tranMatrix)
+
+        If dtresult.isDataGet Then
+
+            For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+                dtTKTParams.Rows.Add({dtRow(0).ToString, dtRow(1).ToString})
+
+            Next
+
+        End If
+
+
+        Return outputGL
+
+    End Function
+
+
 
 End Class

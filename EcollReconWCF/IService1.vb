@@ -19,6 +19,11 @@ Public Interface IService1
     <OperationContract()>
     Function IngDataTableMultiProc(ByVal ParamArray ProcedureName() As String) As IngDTResult
 
+    <OperationContract()>
+    Function genTransSRTNoNew(noOfSRT As Integer, tranMatrix As String) As IngDTResult
+
+    <OperationContract()>
+    Function IngDataTableMultiProcWithTKT(ProcedureName() As String, tktProcedureName As String, tktParams As String()) As IngDTResult
 
 End Interface
 

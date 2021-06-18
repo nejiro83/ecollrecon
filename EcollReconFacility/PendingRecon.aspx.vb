@@ -453,7 +453,8 @@ Public Class PendingRecon
                     dtrow(3).ToString & "|" &
                     dtrow(4).ToString & "|" &
                     dtrow(5).ToString & "|" &
-                    dtrow(6).ToString
+                    dtrow(6).ToString & "|" &
+                    dtrow(7).ToString
 
                     dt.Rows.Add({
                                 dtrow(0).ToString,
