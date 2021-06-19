@@ -281,7 +281,7 @@ Public Class EcollReconWS
 
             With .Parameters
                 .Clear()
-                .Add("noofsrt", IngresType.VarChar).Value = noOfSRT
+                .Add("noofsrt", IngresType.Int).Value = noOfSRT
                 .Add("tran_matrix", IngresType.VarChar).Value = tranMatrix
             End With
         End With
