@@ -712,7 +712,7 @@ Public Class WebForm3
 
     End Function
 
-    Private Function generateSRT(recontype As String, processtype As String) As AcctngEntries
+    Private Function generateSRT(recontype As String, processtype As String) As List(Of String)
 
         Dim noofSRT As Integer = 0
         Dim tranMatrix1 As String = "" 'with Due To
@@ -724,151 +724,339 @@ Public Class WebForm3
         Dim dtresult As New IngDTResult
 
         Dim outputAcctng As New AcctngEntries
+        Dim lstAcctngEntries As New List(Of String)
 
         Dim dtTKTParams As New DataTable
 
 
-        Select Case processtype
-            Case "00"
-            Case "F0"
-            Case "FC", "0C"
+        'Select Case processtype
+        '    Case "00"
+        '    Case "F0"
+        '    Case "FC", "0C"
 
-                'STEP 1 get transactions summarized per TransDate, Branch Code, and Pay Type
-                Dim dtTrans As DataTable = getTransPerCreditLine(bankinsticode,
-                                                                 CDate(txtCreditDate.Text).ToShortDateString,
-                                                                 Session("CreditID").ToString,
-                                                                 creditLineStatus)
+        '        'STEP 1 get transactions summarized per TransDate, Branch Code, and Pay Type
+        '        Dim dtTrans As DataTable = getTransPerCreditLine(bankinsticode,
+        '                                                         CDate(txtCreditDate.Text).ToShortDateString,
+        '                                                         Session("CreditID").ToString,
+        '                                                         creditLineStatus)
 
-                With dtTKTParams.Columns
-                    .Clear()
-                    .Add("tranno")
-                    .Add("tranmatrix")
-                End With
+        '        With dtTKTParams.Columns
+        '            .Clear()
+        '            .Add("tranno")
+        '            .Add("tranmatrix")
+        '        End With
 
-                For Each dtRow As DataRow In dtTrans.Rows
+        '        For Each dtRow As DataRow In dtTrans.Rows
 
-                    Dim amount As String = dtRow(1).ToString
-                    Dim paytype As String = dtRow(2).ToString
-                    Dim brcode As String = dtRow(3).ToString
+        '            Dim amount As String = dtRow(1).ToString
+        '            Dim paytype As String = dtRow(2).ToString
+        '            Dim brcode As String = dtRow(3).ToString
 
-                    Select Case paytype
-                        Case "HL"
+        '            Select Case paytype
+        '                Case "HL"
 
-                            tranMatrix1 = tranMatrix1 & brcode.PadLeft(3, "0") & " " &
-                                paytype & amount.PadRight(13, " ") & "|"
+        '                    tranMatrix1 = tranMatrix1 & brcode.PadLeft(3, "0") & " " &
+        '                        paytype & amount.PadRight(13, " ") & "|"
 
-                        Case "MC", "M2", "MS"
+        '                Case "MC", "M2", "MS"
 
-                            If tranMatrix2 = "" Then
+        '                    If tranMatrix2 = "" Then
 
-                                tranMatrix2 = "MC," & amount.PadLeft(13, " ") & "|"
+        '                        tranMatrix2 = "MC," & amount.PadLeft(13, " ") & "|"
 
-                            Else
+        '                    Else
 
-                                If tranMatrix2.Contains("MC") Then
+        '                        If tranMatrix2.Contains("MC") Then
 
-                                    For Each str As String In tranMatrix2.Split("|")
+        '                            For Each str As String In tranMatrix2.Split("|")
 
-                                        If str.Contains("MC") Then
+        '                                If str.Contains("MC") Then
 
-                                            str.Split(",")(1) = (CDec(Trim(str.Split(",")(1))) + CDec(amount)).ToString.PadRight(13, " ")
+        '                                    str.Split(",")(1) = (CDec(Trim(str.Split(",")(1))) + CDec(amount)).ToString.PadRight(13, " ")
 
-                                        End If
+        '                                End If
 
-                                    Next
+        '                            Next
 
-                                Else
+        '                        Else
 
-                                    tranMatrix2 = tranMatrix2 & "MC," & amount.PadLeft(13, " ") & "|"
+        '                            tranMatrix2 = tranMatrix2 & "MC," & amount.PadLeft(13, " ") & "|"
 
-                                End If
+        '                        End If
 
-                            End If
+        '                    End If
 
-                            noOfOtherAccts += 1
+        '                    noOfOtherAccts += 1
 
-                        Case "ST", "CL"
+        '                Case "ST", "CL"
 
-                            If tranMatrix2 = "" Then
+        '                    If tranMatrix2 = "" Then
 
-                                tranMatrix2 = "ST," & amount.PadLeft(13, " ") & "|"
+        '                        tranMatrix2 = "ST," & amount.PadLeft(13, " ") & "|"
 
-                            Else
+        '                    Else
 
-                                If tranMatrix2.Contains("ST") Then
+        '                        If tranMatrix2.Contains("ST") Then
 
-                                    For Each str As String In tranMatrix2.Split("|")
+        '                            For Each str As String In tranMatrix2.Split("|")
 
-                                        If str.Contains("ST") Then
+        '                                If str.Contains("ST") Then
 
-                                            str.Split(",")(1) = (CDec(Trim(str.Split(",")(1))) + CDec(amount)).ToString.PadRight(13, " ")
+        '                                    str.Split(",")(1) = (CDec(Trim(str.Split(",")(1))) + CDec(amount)).ToString.PadRight(13, " ")
 
-                                        End If
+        '                                End If
 
-                                    Next
+        '                            Next
 
-                                Else
+        '                        Else
 
-                                    tranMatrix2 = tranMatrix2 & "ST," & amount.PadLeft(13, " ") & "|"
+        '                            tranMatrix2 = tranMatrix2 & "ST," & amount.PadLeft(13, " ") & "|"
 
-                                End If
+        '                        End If
 
-                            End If
+        '                    End If
 
-                            noOfOtherAccts += 1
+        '                    noOfOtherAccts += 1
 
-                    End Select
+        '            End Select
 
-                    totalAmount = totalAmount + CDec(amount)
+        '            totalAmount = totalAmount + CDec(amount)
 
-                Next
+        '        Next
 
-                noofSRT = dtTrans.Rows.Count
+        '        noofSRT = dtTrans.Rows.Count
 
-        End Select
+        'End Select
 
-        'STEP 2 get TranNo and Trans Matrix 1
-        dtresult = svc.genTransSRTNoNew(noofSRT, tranMatrix1)
+        ''STEP 2 get TranNo and Trans Matrix 1
+        'dtresult = svc.genTransSRTNoNew(noofSRT, tranMatrix1)
 
-        If dtresult.isDataGet Then
+        'If dtresult.isDataGet Then
 
-            For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+        '    For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
 
-                dtTKTParams.Rows.Add({dtRow(0).ToString, dtRow(1).ToString})
+        '        dtTKTParams.Rows.Add({dtRow(0).ToString, dtRow(1).ToString})
 
-            Next
+        '    Next
 
-        Else
+        'Else
 
-            outputAcctng.errMsg = dtresult.DTErrorMsg
-            Return outputAcctng
+        '    outputAcctng.errMsg = dtresult.DTErrorMsg
+        '    Return outputAcctng
+
+        'End If
+
+
+        ''STEP 3 get accounts for Trans Matrix 2
+        dtresult = svc.IngDataTable("sp_get_reg_accts", {processtype, "R"})
+
+        If dtresult.isDataGet = False Then
+
+            Return lstAcctngEntries
 
         End If
 
+        Dim reconAmount As Decimal = 0.0
 
-        'STEP 3 get accounts for Trans Matrix 2
-        dtresult = svc.IngDataTable("sp_get_reg_accts", {processtype, "R"})
+        Select Case processtype
+            Case "00"
 
-        If dtresult.isDataGet Then
+                Select Case recontype
+                    Case "UC"
 
-            For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+                        reconAmount = CDec(txtAmCredited.Text - lblPanelTotalTransAmount.Text)
 
-                Select Case dtRow(0).ToString
-                    Case "MC"
+                    Case "AR"
 
-                    Case "ST"
-
+                        reconAmount = CDec(lblPanelTotalTransAmount.Text - txtAmCredited.Text)
 
                 End Select
 
-            Next
+                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
 
-        Else
+                    If (dtRow(2).ToString = "C" And dtRow(3).ToString = recontype) Then
 
-            outputAcctng.errMsg = dtresult.DTErrorMsg
-            Return outputAcctng
+                        outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                            dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
+                        outputAcctng.noOfOtherAccts += 1
 
-        End If
+                    End If
+
+                Next
+
+                Dim ingDTTrans As IngDTResult = svc.genTransSRTNoNew(0, "")
+
+                outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
+                outputAcctng.noOfSRT = 0
+                outputAcctng.bankCode = bankinsticode
+                outputAcctng.debitAmount = reconAmount
+                outputAcctng.ecollUser = "ecoll_aob"
+                outputAcctng.particular = "sample"
+                outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
+                outputAcctng.tranMatrixDueTo = ""
+
+                Dim spAcctng As String = "sp_ecoll_ins_glentriesnew;" &
+                    ":VAR|" & outputAcctng.tranNo &
+                    ":INT|" & outputAcctng.noOfSRT &
+                    ":VAR|" & outputAcctng.bankCode &
+                    ":VAR|" & outputAcctng.debitAmount &
+                    ":VAR|" & outputAcctng.ecollUser &
+                    ":VAR|" & outputAcctng.particular &
+                    ":VAR|" & outputAcctng.tktDate &
+                    ":VAR|" & outputAcctng.tranMatrixDueTo &
+                    ":INT|" & outputAcctng.noOfOtherAccts &
+                    ":VAR|" & outputAcctng.tranMatrixOther
+
+                lstAcctngEntries.Add(spAcctng)
+
+
+            Case "F0"
+
+                Select Case recontype
+                    Case "UC"
+
+                        reconAmount = CDec(txtAmCredited.Text - lblPanelTotalTransAmount.Text)
+
+                    Case "AR"
+
+                        reconAmount = CDec(lblPanelTotalTransAmount.Text - txtAmCredited.Text)
+
+                End Select
+
+                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+                    Select Case dtRow(3).ToString
+
+                        Case "AB"
+
+                            If dtRow(2).ToString = "C" Then
+
+                                outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                                dtRow(0).ToString & CDec(lblPanelTotalTransAmount.Text).ToString.PadRight(13, " ") & "|"
+
+                                outputAcctng.debitAmount = CDec(lblPanelTotalTransAmount.Text)
+                                outputAcctng.noOfOtherAccts += 1
+
+                            End If
+
+                        Case recontype
+
+                            If (dtRow(2).ToString = "C" And dtRow(3).ToString = recontype) Then
+
+                                outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                                    dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
+
+                                outputAcctng.debitAmount = CDec(reconAmount)
+                                outputAcctng.noOfOtherAccts += 1
+
+                            End If
+
+                    End Select
+
+                    Dim ingDTTrans As IngDTResult = svc.genTransSRTNoNew(0, "")
+
+                    outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
+                    outputAcctng.noOfSRT = 0
+                    outputAcctng.bankCode = bankinsticode
+
+                    outputAcctng.ecollUser = "ecoll_aob"
+                    outputAcctng.particular = "sample"
+                    outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
+                    outputAcctng.tranMatrixDueTo = ""
+
+                    Dim spAcctng As String = "sp_ecoll_ins_glentriesnew;" &
+                        ":VAR|" & outputAcctng.tranNo &
+                        ":INT|" & outputAcctng.noOfSRT &
+                        ":VAR|" & outputAcctng.bankCode &
+                        ":VAR|" & outputAcctng.debitAmount &
+                        ":VAR|" & outputAcctng.ecollUser &
+                        ":VAR|" & outputAcctng.particular &
+                        ":VAR|" & outputAcctng.tktDate &
+                        ":VAR|" & outputAcctng.tranMatrixDueTo &
+                        ":INT|" & outputAcctng.noOfOtherAccts &
+                        ":VAR|" & outputAcctng.tranMatrixOther
+
+                    lstAcctngEntries.Add(spAcctng)
+
+                Next
+
+
+            Case "0C"
+
+                Select Case recontype
+                    Case "UC"
+
+                        reconAmount = CDec(txtAmCredited.Text - lblPanelTotalTransAmount.Text)
+
+                    Case "AR"
+
+                        reconAmount = CDec(lblPanelTotalTransAmount.Text - txtAmCredited.Text)
+
+                End Select
+
+                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+                    Select Case dtRow(3).ToString
+
+                        Case "AB"
+
+                            If dtRow(2).ToString = "C" Then
+
+                                outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                                dtRow(0).ToString & CDec(lblPanelTotalTransAmount.Text).ToString.PadRight(13, " ") & "|"
+
+                                outputAcctng.debitAmount = CDec(lblPanelTotalTransAmount.Text)
+                                outputAcctng.noOfOtherAccts += 1
+
+                            End If
+
+                        Case recontype
+
+                            If (dtRow(2).ToString = "C" And dtRow(3).ToString = recontype) Then
+
+                                outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                                    dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
+
+                                outputAcctng.debitAmount = CDec(reconAmount)
+                                outputAcctng.noOfOtherAccts += 1
+
+                            End If
+
+                    End Select
+
+                    Dim ingDTTrans As IngDTResult = svc.genTransSRTNoNew(0, "")
+
+                    outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
+                    outputAcctng.noOfSRT = 0
+                    outputAcctng.bankCode = bankinsticode
+
+                    outputAcctng.ecollUser = "ecoll_aob"
+                    outputAcctng.particular = "sample"
+                    outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
+                    outputAcctng.tranMatrixDueTo = ""
+
+                    Dim spAcctng As String = "sp_ecoll_ins_glentriesnew;" &
+                        ":VAR|" & outputAcctng.tranNo &
+                        ":INT|" & outputAcctng.noOfSRT &
+                        ":VAR|" & outputAcctng.bankCode &
+                        ":VAR|" & outputAcctng.debitAmount &
+                        ":VAR|" & outputAcctng.ecollUser &
+                        ":VAR|" & outputAcctng.particular &
+                        ":VAR|" & outputAcctng.tktDate &
+                        ":VAR|" & outputAcctng.tranMatrixDueTo &
+                        ":INT|" & outputAcctng.noOfOtherAccts &
+                        ":VAR|" & outputAcctng.tranMatrixOther
+
+                    lstAcctngEntries.Add(spAcctng)
+
+                Next
+
+            Case "FC"
+
+
+
+
+        End Select
 
         'TRANNo
         outputAcctng.tranNo = dtTKTParams.Rows(0)(0).ToString
@@ -890,7 +1078,7 @@ Public Class WebForm3
 
 
 
-        Return outputAcctng
+        Return lstAcctngEntries
 
     End Function
 
