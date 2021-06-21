@@ -23,15 +23,28 @@ Public Class WebForm3
         Public bankCode As String = ""
         Public debitAmount As Decimal = 0.0
         Public ecollUser As String = ""
-        Public particular As String = ""
-        Public tktDate As Date = Nothing
+        Public particular As String = "sample"
+        Public tktDate As Date = Today.ToString("MM/dd/yyyy")
         Public tranMatrixDueTo As String = ""
         Public noOfOtherAccts As Integer = 0
         Public tranMatrixOther As String = ""
 
-        Public isSuccess As Boolean = False
-        Public errMsg As String = ""
+        Public Function outputSP() As String
 
+            outputSP = "sp_ecoll_ins_glentriesnew;" &
+                "VAR|" & tranNo &
+                ":INT|" & noOfSRT &
+                ":VAR|" & bankCode &
+                ":VAR|" & debitAmount &
+                ":VAR|" & ecollUser &
+                ":VAR|" & particular &
+                ":VAR|" & tktDate &
+                ":VAR|" & tranMatrixDueTo &
+                ":INT|" & noOfOtherAccts &
+                ":VAR|" & tranMatrixOther
+
+            Return outputSP
+        End Function
 
     End Class
 
@@ -733,12 +746,11 @@ Public Class WebForm3
         Dim outputAcctng As New AcctngEntries
         Dim lstAcctngEntries As New List(Of String)
 
-        Dim dtTKTParams As New DataTable
-
 
         Dim ingDTAcctng As New IngDTResult
 
-        ingDTAcctng = svc.IngDataTable("sp_get_reg_accts", {"VAR|" & processtype, "VAR|R"})
+        ingDTAcctng = svc.IngDataTable("sp_get_reg_accts", {"VAR|" & processtype, "VAR|R",
+                                       "VAR|" & txtBankInstiCode.Value})
 
         If ingDTAcctng.isDataGet = False Then
 
@@ -748,7 +760,7 @@ Public Class WebForm3
 
         Dim reconAmount As Decimal = 0.0
         Dim ingDTTrans As New IngDTResult
-        Dim spAcctng As String = ""
+        'Dim spAcctng As String = ""
 
         Select Case recontype
             Case "UC"
@@ -764,47 +776,6 @@ Public Class WebForm3
         Select Case processtype
 
             Case "00" 'WITHOUT FLOAT ALL CASH
-
-                If recontype = "UC" Or recontype = "AR" Then
-
-                    For Each dtRow As DataRow In ingDTAcctng.DataSetResult.Tables(0).Rows
-
-                        If (dtRow(2).ToString = "C" And dtRow(3).ToString = recontype) Then
-
-                            outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
-                                dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
-                            outputAcctng.noOfOtherAccts += 1
-
-                        End If
-
-                    Next
-
-                    ingDTTrans = svc.genTransSRTNoNew(0, "")
-
-                    outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
-                    outputAcctng.noOfSRT = 0
-                    outputAcctng.bankCode = bankinsticode
-                    outputAcctng.debitAmount = reconAmount
-                    outputAcctng.ecollUser = "ecoll_aob"
-                    outputAcctng.particular = "sample"
-                    outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
-                    outputAcctng.tranMatrixDueTo = ""
-
-                    spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                        "VAR|" & outputAcctng.tranNo &
-                        ":INT|" & outputAcctng.noOfSRT &
-                        ":VAR|" & outputAcctng.bankCode &
-                        ":VAR|" & outputAcctng.debitAmount &
-                        ":VAR|" & outputAcctng.ecollUser &
-                        ":VAR|" & outputAcctng.particular &
-                        ":VAR|" & outputAcctng.tktDate &
-                        ":VAR|" & outputAcctng.tranMatrixDueTo &
-                        ":INT|" & outputAcctng.noOfOtherAccts &
-                        ":VAR|" & outputAcctng.tranMatrixOther
-
-                    lstAcctngEntries.Add(spAcctng)
-
-                End If
 
             Case "0C" 'WITHOUT FLOAT WITH CHECKS
 
@@ -825,24 +796,24 @@ Public Class WebForm3
                         outputAcctng.noOfSRT = 0
                         outputAcctng.bankCode = bankinsticode
 
-                        outputAcctng.ecollUser = "ecoll_aob"
+                        outputAcctng.ecollUser = Session("ActiveUserID")
                         outputAcctng.particular = "sample"
                         outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
                         outputAcctng.tranMatrixDueTo = ""
 
-                        spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                            "VAR|" & outputAcctng.tranNo &
-                            ":INT|" & outputAcctng.noOfSRT &
-                            ":VAR|" & outputAcctng.bankCode &
-                            ":VAR|" & outputAcctng.debitAmount &
-                            ":VAR|" & outputAcctng.ecollUser &
-                            ":VAR|" & outputAcctng.particular &
-                            ":VAR|" & outputAcctng.tktDate &
-                            ":VAR|" & outputAcctng.tranMatrixDueTo &
-                            ":INT|" & outputAcctng.noOfOtherAccts &
-                            ":VAR|" & outputAcctng.tranMatrixOther
+                        'spAcctng = "sp_ecoll_ins_glentriesnew;" &
+                        '    "VAR|" & outputAcctng.tranNo &
+                        '    ":INT|" & outputAcctng.noOfSRT &
+                        '    ":VAR|" & outputAcctng.bankCode &
+                        '    ":VAR|" & outputAcctng.debitAmount &
+                        '    ":VAR|" & outputAcctng.ecollUser &
+                        '    ":VAR|" & outputAcctng.particular &
+                        '    ":VAR|" & outputAcctng.tktDate &
+                        '    ":VAR|" & outputAcctng.tranMatrixDueTo &
+                        '    ":INT|" & outputAcctng.noOfOtherAccts &
+                        '    ":VAR|" & outputAcctng.tranMatrixOther
 
-                        lstAcctngEntries.Add(spAcctng)
+                        lstAcctngEntries.Add(outputAcctng.outputSP)
 
                         Exit For
 
@@ -935,65 +906,23 @@ Public Class WebForm3
                 outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
                 outputAcctng.bankCode = bankinsticode
 
-                outputAcctng.ecollUser = "ecoll_aob"
+                outputAcctng.ecollUser = Session("ActiveUserID")
                 outputAcctng.particular = "sample"
                 outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
 
-                spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                    "VAR|" & outputAcctng.tranNo &
-                    ":INT|" & outputAcctng.noOfSRT &
-                    ":VAR|" & outputAcctng.bankCode &
-                    ":VAR|" & outputAcctng.debitAmount &
-                    ":VAR|" & outputAcctng.ecollUser &
-                    ":VAR|" & outputAcctng.particular &
-                    ":VAR|" & outputAcctng.tktDate &
-                    ":VAR|" & outputAcctng.tranMatrixDueTo &
-                    ":INT|" & outputAcctng.noOfOtherAccts &
-                    ":VAR|" & outputAcctng.tranMatrixOther
+                'spAcctng = "sp_ecoll_ins_glentriesnew;" &
+                '    "VAR|" & outputAcctng.tranNo &
+                '    ":INT|" & outputAcctng.noOfSRT &
+                '    ":VAR|" & outputAcctng.bankCode &
+                '    ":VAR|" & outputAcctng.debitAmount &
+                '    ":VAR|" & outputAcctng.ecollUser &
+                '    ":VAR|" & outputAcctng.particular &
+                '    ":VAR|" & outputAcctng.tktDate &
+                '    ":VAR|" & outputAcctng.tranMatrixDueTo &
+                '    ":INT|" & outputAcctng.noOfOtherAccts &
+                '    ":VAR|" & outputAcctng.tranMatrixOther
 
-                lstAcctngEntries.Add(spAcctng)
-
-                If recontype = "UC" Or recontype = "AR" Then
-
-                    'UC / AR
-                    For Each dtRow As DataRow In ingDTAcctng.DataSetResult.Tables(0).Rows
-
-                        If (dtRow(2).ToString = "C" And dtRow(3).ToString = recontype) Then
-
-                            outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
-                                dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
-                            outputAcctng.noOfOtherAccts += 1
-
-                        End If
-
-                    Next
-
-                    ingDTTrans = svc.genTransSRTNoNew(0, "")
-
-                    outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
-                    outputAcctng.noOfSRT = 0
-                    outputAcctng.bankCode = bankinsticode
-                    outputAcctng.debitAmount = reconAmount
-                    outputAcctng.ecollUser = "ecoll_aob"
-                    outputAcctng.particular = "sample"
-                    outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
-                    outputAcctng.tranMatrixDueTo = ""
-
-                    spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                        "VAR|" & outputAcctng.tranNo &
-                        ":INT|" & outputAcctng.noOfSRT &
-                        ":VAR|" & outputAcctng.bankCode &
-                        ":VAR|" & outputAcctng.debitAmount &
-                        ":VAR|" & outputAcctng.ecollUser &
-                        ":VAR|" & outputAcctng.particular &
-                        ":VAR|" & outputAcctng.tktDate &
-                        ":VAR|" & outputAcctng.tranMatrixDueTo &
-                        ":INT|" & outputAcctng.noOfOtherAccts &
-                        ":VAR|" & outputAcctng.tranMatrixOther
-
-                    lstAcctngEntries.Add(spAcctng)
-
-                End If
+                lstAcctngEntries.Add(outputAcctng.outputSP)
 
             Case "F0" 'WITH FLOAT ALL CASH
 
@@ -1014,72 +943,30 @@ Public Class WebForm3
                         outputAcctng.noOfSRT = 0
                         outputAcctng.bankCode = bankinsticode
 
-                        outputAcctng.ecollUser = "ecoll_aob"
+                        outputAcctng.ecollUser = Session("ActiveUserID")
                         outputAcctng.particular = "sample"
                         outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
                         outputAcctng.tranMatrixDueTo = ""
 
-                        spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                            "VAR|" & outputAcctng.tranNo &
-                            ":INT|" & outputAcctng.noOfSRT &
-                            ":VAR|" & outputAcctng.bankCode &
-                            ":VAR|" & outputAcctng.debitAmount &
-                            ":VAR|" & outputAcctng.ecollUser &
-                            ":VAR|" & outputAcctng.particular &
-                            ":VAR|" & outputAcctng.tktDate &
-                            ":VAR|" & outputAcctng.tranMatrixDueTo &
-                            ":INT|" & outputAcctng.noOfOtherAccts &
-                            ":VAR|" & outputAcctng.tranMatrixOther
+                        'spAcctng = "sp_ecoll_ins_glentriesnew;" &
+                        '    "VAR|" & outputAcctng.tranNo &
+                        '    ":INT|" & outputAcctng.noOfSRT &
+                        '    ":VAR|" & outputAcctng.bankCode &
+                        '    ":VAR|" & outputAcctng.debitAmount &
+                        '    ":VAR|" & outputAcctng.ecollUser &
+                        '    ":VAR|" & outputAcctng.particular &
+                        '    ":VAR|" & outputAcctng.tktDate &
+                        '    ":VAR|" & outputAcctng.tranMatrixDueTo &
+                        '    ":INT|" & outputAcctng.noOfOtherAccts &
+                        '    ":VAR|" & outputAcctng.tranMatrixOther
 
-                        lstAcctngEntries.Add(spAcctng)
+                        lstAcctngEntries.Add(outputAcctng.outputSP)
 
                         Exit For
 
                     End If
 
                 Next
-
-                If recontype = "UC" Or recontype = "AR" Then
-
-                    'UC / AR
-                    For Each dtRow As DataRow In ingDTAcctng.DataSetResult.Tables(0).Rows
-
-                        If (dtRow(2).ToString = "C" And dtRow(3).ToString = recontype) Then
-
-                            outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
-                                dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
-                            outputAcctng.noOfOtherAccts += 1
-
-                        End If
-
-                    Next
-
-                    ingDTTrans = svc.genTransSRTNoNew(0, "")
-
-                    outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
-                    outputAcctng.noOfSRT = 0
-                    outputAcctng.bankCode = bankinsticode
-                    outputAcctng.debitAmount = reconAmount
-                    outputAcctng.ecollUser = "ecoll_aob"
-                    outputAcctng.particular = "sample"
-                    outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
-                    outputAcctng.tranMatrixDueTo = ""
-
-                    spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                        "VAR|" & outputAcctng.tranNo &
-                        ":INT|" & outputAcctng.noOfSRT &
-                        ":VAR|" & outputAcctng.bankCode &
-                        ":VAR|" & outputAcctng.debitAmount &
-                        ":VAR|" & outputAcctng.ecollUser &
-                        ":VAR|" & outputAcctng.particular &
-                        ":VAR|" & outputAcctng.tktDate &
-                        ":VAR|" & outputAcctng.tranMatrixDueTo &
-                        ":INT|" & outputAcctng.noOfOtherAccts &
-                        ":VAR|" & outputAcctng.tranMatrixOther
-
-                    lstAcctngEntries.Add(spAcctng)
-
-                End If
 
             Case "FC"
 
@@ -1100,24 +987,24 @@ Public Class WebForm3
                         outputAcctng.noOfSRT = 0
                         outputAcctng.bankCode = bankinsticode
 
-                        outputAcctng.ecollUser = "ecoll_aob"
+                        outputAcctng.ecollUser = Session("ActiveUserID")
                         outputAcctng.particular = "sample"
                         outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
                         outputAcctng.tranMatrixDueTo = ""
 
-                        spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                            "VAR|" & outputAcctng.tranNo &
-                            ":INT|" & outputAcctng.noOfSRT &
-                            ":VAR|" & outputAcctng.bankCode &
-                            ":VAR|" & outputAcctng.debitAmount &
-                            ":VAR|" & outputAcctng.ecollUser &
-                            ":VAR|" & outputAcctng.particular &
-                            ":VAR|" & outputAcctng.tktDate &
-                            ":VAR|" & outputAcctng.tranMatrixDueTo &
-                            ":INT|" & outputAcctng.noOfOtherAccts &
-                            ":VAR|" & outputAcctng.tranMatrixOther
+                        'spAcctng = "sp_ecoll_ins_glentriesnew;" &
+                        '    "VAR|" & outputAcctng.tranNo &
+                        '    ":INT|" & outputAcctng.noOfSRT &
+                        '    ":VAR|" & outputAcctng.bankCode &
+                        '    ":VAR|" & outputAcctng.debitAmount &
+                        '    ":VAR|" & outputAcctng.ecollUser &
+                        '    ":VAR|" & outputAcctng.particular &
+                        '    ":VAR|" & outputAcctng.tktDate &
+                        '    ":VAR|" & outputAcctng.tranMatrixDueTo &
+                        '    ":INT|" & outputAcctng.noOfOtherAccts &
+                        '    ":VAR|" & outputAcctng.tranMatrixOther
 
-                        lstAcctngEntries.Add(spAcctng)
+                        lstAcctngEntries.Add(outputAcctng.outputSP)
 
                         Exit For
 
@@ -1210,23 +1097,23 @@ Public Class WebForm3
                 outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
                 outputAcctng.bankCode = bankinsticode
 
-                outputAcctng.ecollUser = "ecoll_aob"
+                outputAcctng.ecollUser = Session("ActiveUserID")
                 outputAcctng.particular = "sample"
                 outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
 
-                spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                    "VAR|" & outputAcctng.tranNo &
-                    ":INT|" & outputAcctng.noOfSRT &
-                    ":VAR|" & outputAcctng.bankCode &
-                    ":VAR|" & outputAcctng.debitAmount &
-                    ":VAR|" & outputAcctng.ecollUser &
-                    ":VAR|" & outputAcctng.particular &
-                    ":VAR|" & outputAcctng.tktDate &
-                    ":VAR|" & outputAcctng.tranMatrixDueTo &
-                    ":INT|" & outputAcctng.noOfOtherAccts &
-                    ":VAR|" & outputAcctng.tranMatrixOther
+                'spAcctng = "sp_ecoll_ins_glentriesnew;" &
+                '    "VAR|" & outputAcctng.tranNo &
+                '    ":INT|" & outputAcctng.noOfSRT &
+                '    ":VAR|" & outputAcctng.bankCode &
+                '    ":VAR|" & outputAcctng.debitAmount &
+                '    ":VAR|" & outputAcctng.ecollUser &
+                '    ":VAR|" & outputAcctng.particular &
+                '    ":VAR|" & outputAcctng.tktDate &
+                '    ":VAR|" & outputAcctng.tranMatrixDueTo &
+                '    ":INT|" & outputAcctng.noOfOtherAccts &
+                '    ":VAR|" & outputAcctng.tranMatrixOther
 
-                lstAcctngEntries.Add(spAcctng)
+                lstAcctngEntries.Add(outputAcctng.outputSP)
 
                 'DEBIT BANK ACCOUNT, CREDIT AR- COLLECTING BANKS
                 For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
@@ -1245,24 +1132,24 @@ Public Class WebForm3
                         outputAcctng.noOfSRT = 0
                         outputAcctng.bankCode = bankinsticode
 
-                        outputAcctng.ecollUser = "ecoll_aob"
+                        outputAcctng.ecollUser = Session("ActiveUserID")
                         outputAcctng.particular = "sample"
                         outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
                         outputAcctng.tranMatrixDueTo = ""
 
-                        spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                            "VAR|" & outputAcctng.tranNo &
-                            ":INT|" & outputAcctng.noOfSRT &
-                            ":VAR|" & outputAcctng.bankCode &
-                            ":VAR|" & outputAcctng.debitAmount &
-                            ":VAR|" & outputAcctng.ecollUser &
-                            ":VAR|" & outputAcctng.particular &
-                            ":VAR|" & outputAcctng.tktDate &
-                            ":VAR|" & outputAcctng.tranMatrixDueTo &
-                            ":INT|" & outputAcctng.noOfOtherAccts &
-                            ":VAR|" & outputAcctng.tranMatrixOther
+                        'spAcctng = "sp_ecoll_ins_glentriesnew;" &
+                        '    "VAR|" & outputAcctng.tranNo &
+                        '    ":INT|" & outputAcctng.noOfSRT &
+                        '    ":VAR|" & outputAcctng.bankCode &
+                        '    ":VAR|" & outputAcctng.debitAmount &
+                        '    ":VAR|" & outputAcctng.ecollUser &
+                        '    ":VAR|" & outputAcctng.particular &
+                        '    ":VAR|" & outputAcctng.tktDate &
+                        '    ":VAR|" & outputAcctng.tranMatrixDueTo &
+                        '    ":INT|" & outputAcctng.noOfOtherAccts &
+                        '    ":VAR|" & outputAcctng.tranMatrixOther
 
-                        lstAcctngEntries.Add(spAcctng)
+                        lstAcctngEntries.Add(outputAcctng.outputSP)
 
                         Exit For
 
@@ -1270,48 +1157,48 @@ Public Class WebForm3
 
                 Next
 
-                If recontype = "UC" Or recontype = "AR" Then
+        End Select
 
-                    For Each dtRow As DataRow In ingDTAcctng.DataSetResult.Tables(0).Rows
+        'ACCOUNTING ENTRY FOR UC / AR
+        If recontype = "UC" Or recontype = "AR" Then
 
-                        If (dtRow(2).ToString = "C" And dtRow(3).ToString = recontype) Then
+            For Each dtRow As DataRow In ingDTAcctng.DataSetResult.Tables(0).Rows
 
-                            outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                If (dtRow(2).ToString = "C" And
+                            (dtRow(3).ToString = "BA" Or dtRow(3).ToString = "UC")) Then
+
+                    outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
                                 dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
-                            outputAcctng.noOfOtherAccts += 1
-
-                        End If
-
-                    Next
-
-                    ingDTTrans = svc.genTransSRTNoNew(0, "")
-
-                    outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
-                    outputAcctng.noOfSRT = 0
-                    outputAcctng.bankCode = bankinsticode
-                    outputAcctng.debitAmount = reconAmount
-                    outputAcctng.ecollUser = "ecoll_aob"
-                    outputAcctng.particular = "sample"
-                    outputAcctng.tktDate = Today.ToString("MM/dd/yyyy")
-                    outputAcctng.tranMatrixDueTo = ""
-
-                    spAcctng = "sp_ecoll_ins_glentriesnew;" &
-                        "VAR|" & outputAcctng.tranNo &
-                        ":INT|" & outputAcctng.noOfSRT &
-                        ":VAR|" & outputAcctng.bankCode &
-                        ":VAR|" & outputAcctng.debitAmount &
-                        ":VAR|" & outputAcctng.ecollUser &
-                        ":VAR|" & outputAcctng.particular &
-                        ":VAR|" & outputAcctng.tktDate &
-                        ":VAR|" & outputAcctng.tranMatrixDueTo &
-                        ":INT|" & outputAcctng.noOfOtherAccts &
-                        ":VAR|" & outputAcctng.tranMatrixOther
-
-                    lstAcctngEntries.Add(spAcctng)
+                    outputAcctng.noOfOtherAccts += 1
 
                 End If
 
-        End Select
+            Next
+
+            ingDTTrans = svc.genTransSRTNoNew(0, "")
+
+            outputAcctng.tranNo = ingDTTrans.DataSetResult.Tables(0).Rows(0)(0).ToString
+            outputAcctng.noOfSRT = 0
+            outputAcctng.bankCode = txtBankInstiCode.Value
+            outputAcctng.debitAmount = reconAmount
+            outputAcctng.ecollUser = Session("ActiveUserID")
+            outputAcctng.tranMatrixDueTo = ""
+
+            'spAcctng = "sp_ecoll_ins_glentriesnew;" &
+            '    "VAR|" & outputAcctng.tranNo &
+            '    ":INT|" & outputAcctng.noOfSRT &
+            '    ":VAR|" & outputAcctng.bankCode &
+            '    ":VAR|" & outputAcctng.debitAmount &
+            '    ":VAR|" & outputAcctng.ecollUser &
+            '    ":VAR|" & outputAcctng.particular &
+            '    ":VAR|" & outputAcctng.tktDate &
+            '    ":VAR|" & outputAcctng.tranMatrixDueTo &
+            '    ":INT|" & outputAcctng.noOfOtherAccts &
+            '    ":VAR|" & outputAcctng.tranMatrixOther
+
+            lstAcctngEntries.Add(outputAcctng.outputSP)
+
+        End If
 
         Return lstAcctngEntries
 

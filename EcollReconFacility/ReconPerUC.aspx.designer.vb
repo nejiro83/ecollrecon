@@ -86,6 +86,15 @@ Partial Public Class ReconPerUC
     Protected WithEvents txtBankInstiCode As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
+    '''txtProcessType control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtProcessType As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
     '''btnSave control.
     '''</summary>
     '''<remarks>

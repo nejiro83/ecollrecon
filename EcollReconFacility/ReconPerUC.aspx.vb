@@ -12,6 +12,38 @@ Public Class ReconPerUC
         Public resultMsg As String = ""
     End Class
 
+    Private Class AcctngEntries
+
+        Public tranNo As String = ""
+        Public noOfSRT As Integer = 0
+        Public bankCode As String = ""
+        Public debitAmount As Decimal = 0.0
+        Public ecollUser As String = ""
+        Public particular As String = "sample"
+        Public tktDate As Date = Today.ToString("MM/dd/yyyy")
+        Public tranMatrixDueTo As String = ""
+        Public noOfOtherAccts As Integer = 0
+        Public tranMatrixOther As String = ""
+
+        Public Function outputSP() As String
+
+            outputSP = "sp_ecoll_ins_glentriesnew;" &
+                "VAR|" & tranNo &
+                ":INT|" & noOfSRT &
+                ":VAR|" & bankCode &
+                ":VAR|" & debitAmount &
+                ":VAR|" & ecollUser &
+                ":VAR|" & particular &
+                ":VAR|" & tktDate &
+                ":VAR|" & tranMatrixDueTo &
+                ":INT|" & noOfOtherAccts &
+                ":VAR|" & tranMatrixOther
+
+            Return outputSP
+        End Function
+
+    End Class
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         If IsNothing(Session("ActiveUserID")) Then
@@ -86,6 +118,8 @@ Public Class ReconPerUC
 
                 txtUCAmount.Text = CDec(dtRow(6).ToString).ToString("#,###,##0.00")
 
+                txtProcessType.Value = dtRow(7).ToString
+
             Next
 
 
@@ -155,8 +189,11 @@ Public Class ReconPerUC
 
         Dim creditStatus As String = ""
         Dim reconStatus As String = ""
+        Dim reconType As String = ""
 
         Dim newReconNo As String = ""
+
+        Dim spTKT As String() = {}
 
         Try
 
@@ -182,7 +219,10 @@ Public Class ReconPerUC
                     ":VAR|" & txtBankInstiCode.Value &
                     ":VAR|U"
 
-                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddReconLines})
+                spTKT = generateSRT("BAL").ToArray
+
+                dtresult = svc.IngDataTableMultiProcWithTKT(
+                    {spCreditLineStatus, spUCARStatus, spAddReconLines}, spTKT)
 
                 If dtresult.isDataGet Then
 
@@ -223,7 +263,10 @@ Public Class ReconPerUC
                     ":VAR|" & txtBankInstiCode.Value &
                     ":VAR|A"
 
-                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCAR, spAddReconLines})
+                spTKT = generateSRT("AR").ToArray
+
+                dtresult = svc.IngDataTableMultiProcWithTKT(
+                    {spCreditLineStatus, spUCARStatus, spAddReconLines}, spTKT)
 
                 If dtresult.isDataGet Then
 
@@ -265,7 +308,10 @@ Public Class ReconPerUC
                     ":VAR|" & txtBankInstiCode.Value &
                     ":VAR|U"
 
-                dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCAR, spAddReconLines})
+                spTKT = generateSRT("UC").ToArray
+
+                dtresult = svc.IngDataTableMultiProcWithTKT(
+                    {spCreditLineStatus, spUCARStatus, spAddReconLines}, spTKT)
 
                 If dtresult.isDataGet Then
 
@@ -328,6 +374,85 @@ Public Class ReconPerUC
 
         Return reconNo
 
+    End Function
+
+    Private Function generateSRT(reconType As String) As List(Of String)
+
+        Dim lstAcctng As New List(Of String)
+        Dim outputAcctng As New AcctngEntries
+
+        Dim dtresult As New IngDTResult
+        Dim svc As New Service1Client
+
+        Dim ingDTtrans As New IngDTResult
+
+        Dim reconAmount As Decimal = 0.0
+
+        dtresult = svc.IngDataTable("sp_get_reg_accts",
+                                    {"VAR|" & txtProcessType.Value,
+                                    "VAR|R", "VAR|" & txtBankInstiCode.Value})
+
+        Select Case reconType
+            Case "BAL"
+
+                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+                    If dtRow(2).ToString = "C" And dtRow(3).ToString = "BA" Then
+
+                        outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                            dtRow(0).ToString & CDec(txtUCAmount.Text).ToString.PadRight(13, " ") & "|"
+                        outputAcctng.noOfOtherAccts += 1
+
+                    End If
+
+                Next
+
+            Case "UC"
+
+                reconAmount = CDec(txtUCAmount.Text) - CDec(txtLoadedAmount.Text)
+
+                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+                    If dtRow(2).ToString = "C" And dtRow(3).ToString = "UC" Then
+
+                        outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                            dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
+                        outputAcctng.noOfOtherAccts += 1
+
+                    End If
+
+                Next
+
+            Case "AR"
+
+                reconAmount = CDec(txtLoadedAmount.Text) - CDec(txtUCAmount.Text)
+
+                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+                    If dtRow(2).ToString = "C" And dtRow(3).ToString = "BA" Then
+
+                        outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
+                            dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
+                        outputAcctng.noOfOtherAccts += 1
+
+                    End If
+
+                Next
+
+        End Select
+
+        ingDTtrans = svc.genTransSRTNoNew(0, "")
+
+        outputAcctng.tranNo = ingDTtrans.DataSetResult.Tables(0).Rows(0)(0).ToString
+        outputAcctng.noOfSRT = 0
+        outputAcctng.bankCode = txtBankInstiCode.Value
+        outputAcctng.debitAmount = CDec(txtUCAmount.Text)
+        outputAcctng.ecollUser = Session("ActiveUserID")
+        outputAcctng.tranMatrixDueTo = ""
+
+        lstAcctng.Add(outputAcctng.outputSP)
+
+        Return lstAcctng
     End Function
 
 End Class

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="75d4d23c-d2b4-4d1d-95d7-8ebe54761e02" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="55afadef-eae6-4367-8229-0795328e78fa" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,16 +19,16 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:60338/EcollReconWS.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://172.19.29.30/ecollreconwcf/EcollReconWS.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="EcollReconWS.xsd" MetadataType="Schema" ID="20134fd1-ed1e-4c24-9553-a83f081c8eac" SourceId="1" SourceUrl="http://localhost:60338/EcollReconWS.svc?xsd=xsd1" />
-    <MetadataFile FileName="EcollReconWS1.xsd" MetadataType="Schema" ID="f319f1ba-5c0a-4fc5-be69-5f99be780872" SourceId="1" SourceUrl="http://localhost:60338/EcollReconWS.svc?xsd=xsd3" />
-    <MetadataFile FileName="EcollReconWS.disco" MetadataType="Disco" ID="dbb894da-aeec-47bc-a3c7-101bd46fee70" SourceId="1" SourceUrl="http://localhost:60338/EcollReconWS.svc?disco" />
-    <MetadataFile FileName="EcollReconWS2.xsd" MetadataType="Schema" ID="d5d17e67-84e7-4960-8b69-cdd0e4b95354" SourceId="1" SourceUrl="http://localhost:60338/EcollReconWS.svc?xsd=xsd0" />
-    <MetadataFile FileName="EcollReconWS.wsdl" MetadataType="Wsdl" ID="ae1c2387-8a8e-4bf7-ac5d-da22018d0ce6" SourceId="1" SourceUrl="http://localhost:60338/EcollReconWS.svc?wsdl" />
-    <MetadataFile FileName="EcollReconWS3.xsd" MetadataType="Schema" ID="1274bc62-b0eb-4f8b-ab49-50f766c52f70" SourceId="1" SourceUrl="http://localhost:60338/EcollReconWS.svc?xsd=xsd4" />
-    <MetadataFile FileName="EcollReconWS4.xsd" MetadataType="Schema" ID="2808118e-f8b3-4a4f-aff3-3ce548985f71" SourceId="1" SourceUrl="http://localhost:60338/EcollReconWS.svc?xsd=xsd2" />
+    <MetadataFile FileName="EcollReconWS.xsd" MetadataType="Schema" ID="908e73d5-66bd-4ef2-8559-2a74c8c4685e" SourceId="1" SourceUrl="http://172.19.29.30/EcollReconWCF/EcollReconWS.svc?xsd=xsd3" />
+    <MetadataFile FileName="EcollReconWS.wsdl" MetadataType="Wsdl" ID="956e46b9-fad1-4155-9d4a-e5b484459655" SourceId="1" SourceUrl="http://172.19.29.30/EcollReconWCF/EcollReconWS.svc?wsdl" />
+    <MetadataFile FileName="EcollReconWS1.xsd" MetadataType="Schema" ID="74a0d28f-3b62-4605-9e3b-c2ef0ca5392e" SourceId="1" SourceUrl="http://172.19.29.30/EcollReconWCF/EcollReconWS.svc?xsd=xsd4" />
+    <MetadataFile FileName="EcollReconWS2.xsd" MetadataType="Schema" ID="d2a44f65-6e0c-4875-84c0-75b819c4b39e" SourceId="1" SourceUrl="http://172.19.29.30/EcollReconWCF/EcollReconWS.svc?xsd=xsd0" />
+    <MetadataFile FileName="EcollReconWS.disco" MetadataType="Disco" ID="5ac6069a-0a42-47a6-92b3-6fec42ecd2b2" SourceId="1" SourceUrl="http://172.19.29.30/EcollReconWCF/EcollReconWS.svc?disco" />
+    <MetadataFile FileName="EcollReconWS3.xsd" MetadataType="Schema" ID="4a820039-8908-4dbc-9c22-92f6d63f167a" SourceId="1" SourceUrl="http://172.19.29.30/EcollReconWCF/EcollReconWS.svc?xsd=xsd2" />
+    <MetadataFile FileName="EcollReconWS4.xsd" MetadataType="Schema" ID="77d2c186-d392-4c90-bf3a-88b058eef6ee" SourceId="1" SourceUrl="http://172.19.29.30/EcollReconWCF/EcollReconWS.svc?xsd=xsd1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
