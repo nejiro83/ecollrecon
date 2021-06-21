@@ -286,13 +286,13 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="PendingRecon.aspx" />
     <Content Include="SearchRecon.aspx" />
+    <Content Include="ReconPerUC.aspx" />
     <Content Include="Service References\EcollReconWCF\EcollReconFacility.EcollReconWCF.CompositeType.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\EcollReconWCF\EcollReconFacility.EcollReconWCF.IngDTResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="ReconPerUC.aspx" />
     <None Include="Service References\EcollReconWCF\EcollReconWS.disco" />
     <None Include="Service References\EcollReconWCF\configuration91.svcinfo" />
     <None Include="Service References\EcollReconWCF\configuration.svcinfo" />

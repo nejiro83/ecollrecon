@@ -23,7 +23,7 @@ Public Interface IService1
     Function genTransSRTNoNew(noOfSRT As Integer, tranMatrix As String) As IngDTResult
 
     <OperationContract()>
-    Function IngDataTableMultiProcWithTKT(ProcedureName() As String, tktProcedureName As String, tktParams As String()) As IngDTResult
+    Function IngDataTableMultiProcWithTKT(ProcedureName() As String, ProcedureNameTKT() As String) As IngDTResult
 
 End Interface
 

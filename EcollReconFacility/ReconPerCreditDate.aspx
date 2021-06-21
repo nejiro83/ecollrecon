@@ -201,6 +201,8 @@
                                     </div>
                                 </div>
                                 <hr />
+                                <asp:HiddenField ID="txtProcessType" runat="server" />
+                                <asp:HiddenField ID="txtBankInstiCode" runat="server" />
                             </div>
                         </div>
                     </ContentTemplate>
