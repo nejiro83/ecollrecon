@@ -65,7 +65,7 @@
             <div class="col-sm-10 mx-auto">
                 <div class="row m-2">
                     <div class="w-100 overflow-scroll" style="height: 250px;">
-                        <asp:GridView CssClass="table table-primary beta" ShowHeaderWhenEmpty="true" ID="gvTransPerCreditLine" runat="server" AutoGenerateColumns="false">
+                        <asp:GridView CssClass="table table-primary beta tblcreditlines" ShowHeaderWhenEmpty="true" ID="gvTransPerCreditLine" runat="server" AutoGenerateColumns="false">
                             <Columns>                  
                                 <asp:BoundField DataField="transdate" HeaderText="Transaction Date" ItemStyle-BackColor="#fefefa" />
                                 <asp:BoundField DataField="amount" HeaderText="Amount on File" 
@@ -74,6 +74,8 @@
                                     ItemStyle-BackColor="#fefefa"/>
                                 <asp:BoundField DataField="brcode" HeaderText="Branch Code" ItemStyle-BackColor="#fefefa"/>
                                 <asp:BoundField DataField="transcount" HeaderText="No. of Transactions" 
+                                    ItemStyle-HorizontalAlign="Right" ItemStyle-BackColor="#fefefa"/>
+                                <asp:BoundField DataField="paymode" HeaderText="Payment Mode" 
                                     ItemStyle-HorizontalAlign="Right" ItemStyle-BackColor="#fefefa"/>
                             </Columns>
                         </asp:GridView>
@@ -203,6 +205,7 @@
                                 <hr />
                                 <asp:HiddenField ID="txtProcessType" runat="server" />
                                 <asp:HiddenField ID="txtBankInstiCode" runat="server" />
+                                <asp:HiddenField ID="txtFloatDays" runat="server" />
                             </div>
                         </div>
                     </ContentTemplate>

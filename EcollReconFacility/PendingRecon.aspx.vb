@@ -311,6 +311,7 @@ Public Class PendingRecon
         Try
 
             Dim bankinsticode As String = ddlModalBankInsti.SelectedValue.Split("|")(0)
+            Dim ecolltype As String = ddlModalBankInsti.SelectedValue.Split("|")(7)
 
             Dim modalCreditDate As String = CDate(dtpmodalCreditDate.Text).ToString("MM/dd/yyyy")
             Dim transDateFrom As String = CDate(dtpTransDateFrom.Text).ToString("MM/dd/yyyy")
@@ -325,7 +326,8 @@ Public Class PendingRecon
                 "VAR|" & bankinsticode,
                 "VAR|" & modalCreditDate,
                 "VAR|" & txtAmountCredited.Text.Trim(","),
-                "VAR|" & userid
+                "VAR|" & userid,
+                "VAR|" & ecolltype
                 }
 
             Dim svc As New Service1Client
@@ -454,7 +456,8 @@ Public Class PendingRecon
                     dtrow(4).ToString & "|" &
                     dtrow(5).ToString & "|" &
                     dtrow(6).ToString & "|" &
-                    dtrow(7).ToString
+                    dtrow(7).ToString & "|" &
+                    dtrow(8).ToString
 
                     dt.Rows.Add({
                                 dtrow(0).ToString,

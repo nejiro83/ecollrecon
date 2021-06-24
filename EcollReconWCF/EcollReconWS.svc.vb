@@ -339,7 +339,6 @@ Public Class EcollReconWS
 
             With comIngres
 
-
                 .Connection = IngConnection(False, connStringEcoll)
                 IngTransaction = .Connection.BeginTransaction()
                 .Transaction = IngTransaction
@@ -389,62 +388,66 @@ Public Class EcollReconWS
 
             End With
 
-            'TICKETING
-            Dim comIngresTKT = New IngresCommand
-            Dim drTKT As New IngresDataAdapter
+            If ProcedureNameTKT.Count > 0 Then
 
-            With comIngresTKT
+                'TICKETING
+                Dim comIngresTKT = New IngresCommand
+                Dim drTKT As New IngresDataAdapter
 
-                .Connection = IngConnection(False, connStringTKT)
-                IngTransactionTKT = .Connection.BeginTransaction()
-                .Transaction = IngTransactionTKT
+                With comIngresTKT
 
-                For Each StrProc As String In ProcedureNameTKT
+                    .Connection = IngConnection(False, connStringTKT)
+                    IngTransactionTKT = .Connection.BeginTransaction()
+                    .Transaction = IngTransactionTKT
 
-                    Dim OutputTableTKT As New DataTable
-                    Dim procname As String = StrProc.Split(";").GetValue(0)
+                    For Each StrProc As String In ProcedureNameTKT
 
-                    .Parameters.Clear()
-                    .CommandText = procname
-                    .CommandType = Data.CommandType.StoredProcedure
-                    Dim paramnames As String = StrProc.Split(";").GetValue(1)
-                    Dim i As Integer = 0
-                    For Each params As String In paramnames.Split(":")
-                        Dim StrDataType As String = params.Split("|").GetValue(0)
-                        Dim StrValue As String = params.Split("|").GetValue(1)
-                        Select Case StrDataType.ToUpper
-                            Case Is = "INT"
-                                If Not IsNumeric(StrValue) Then
-                                    Throw New Exception("INVALID FOR DATA TYPE INT : '" & StrValue & "' FROM SP " & procname)
-                                End If
-                                .Parameters.Add("Parameter" & i.ToString(), IngresType.Int).Value = CInt(StrValue)
-                            Case Is = "VAR"
-                                .Parameters.Add("Parameter" & i.ToString(), IngresType.VarChar).Value = StrValue
-                            Case Is = "CHR"
-                                .Parameters.Add("Parameter" & i.ToString(), IngresType.Char).Value = StrValue
-                            Case Is = "DTE"
-                                If Not IsDate(StrValue) Then
-                                    Throw New Exception("INVALID FOR DATA TYPE DATE : '" & StrValue & "' FROM SP " & procname)
-                                End If
-                                .Parameters.Add("Parameter" & i.ToString(), IngresType.Date).Value = CDate(StrValue)
-                            Case Is = "MON"
-                                If Not IsNumeric(StrValue) Then
-                                    Throw New Exception(mydt.DTErrorMsg = "INVALID FOR DATA TYPE MONEY : '" & StrValue & "' FROM SP " & procname)
-                                End If
-                                .Parameters.Add("Parameter" & i.ToString(), IngresType.Decimal).Value = CDbl(StrValue)
-                            Case Else
-                                Throw New Exception(mydt.DTErrorMsg = "INVALID DATA TYPE CODE : " & StrDataType & "' FROM SP " & procname)
-                        End Select
-                        i += 1
+                        Dim OutputTableTKT As New DataTable
+                        Dim procname As String = StrProc.Split(";").GetValue(0)
+
+                        .Parameters.Clear()
+                        .CommandText = procname
+                        .CommandType = Data.CommandType.StoredProcedure
+                        Dim paramnames As String = StrProc.Split(";").GetValue(1)
+                        Dim i As Integer = 0
+                        For Each params As String In paramnames.Split(":")
+                            Dim StrDataType As String = params.Split("|").GetValue(0)
+                            Dim StrValue As String = params.Split("|").GetValue(1)
+                            Select Case StrDataType.ToUpper
+                                Case Is = "INT"
+                                    If Not IsNumeric(StrValue) Then
+                                        Throw New Exception("INVALID FOR DATA TYPE INT : '" & StrValue & "' FROM SP " & procname)
+                                    End If
+                                    .Parameters.Add("Parameter" & i.ToString(), IngresType.Int).Value = CInt(StrValue)
+                                Case Is = "VAR"
+                                    .Parameters.Add("Parameter" & i.ToString(), IngresType.VarChar).Value = StrValue
+                                Case Is = "CHR"
+                                    .Parameters.Add("Parameter" & i.ToString(), IngresType.Char).Value = StrValue
+                                Case Is = "DTE"
+                                    If Not IsDate(StrValue) Then
+                                        Throw New Exception("INVALID FOR DATA TYPE DATE : '" & StrValue & "' FROM SP " & procname)
+                                    End If
+                                    .Parameters.Add("Parameter" & i.ToString(), IngresType.Date).Value = CDate(StrValue)
+                                Case Is = "MON"
+                                    If Not IsNumeric(StrValue) Then
+                                        Throw New Exception(mydt.DTErrorMsg = "INVALID FOR DATA TYPE MONEY : '" & StrValue & "' FROM SP " & procname)
+                                    End If
+                                    .Parameters.Add("Parameter" & i.ToString(), IngresType.Decimal).Value = CDbl(StrValue)
+                                Case Else
+                                    Throw New Exception(mydt.DTErrorMsg = "INVALID DATA TYPE CODE : " & StrDataType & "' FROM SP " & procname)
+                            End Select
+                            i += 1
+                        Next
+                        drTKT.SelectCommand = comIngresTKT
+                        drTKT.Fill(OutputTableTKT)
+                        OutputSet.Tables.Add(OutputTableTKT)
                     Next
-                    drTKT.SelectCommand = comIngresTKT
-                    drTKT.Fill(OutputTableTKT)
-                    OutputSet.Tables.Add(OutputTableTKT)
-                Next
 
-            End With
+                End With
 
-            IngTransactionTKT.Commit()
+                IngTransactionTKT.Commit()
+            End If
+
             IngTransaction.Commit()
 
             mydt.DataSetResult = OutputSet
