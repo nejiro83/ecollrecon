@@ -119,8 +119,7 @@ function reconDetails(rownumber, ucaramount, creditid, reconno, recontype) {
             break;
         case 'UC':
             location.href = 'ReconPerUC.aspx' +
-                '?crid=' + creditid +
-                '&ucno=' + reconno;
+                '?crid=' + creditid;
             return false;
             break;
     }

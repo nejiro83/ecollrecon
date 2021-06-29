@@ -131,6 +131,15 @@ Partial Public Class UCMonitoring
     Protected WithEvents txtUCARAmount As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
+    '''txtBankInstiCode control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtBankInstiCode As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
     '''btnModalSave control.
     '''</summary>
     '''<remarks>

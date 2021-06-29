@@ -64,7 +64,7 @@
         <div class="row mt-2">
             <div class="col-sm-10 mx-auto">
                 <div class="row m-2">
-                    <div class="w-100 overflow-scroll" style="height: 250px;">
+                    <div class="w-100 overflow-auto" style="height: 250px;">
                         <asp:GridView CssClass="table table-primary beta tblcreditlines" ShowHeaderWhenEmpty="true" ID="gvTransPerCreditLine" runat="server" AutoGenerateColumns="false">
                             <Columns>                  
                                 <asp:BoundField DataField="transdate" HeaderText="Transaction Date" ItemStyle-BackColor="#fefefa" />
@@ -128,7 +128,7 @@
                                         </div>
                                     </div>
                                     <div class="row m-2">
-                                        <div class="w-100">
+                                        <div class="w-100 overflow-auto" style="height:200px;">
                                                 <asp:GridView CssClass="table table-bordered table-sm" ClientIDMode="Static" 
                                                     ShowHeaderWhenEmpty="true" ID="gvTrans" runat="server" AutoGenerateColumns="false"
                                                     OnRowDeleting="gvTrans_RowDeleting">
@@ -136,7 +136,7 @@
                                                     <asp:BoundField DataField="transrefno" HeaderText="Transaction Ref No"/>
                                                     <asp:BoundField DataField="transdate" HeaderText="Transaction Date"/>
                                                     <asp:BoundField DataField="paytype" HeaderText="Payment Type" />
-                                                    <asp:BoundField DataField="amount" HeaderText="Amount"/>
+                                                    <asp:BoundField DataField="amount" HeaderText="Amount" ItemStyle-HorizontalAlign="Right"/>
                                                     <asp:BoundField DataField="remarks" HeaderText="Remarks" />
                                                     <asp:CommandField ShowDeleteButton="true" DeleteText="Remove" />
 

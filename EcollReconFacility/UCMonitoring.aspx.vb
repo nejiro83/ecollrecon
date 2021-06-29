@@ -11,6 +11,36 @@ Public Class UCMonitoring
         Public resultMsg As String = ""
     End Class
 
+    Private Class AcctngEntries
+
+        Public tranNo As String = ""
+        Public noOfSRT As Integer = 0
+        Public bankCode As String = ""
+        Public ecollUser As String = ""
+        Public particular As String = "sample"
+        Public tktDate As Date = Today.ToString("MM/dd/yyyy")
+        Public tranMatrixDueTo As String = ""
+        Public noOfOtherAccts As Integer = 0
+        Public tranMatrixOther As String = ""
+
+        Public Function outputSP() As String
+
+            outputSP = "sp_ecoll_ins_glentries_dc;" &
+                "VAR|" & tranNo &
+                ":INT|" & noOfSRT &
+                ":VAR|" & bankCode &
+                ":VAR|" & ecollUser &
+                ":VAR|" & particular &
+                ":VAR|" & tktDate &
+                ":VAR|" & tranMatrixDueTo &
+                ":INT|" & noOfOtherAccts &
+                ":VAR|" & tranMatrixOther
+
+            Return outputSP
+        End Function
+
+    End Class
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         If IsNothing(Session("ActiveUserID")) Then
@@ -73,53 +103,56 @@ Public Class UCMonitoring
 
     End Sub
 
-    Private Sub gvUC_RowDataBound(ByVal sender As Object, ByVal e As GridViewRowEventArgs) Handles gvUC.RowDataBound
+    'Private Sub gvUC_RowDataBound(ByVal sender As Object, ByVal e As GridViewRowEventArgs) Handles gvUC.RowDataBound
 
-        If e.Row.RowType = DataControlRowType.DataRow Then
+    '    If e.Row.RowType = DataControlRowType.DataRow Then
 
-            Select Case e.Row.Cells(5).Text
+    '        Select Case e.Row.Cells(5).Text
 
-                Case "CLOSED"
+    '            Case "CLOSED"
 
-                    Dim hlink1 As New HyperLink
+    '                Dim hlink1 As New HyperLink
 
-                    With hlink1
-                        .ID = "hlView"
-                        .Text = "View"
-                        .NavigateUrl = "ReconViewerforClosed.aspx?" &
-                            "crid=" & e.Row.Cells(1).Text
-                    End With
+    '                With hlink1
+    '                    .ID = "hlView"
+    '                    .Text = "View"
+    '                    .NavigateUrl = "ReconViewerforClosed.aspx?" &
+    '                        "crid=" & e.Row.Cells(1).Text
+    '                End With
 
-                    e.Row.Cells(6).Controls.Add(hlink1)
-
-                    Session("ClosedReconBackPage") = "~/UCMonitoring.aspx"
-
-                Case "PENDING"
-
-                    Dim lnkBtn As New LinkButton
-
-                    With lnkBtn
-                        .ID = "lnkReconcile"
-                    End With
-
-                    lnkBtn.Text = "Reconcile"
-                    lnkBtn.OnClientClick = "reconDetails('" &
-                        e.Row.Cells(0).Text & "','" & 'rownumber
-                        e.Row.Cells(4).Text & "','" & 'varamount
-                        e.Row.Cells(1).Text & "','" & 'creditid
-                        e.Row.Cells(2).Text & "','" & 'reconno
-                        ddlReconType.SelectedValue & "')" 'recontype
+    '                e.Row.Cells(6).Controls.Add(hlink1)
 
 
-                    e.Row.Cells(6).Controls.Add(lnkBtn)
+
+    '                Session("ClosedReconBackPage") = "~/UCMonitoring.aspx"
 
 
-            End Select
+
+    '            Case "PENDING"
+
+    '                Dim lnkBtn As New LinkButton
+
+    '                With lnkBtn
+    '                    .ID = "lnkReconcile"
+    '                End With
+
+    '                lnkBtn.Text = "Reconcile"
+    '                lnkBtn.OnClientClick = "reconDetails('" &
+    '                    e.Row.Cells(0).Text & "','" & 'rownumber
+    '                    e.Row.Cells(4).Text & "','" & 'varamount
+    '                    e.Row.Cells(1).Text & "','" & 'creditid
+    '                    e.Row.Cells(2).Text & "','" & 'reconno
+    '                    ddlReconType.SelectedValue & "')" 'recontype
+
+    '                e.Row.Cells(6).Controls.Add(lnkBtn)
 
 
-        End If
+    '        End Select
 
-    End Sub
+
+    '    End If
+
+    'End Sub
 
 
     Private Sub loadControls()
@@ -511,6 +544,82 @@ Public Class UCMonitoring
 
         Return reconNo
 
+    End Function
+
+    Private Function generateSRT(reconType As String) As List(Of String)
+
+        Dim lstAcctng As New List(Of String)
+        Dim outputAcctng As New AcctngEntries
+
+        Dim dtresult As New IngDTResult
+        Dim svc As New Service1Client
+
+        Dim ingDTtrans As New IngDTResult
+
+        Dim acctBankAccount As String = ""
+        Dim acctARCollectingBank As String = ""
+        Dim acctUC As String = ""
+
+        Dim reconAmount As Decimal = 0.0
+
+        dtresult = svc.IngDataTable("sp_get_reg_accts",
+                                    {"VAR|" & txtBankInstiCode.Value})
+
+        For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+
+            Select Case dtRow(2).ToString
+
+                Case "BA"
+
+                    acctBankAccount = dtRow(0).ToString
+
+                Case "AB"
+
+                    acctARCollectingBank = dtRow(0).ToString
+
+                Case "UC"
+
+                    acctUC = dtRow(0).ToString
+
+            End Select
+
+
+        Next
+
+        Select Case reconType
+
+            Case "UC"
+
+                reconAmount = CDec(txtUCARAmount.Value) - CDec(txtAmountCredited.Value)
+
+                outputAcctng.noOfOtherAccts = 2
+                outputAcctng.tranMatrixOther = "D" & acctBankAccount & reconAmount.ToString.PadRight(13, " ") & "|" &
+                        "C" & acctUC & reconAmount.ToString.PadRight(13, " ") & "|"
+
+
+            Case "AR"
+
+                reconAmount = CDec(txtUCARAmount.Value) - CDec(txtUCARAmount.Value)
+
+                outputAcctng.noOfOtherAccts = 2
+                outputAcctng.tranMatrixOther = "D" & acctARCollectingBank & reconAmount.ToString.PadRight(13, " ") & "|" &
+                        "C" & acctBankAccount & reconAmount.ToString.PadRight(13, " ") & "|"
+
+        End Select
+
+        ingDTtrans = svc.genTransSRTNoNew(0, "")
+
+        outputAcctng.tranNo = ingDTtrans.DataSetResult.Tables(0).Rows(0)(0).ToString
+        outputAcctng.noOfSRT = 0
+        outputAcctng.bankCode = txtBankInstiCode.Value
+        outputAcctng.ecollUser = Session("ActiveUserID")
+        outputAcctng.tranMatrixDueTo = ""
+        outputAcctng.particular = "Reconciliation for disbalanced (" & reconType & ")"
+
+        lstAcctng.Add(outputAcctng.outputSP)
+
+        Return lstAcctng
     End Function
 
 End Class

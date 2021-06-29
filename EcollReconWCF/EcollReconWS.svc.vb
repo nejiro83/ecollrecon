@@ -10,7 +10,7 @@ Public Class EcollReconWS
 
     Dim dtResult As New IngDTResult
     Dim connStringEcoll As String = ConfigurationManager.ConnectionStrings("EcollConn").ConnectionString
-    Dim connStringTKT As String = ConfigurationManager.ConnectionStrings("TKTDEMOHO").ConnectionString
+    Dim connStringTKT As String = ConfigurationManager.ConnectionStrings("TKTEcollect").ConnectionString
 
 
     Public Sub New()
@@ -412,7 +412,7 @@ Public Class EcollReconWS
                         Dim i As Integer = 0
                         For Each params As String In paramnames.Split(":")
                             Dim StrDataType As String = params.Split("|").GetValue(0)
-                            Dim StrValue As String = params.Split("|").GetValue(1)
+                            Dim StrValue As String = params.Remove(0, 4)
                             Select Case StrDataType.ToUpper
                                 Case Is = "INT"
                                     If Not IsNumeric(StrValue) Then

@@ -17,7 +17,6 @@ Public Class ReconPerUC
         Public tranNo As String = ""
         Public noOfSRT As Integer = 0
         Public bankCode As String = ""
-        Public debitAmount As Decimal = 0.0
         Public ecollUser As String = ""
         Public particular As String = "sample"
         Public tktDate As Date = Today.ToString("MM/dd/yyyy")
@@ -27,11 +26,10 @@ Public Class ReconPerUC
 
         Public Function outputSP() As String
 
-            outputSP = "sp_ecoll_ins_glentriesnew;" &
+            outputSP = "sp_ecoll_ins_glentries_dc;" &
                 "VAR|" & tranNo &
                 ":INT|" & noOfSRT &
                 ":VAR|" & bankCode &
-                ":VAR|" & debitAmount &
                 ":VAR|" & ecollUser &
                 ":VAR|" & particular &
                 ":VAR|" & tktDate &
@@ -219,10 +217,8 @@ Public Class ReconPerUC
                     ":VAR|" & txtBankInstiCode.Value &
                     ":VAR|U"
 
-                spTKT = generateSRT("BAL").ToArray
-
-                dtresult = svc.IngDataTableMultiProcWithTKT(
-                    {spCreditLineStatus, spUCARStatus, spAddReconLines}, spTKT)
+                dtresult = svc.IngDataTableMultiProc(
+                    {spCreditLineStatus, spUCARStatus, spAddReconLines})
 
                 If dtresult.isDataGet Then
 
@@ -386,58 +382,55 @@ Public Class ReconPerUC
 
         Dim ingDTtrans As New IngDTResult
 
+        Dim acctBankAccount As String = ""
+        Dim acctARCollectingBank As String = ""
+        Dim acctUC As String = ""
+
         Dim reconAmount As Decimal = 0.0
 
         dtresult = svc.IngDataTable("sp_get_reg_accts",
-                                    {"VAR|" & txtProcessType.Value,
-                                    "VAR|R", "VAR|" & txtBankInstiCode.Value})
+                                    {"VAR|" & txtBankInstiCode.Value})
+
+        For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+
+
+            Select Case dtRow(2).ToString
+
+                Case "BA"
+
+                    acctBankAccount = dtRow(0).ToString
+
+                Case "AB"
+
+                    acctARCollectingBank = dtRow(0).ToString
+
+                Case "UC"
+
+                    acctUC = dtRow(0).ToString
+
+            End Select
+
+
+        Next
 
         Select Case reconType
-            Case "BAL"
-
-                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
-
-                    If dtRow(2).ToString = "C" And dtRow(3).ToString = "BA" Then
-
-                        outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
-                            dtRow(0).ToString & CDec(txtUCAmount.Text).ToString.PadRight(13, " ") & "|"
-                        outputAcctng.noOfOtherAccts += 1
-
-                    End If
-
-                Next
 
             Case "UC"
 
                 reconAmount = CDec(txtUCAmount.Text) - CDec(txtLoadedAmount.Text)
 
-                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
+                outputAcctng.noOfOtherAccts = 2
+                outputAcctng.tranMatrixOther = "D" & acctBankAccount & reconAmount.ToString.PadRight(13, " ") & "|" &
+                        "C" & acctUC & reconAmount.ToString.PadRight(13, " ") & "|"
 
-                    If dtRow(2).ToString = "C" And dtRow(3).ToString = "UC" Then
-
-                        outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
-                            dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
-                        outputAcctng.noOfOtherAccts += 1
-
-                    End If
-
-                Next
 
             Case "AR"
 
                 reconAmount = CDec(txtLoadedAmount.Text) - CDec(txtUCAmount.Text)
 
-                For Each dtRow As DataRow In dtresult.DataSetResult.Tables(0).Rows
-
-                    If dtRow(2).ToString = "C" And dtRow(3).ToString = "BA" Then
-
-                        outputAcctng.tranMatrixOther = outputAcctng.tranMatrixOther &
-                            dtRow(0).ToString & reconAmount.ToString.PadRight(13, " ") & "|"
-                        outputAcctng.noOfOtherAccts += 1
-
-                    End If
-
-                Next
+                outputAcctng.noOfOtherAccts = 2
+                outputAcctng.tranMatrixOther = "D" & acctARCollectingBank & reconAmount.ToString.PadRight(13, " ") & "|" &
+                        "C" & acctBankAccount & reconAmount.ToString.PadRight(13, " ") & "|"
 
         End Select
 
@@ -446,9 +439,9 @@ Public Class ReconPerUC
         outputAcctng.tranNo = ingDTtrans.DataSetResult.Tables(0).Rows(0)(0).ToString
         outputAcctng.noOfSRT = 0
         outputAcctng.bankCode = txtBankInstiCode.Value
-        outputAcctng.debitAmount = CDec(txtUCAmount.Text)
         outputAcctng.ecollUser = Session("ActiveUserID")
         outputAcctng.tranMatrixDueTo = ""
+        outputAcctng.particular = "Reconciliation for disbalanced (" & reconType & ")"
 
         lstAcctng.Add(outputAcctng.outputSP)
 
