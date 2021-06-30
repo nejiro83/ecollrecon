@@ -102,7 +102,7 @@ function MsgBox(msgTxt, htitle) {
     }).dialog("open");
 }
 
-function reconDetails(rownumber, ucaramount, creditid, reconno, recontype) {
+function reconDetails(rownumber, ucaramount, creditid, reconno, recontype, bankinsticode) {
 
     $('#txtRowNo').val(rownumber);
     $('#txtBankInsti').val($('#ddlBankInsti :selected').text());
@@ -110,6 +110,7 @@ function reconDetails(rownumber, ucaramount, creditid, reconno, recontype) {
 
     $('#txtCreditID').val(creditid);
     $('#txtUCARNo').val(reconno);
+    $('#txtBankInstiCode').val(bankinsticode);
 
     switch (recontype) {
 

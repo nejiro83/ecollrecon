@@ -812,12 +812,6 @@ Public Class WebForm3
 
         Dim creditid As String = Request.QueryString("crid")
 
-        Dim noofSRT As Integer = 0
-        Dim tranMatrix1 As String = "" 'with Due To
-        Dim totalAmount As Decimal = 0.0
-        Dim noOfOtherAccts As Integer = 0
-        Dim tranMatrix2 As String = ""
-
         Dim svc As New Service1Client
         Dim dtresult As New IngDTResult
 

@@ -10,12 +10,14 @@
                             ShowHeaderWhenEmpty ="true" runat="server" AutoGenerateColumns ="false" EnableViewState="true"
                                 AllowPaging ="true" PageSize ="10">
                             <Columns>
-                                <asp:BoundField DataField="rownumber" HeaderText="#" />
-                                <asp:BoundField DataField="bankinsticode" HeaderStyle-CssClass="d-none" ItemStyle-CssClass="d-none" />
-                                <asp:BoundField DataField="bankinsti" HeaderText="Collecting Partner" />
-                                <asp:BoundField DataField="transdate" HeaderText="Transaction Date" />
-                                <asp:BoundField DataField="amount" HeaderText="Amount" ItemStyle-HorizontalAlign="Right"/>
-                                <asp:TemplateField>
+                                <asp:BoundField DataField="rownumber" HeaderText="#" ItemStyle-BackColor="#fefefa" />
+                                <asp:BoundField DataField="bankinsticode" HeaderStyle-CssClass="d-none" 
+                                    ItemStyle-CssClass="d-none" ItemStyle-BackColor="#fefefa" />
+                                <asp:BoundField DataField="bankinsti" HeaderText="Collecting Partner" ItemStyle-BackColor="#fefefa" />
+                                <asp:BoundField DataField="transdate" HeaderText="Transaction Date" ItemStyle-BackColor="#fefefa"/>
+                                <asp:BoundField DataField="amount" HeaderText="Amount" 
+                                    ItemStyle-HorizontalAlign="Right" ItemStyle-BackColor="#fefefa"/>
+                                <asp:TemplateField ItemStyle-BackColor="#fefefa">
                                     <ItemTemplate>
                                         <asp:LinkButton runat="server" ID="lnkPopup" 
                                             OnClientClick=<%# "uncreditedModal('" +

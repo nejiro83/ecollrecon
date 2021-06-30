@@ -55,7 +55,7 @@ Public Class UCMonitoring
 
         If IsPostBack Then
 
-            'retainGVValues()
+            retainGVValues()
 
         Else
 
@@ -103,56 +103,58 @@ Public Class UCMonitoring
 
     End Sub
 
-    'Private Sub gvUC_RowDataBound(ByVal sender As Object, ByVal e As GridViewRowEventArgs) Handles gvUC.RowDataBound
+    Private Sub gvUC_RowDataBound(ByVal sender As Object, ByVal e As GridViewRowEventArgs) Handles gvUC.RowDataBound
 
-    '    If e.Row.RowType = DataControlRowType.DataRow Then
+        If e.Row.RowType = DataControlRowType.DataRow Then
 
-    '        Select Case e.Row.Cells(5).Text
+            Select Case e.Row.Cells(5).Text
 
-    '            Case "CLOSED"
+                Case "CLOSED"
 
-    '                Dim hlink1 As New HyperLink
+                    Dim hlink1 As New HyperLink
 
-    '                With hlink1
-    '                    .ID = "hlView"
-    '                    .Text = "View"
-    '                    .NavigateUrl = "ReconViewerforClosed.aspx?" &
-    '                        "crid=" & e.Row.Cells(1).Text
-    '                End With
+                    With hlink1
+                        .ID = "hlView"
+                        .Text = "View"
+                        .NavigateUrl = "ReconViewerforClosed.aspx?" &
+                            "crid=" & e.Row.Cells(1).Text
+                    End With
 
-    '                e.Row.Cells(6).Controls.Add(hlink1)
-
-
-
-    '                Session("ClosedReconBackPage") = "~/UCMonitoring.aspx"
+                    e.Row.Cells(6).Controls.Add(hlink1)
 
 
 
-    '            Case "PENDING"
-
-    '                Dim lnkBtn As New LinkButton
-
-    '                With lnkBtn
-    '                    .ID = "lnkReconcile"
-    '                End With
-
-    '                lnkBtn.Text = "Reconcile"
-    '                lnkBtn.OnClientClick = "reconDetails('" &
-    '                    e.Row.Cells(0).Text & "','" & 'rownumber
-    '                    e.Row.Cells(4).Text & "','" & 'varamount
-    '                    e.Row.Cells(1).Text & "','" & 'creditid
-    '                    e.Row.Cells(2).Text & "','" & 'reconno
-    '                    ddlReconType.SelectedValue & "')" 'recontype
-
-    '                e.Row.Cells(6).Controls.Add(lnkBtn)
+                    Session("ClosedReconBackPage") = "~/UCMonitoring.aspx"
 
 
-    '        End Select
+
+                Case "PENDING"
+
+                    Dim lnkBtn As New LinkButton
+
+                    With lnkBtn
+                        .ID = "lnkReconcile"
+                    End With
+
+                    lnkBtn.Text = "Reconcile"
+                    lnkBtn.OnClientClick = "reconDetails('" &
+                        e.Row.Cells(0).Text & "','" & 'rownumber
+                        e.Row.Cells(4).Text & "','" & 'varamount
+                        e.Row.Cells(1).Text & "','" & 'creditid
+                        e.Row.Cells(2).Text & "','" & 'reconno
+                        ddlReconType.SelectedValue & "','" & 'recontype
+                        ddlBankInsti.SelectedValue.ToString.Split("|")(0) & "','" & 'recontype
+                        "')" 'recontype
+
+                    e.Row.Cells(6).Controls.Add(lnkBtn)
 
 
-    '    End If
+            End Select
 
-    'End Sub
+
+        End If
+
+    End Sub
 
 
     Private Sub loadControls()
@@ -390,6 +392,8 @@ Public Class UCMonitoring
 
         Dim result As Boolean = False
 
+        Dim spTKT As String() = {}
+
         Try
 
             amountCredited = CDec(txtAmountCredited.Value)
@@ -445,6 +449,7 @@ Public Class UCMonitoring
                     ":VAR|" & userid
 
 
+
                 dtresult = svc.IngDataTableMultiProc({spCreditLineStatus, spUCARStatus, spAddUCAR})
 
                 If dtresult.isDataGet Then
@@ -485,7 +490,6 @@ Public Class UCMonitoring
                 If dtresult.isDataGet Then
 
                     tresult.resultMsg = "Reconciliation successfully saved. (Status: WITH AR)"
-
 
                 Else
 
@@ -591,7 +595,7 @@ Public Class UCMonitoring
 
             Case "UC"
 
-                reconAmount = CDec(txtUCARAmount.Value) - CDec(txtAmountCredited.Value)
+                reconAmount = CDec(txtAmountCredited.Value) - CDec(txtUCARAmount.Value)
 
                 outputAcctng.noOfOtherAccts = 2
                 outputAcctng.tranMatrixOther = "D" & acctBankAccount & reconAmount.ToString.PadRight(13, " ") & "|" &
@@ -600,7 +604,7 @@ Public Class UCMonitoring
 
             Case "AR"
 
-                reconAmount = CDec(txtUCARAmount.Value) - CDec(txtUCARAmount.Value)
+                reconAmount = CDec(txtUCARAmount.Value) - CDec(txtAmountCredited.Value)
 
                 outputAcctng.noOfOtherAccts = 2
                 outputAcctng.tranMatrixOther = "D" & acctARCollectingBank & reconAmount.ToString.PadRight(13, " ") & "|" &
