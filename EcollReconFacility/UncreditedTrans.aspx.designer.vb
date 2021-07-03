@@ -47,7 +47,7 @@ Partial Public Class UncreditedTrans
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dtpmodalCreditDate As Global.System.Web.UI.HtmlControls.HtmlInputText
+    Protected WithEvents dtpmodalCreditDate As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtTransDate control.
@@ -65,7 +65,7 @@ Partial Public Class UncreditedTrans
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtAmountCredited As Global.System.Web.UI.HtmlControls.HtmlInputText
+    Protected WithEvents txtAmountCredited As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtBankInstiCode control.
@@ -75,6 +75,33 @@ Partial Public Class UncreditedTrans
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtBankInstiCode As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''txtEcollType control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtEcollType As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''txtTransDateHD control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtTransDateHD As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''lblMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblMessage As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''btnModalSave control.

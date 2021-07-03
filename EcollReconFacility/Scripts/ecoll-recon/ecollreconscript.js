@@ -83,6 +83,8 @@
         $('#txtTransRefNo').prop('required', false);
 
     });
+
+
 }
 
 function MsgBox(msgTxt, htitle) {
@@ -126,11 +128,13 @@ function reconDetails(rownumber, ucaramount, creditid, reconno, recontype, banki
     }
 }
 
-function uncreditedModal(bankinsticode, bankinsti, transdate) {
+function uncreditedModal(bankinsticode, bankinsti, transdate, ecolltype) {
 
     $('#txtBankInstiCode').val(bankinsticode);
     $('#txtBankInsti').val(bankinsti);
     $('#txtTransDate').val(transdate);
+    $('#txtTransDateHD').val(transdate);
+    $('#txtEcollType').val(ecolltype);
 
     $('#creditLineModal').modal('show');
 }
@@ -155,6 +159,8 @@ function checkCreditLineFields() {
     var transDateFrom = $('#dtpTransDateFrom').val();
     var transDateTo = $('#dtpTransDateTo').val();
     var amountCredited = $('#txtAmountCredited').val();
+
+    var transDate = $('#txtTransDate').val();
 
     var isValid = Date.parse(creditDate);
 
@@ -201,6 +207,39 @@ function checkCreditLineFields() {
     if (Date.parse(transDateFrom) > Date.parse(transDateTo)) {
 
         $('#lblMessage').text('Invalid placement of transaction dates.');
+        return false;
+
+    }
+
+}
+
+function checkCreditLineFields2() {
+
+    var creditDate = $('#dtpmodalCreditDate').val();
+    var transDate = $('#txtTransDate').val();
+    var amountCredited = $('#txtAmountCredited').val();
+
+
+
+    isValid = Date.parse(transDate);
+
+    if (isNaN(isValid)) {
+
+        $('#lblMessage').text('Invalid Transaction Date');
+        return false;
+
+    }
+
+    if (isNaN(amountCredited)) {
+
+        $('#lblMessage').text('Invalid Amount Credited');
+        return false;
+
+    }
+
+    if (amountCredited === 0) {
+
+        $('#lblMessage').text('Amount Credited is 0');
         return false;
 
     }

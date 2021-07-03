@@ -79,7 +79,7 @@ Public Class PendingRecon
 
         End If
 
-        Page.ClientScript.RegisterClientScriptBlock(Me.GetType(),
+        Page.ClientScript.RegisterClientScriptBlock([GetType](),
                                                             "msgBox",
                                                             "MsgBox('" & message & "', 'Successfully saved');", True)
 

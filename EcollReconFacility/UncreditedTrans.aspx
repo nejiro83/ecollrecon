@@ -14,6 +14,8 @@
                                 <asp:BoundField DataField="bankinsticode" HeaderStyle-CssClass="d-none" 
                                     ItemStyle-CssClass="d-none" ItemStyle-BackColor="#fefefa" />
                                 <asp:BoundField DataField="bankinsti" HeaderText="Collecting Partner" ItemStyle-BackColor="#fefefa" />
+                                <asp:BoundField DataField="ecolltype" HeaderStyle-CssClass="d-none" 
+                                    ItemStyle-CssClass="d-none" HeaderText="Ecollect Type" ItemStyle-BackColor="#fefefa" />
                                 <asp:BoundField DataField="transdate" HeaderText="Transaction Date" ItemStyle-BackColor="#fefefa"/>
                                 <asp:BoundField DataField="amount" HeaderText="Amount" 
                                     ItemStyle-HorizontalAlign="Right" ItemStyle-BackColor="#fefefa"/>
@@ -23,7 +25,8 @@
                                             OnClientClick=<%# "uncreditedModal('" +
                                                                         Eval("bankinsticode") + "','" +
                                                                         Eval("bankinsti") + "','" +
-                                                                        Eval("transdate") + "');" %>>
+                                                                        Eval("transdate") + "','" +
+                                                                        Eval("ecolltype") + "');" %>>
                                             Add Credit Date Line</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -39,10 +42,10 @@
     <div Class="modal hide fade" tabindex="-1" role="dialog" id="creditLineModal" aria-labelledby="creditLineModalLabel" aria-hidden="true">
         <div Class="modal-dialog modal-lg">
             <div Class="modal-content">
-                <div Class="modal-header bg-primary text-light">
+                <div Class="modal-header text-light" style="background:#002D62;">
                     <h4 Class="modal-title">Add New Credit Date Line</h4>
                 </div>
-                <div Class="modal-body" style="background:#E0FFFF;">
+                <div Class="modal-body" style="background:#f6f6f6;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-10">
@@ -58,8 +61,10 @@
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Credit Date</label>
                                     <div class="col-9">
-                                        <input type="text" id="dtpmodalCreditDate" runat="server" 
-                                            class="form-control datepicker border border-primary b-radius" />
+<%--                                        <input type="text" id="dtpmodalCreditDate" runat="server" 
+                                            class="form-control datepicker border border-primary b-radius" />--%>
+                                        <asp:TextBox ID="dtpmodalCreditDate" runat="server" 
+                                            CssClass="form-control datepicker border border-primary b-radius" ClientIDMode="Static" />
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -81,18 +86,27 @@
                                 <div class="row mb-2">
                                     <label class="col-3 col-form-label font-weight-bold">Amount Credited</label>
                                     <div class="col-9">
-                                        <input type="text" id="txtAmountCredited" 
-                                            class="form-control border border-primary b-radius" runat="server"/>
+                                        <%--<input type="text" id="txtAmountCredited" 
+                                            class="form-control border border-primary b-radius" runat="server"/>--%>
                                         <%--<input type="hidden" id="txtBankInstiCode" runat="server" />--%>
+
+                                        <asp:TextBox ID="txtAmountCredited" 
+                                            CssClass="form-control border border-primary b-radius" runat="server"
+                                            ClientIDMode="Static" Text="0" />
+
                                         <asp:HiddenField ID="txtBankInstiCode" ClientIDMode="Static" runat="server" />
+                                        <asp:HiddenField ID="txtEcollType" ClientIDMode="Static" runat="server" />
+                                        <asp:HiddenField ID="txtTransDateHD" ClientIDMode="Static" runat="server" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="background:#E0FFFF;">         
-                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server"/>
+                <div class="modal-footer" style="background:#F6F6F6;"> 
+                    <asp:Label ID="lblMessage" ForeColor="#f00000" runat="server" ClientIDMode="Static" />        
+                    <asp:Button ID="btnModalSave" CssClass="btn btn-primary" Text="Save" runat="server"
+                         OnClientClick="return checkCreditLineFields2();" OnClick="btnModalSave_Click"  />
                     <button type="button" id="btnHideCreditLineModal" class="btn btn-danger" onclick="$('#creditLineModal').modal('hide');">Cancel</button>
                 </div>
             </div>
