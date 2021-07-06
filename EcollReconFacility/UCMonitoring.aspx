@@ -5,6 +5,12 @@
             <div class="col mx-auto m-2">
                 <asp:UpdatePanel ID="upMonitoring" runat="server">
                     <ContentTemplate>
+                        <div class="row m-2">
+                            <div class="text-center">
+                                <span class="h4 font-weight-bold">UC/AR Monitoring</span>
+                            </div>
+                        </div>
+                        <hr />
                         <div class="row m-3">
                             <div class="col-sm-3">
                                 <label class="font-weight-bold col-form-label text-right">Collecting Partner</label>

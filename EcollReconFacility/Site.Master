@@ -26,7 +26,7 @@
     <link href="Content/Site.css" rel="stylesheet" />
     
 </head>
-<body>
+<body onbeforeprint="return disableForm();">
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>

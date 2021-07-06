@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="SearchRecon.aspx.vb" Inherits="EcollReconFacility.SearchRecon" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container p-3 sb-content shadow">
+        <div class="row m-2">
+            <div class="text-center">
+                <span class="h4 font-weight-bold">Search Credit Date Lines</span>
+            </div>
+        </div>
+        <hr />
         <div class="row mt-2">
             <div class="col">
                 <div class="row">

@@ -24,7 +24,7 @@
     <link href="Content/Site.css" rel="stylesheet" type="text/css" />
     
 </head>
-<body>
+<body onbeforeunload="return disableForm();">
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>

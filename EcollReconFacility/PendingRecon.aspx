@@ -11,6 +11,12 @@
                         <div class="row m-2">
                             <div class="col mx-auto">
                                 <div class="row m-2">
+                                    <div class="text-center">
+                                        <span class="h4 font-weight-bold">Pending Credit Date Lines</span>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row m-2">
                                     <Label Class="font-weight-bold col-sm-3 col-form-label text-right">Collecting Partner</Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList ID="ddlBankInsti" runat="server" AutoPostBack="true"

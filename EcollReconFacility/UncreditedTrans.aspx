@@ -4,6 +4,12 @@
     <div class="container sb-content">
         <div class="row mt-2">
             <div class="col mx-auto m-2">
+                <div class="row m-2">
+                    <div class="text-center">
+                        <span class="h4 font-weight-bold">Uncredited Transactions</span>
+                    </div>
+                </div>
+                <hr />
                 <asp:UpdatePanel id="upUncredited" runat="server">
                     <ContentTemplate>
                         <asp:GridView ID="gvUncreditedTrans" CssClass="table table-primary tblcreditlines beta"

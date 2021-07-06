@@ -5,7 +5,7 @@
             <div class="col-sm-10 mx-auto">
                 <div class="row m-3">
                     <div class="text-center">
-                        <span class="h4">Bank Credit Reconciliation with Collection File</span>
+                        <span class="h3">Bank Credit Reconciliation with Collection File</span>
                     </div>
                 </div>
                 <hr />
@@ -64,7 +64,7 @@
         <div class="row mt-2">
             <div class="col-sm-10 mx-auto">
                 <div class="row m-2">
-                    <div class="w-100 overflow-auto" style="height: 250px;">
+                    <div class="w-100 overflow-auto" style="max-height:250px;">
                         <asp:GridView CssClass="table table-primary beta tblcreditlines" ShowHeaderWhenEmpty="true" ID="gvTransPerCreditLine" runat="server" AutoGenerateColumns="false">
                             <Columns>                  
                                 <asp:BoundField DataField="transdate" HeaderText="Transaction Date" ItemStyle-BackColor="#fefefa" />
@@ -128,7 +128,7 @@
                                         </div>
                                     </div>
                                     <div class="row m-2">
-                                        <div class="w-100 overflow-auto" style="height:200px;">
+                                        <div class="w-100 overflow-auto" style="max-height:150px;">
                                                 <asp:GridView CssClass="table table-bordered table-sm" ClientIDMode="Static" 
                                                     ShowHeaderWhenEmpty="true" ID="gvTrans" runat="server" AutoGenerateColumns="false"
                                                     OnRowDeleting="gvTrans_RowDeleting">

@@ -122,7 +122,7 @@ function reconDetails(rownumber, ucaramount, creditid, reconno, recontype, banki
             break;
         case 'UC':
             location.href = 'ReconPerUC.aspx' +
-                '?crid=' + creditid;
+                '?crid=' + creditid + '&ucno=' + reconno;
             return false;
             break;
     }
@@ -286,6 +286,26 @@ function checkAR() {
 
             alert('Please include transactions for AR');
             return false;
+        }
+
+    }
+
+}
+
+function disableForm() {
+
+    var inputs = document.getElementsByTagName("INPUT");
+
+    for (var i in inputs) {
+
+        switch (inputs[i].type) {
+
+            case "button", "submit", "text", "password":
+
+                inputs[i].disabled = true;
+
+                break;
+
         }
 
     }
