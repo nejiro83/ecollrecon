@@ -411,6 +411,17 @@ Public Class PendingRecon
 
                     creditID = Val(dtRow(0).ToString) + 1
 
+                    If bankinsticode.Substring(0, 1) = 0 Then
+                        creditID = "0" & creditID
+                    End If
+
+                    'Dim counter As String = dtRow(0).ToString.Substring(dtRow(0).ToString.Length - 3)
+
+                    'counter = Val(counter + 1).ToString.PadLeft(3, "0")
+
+                    'creditID = dtRow(0).ToString.Replace(dtRow.ToString.Substring(dtRow.ToString.Length - 3), counter)
+
+
 
                 End If
 
