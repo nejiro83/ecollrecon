@@ -65,7 +65,7 @@ Public Class UCMonitoring
 
                 Page.ClientScript.RegisterClientScriptBlock(Me.GetType(),
                                                             "msgBox",
-                                                            "MsgBox('" & Session("ReconSaveMsg") & "', 'Successfully saved');", True)
+                                                            "MsgBox('" & Session("ReconSaveMsg") & "', 'Information');", True)
 
 
                 Session("ReconSaveStatus") = Nothing
@@ -99,7 +99,7 @@ Public Class UCMonitoring
 
         ClientScript.RegisterClientScriptBlock(Me.GetType(),
                                             "msgBox",
-                                            "MsgBox('" & tresult.resultMsg & "', 'Successfully saved');", True)
+                                            "MsgBox('" & tresult.resultMsg & "', 'Information');", True)
 
     End Sub
 
@@ -120,7 +120,7 @@ Public Class UCMonitoring
                             "crid=" & e.Row.Cells(1).Text
                     End With
 
-                    e.Row.Cells(6).Controls.Add(hlink1)
+                    e.Row.Cells(7).Controls.Add(hlink1)
 
 
 
@@ -146,7 +146,7 @@ Public Class UCMonitoring
                         ddlBankInsti.SelectedValue.ToString.Split("|")(0) & "','" & 'recontype
                         "')" 'recontype
 
-                    e.Row.Cells(6).Controls.Add(lnkBtn)
+                    e.Row.Cells(7).Controls.Add(lnkBtn)
 
 
             End Select
@@ -219,7 +219,7 @@ Public Class UCMonitoring
             .Add("vardate")
             .Add("varamount")
             .Add("status")
-
+            .Add("userid")
         End With
 
         Dim rownumber As Integer = 1
@@ -242,8 +242,7 @@ Public Class UCMonitoring
         End Select
 
         dtresult = svc.IngDataTable(cmdText,
-                                    {"VAR|" & userid,
-                                    "VAR|" & bankinsticode,
+                                    {"VAR|" & bankinsticode,
                                     "VAR|" & status,
                                     "VAR|" & reconMonth,
                                     "VAR|" & reconYear})
@@ -261,7 +260,7 @@ Public Class UCMonitoring
                                 dtRow(1).ToString,
                                 CDate(dtRow(4).ToString).ToString("MMMM dd, yyyy"),
                                 CDec(dtRow(6).ToString).ToString("#,###,##0.00"),
-                                dtRow(7).ToString
+                                dtRow(7).ToString, dtRow(8).ToString
                                 })
 
                 rownumber = rownumber + 1
@@ -396,7 +395,7 @@ Public Class UCMonitoring
 
         Try
 
-            amountCredited = CDec(txtAmountCredited.Value)
+            amountCredited = CDec(Trim(txtAmountCredited.Value).Replace(",", ""))
             amountUCAR = CDec(txtUCARAmount.Value)
 
             'CLOSE CURRENT UC

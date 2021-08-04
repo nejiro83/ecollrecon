@@ -74,7 +74,7 @@ Public Class WebForm3
 
                 Page.ClientScript.RegisterClientScriptBlock(Me.GetType(),
                                                             "msgBox",
-                                                            "MsgBox('" & Session("UpdateAmountMsg") & "', 'Successfully saved');", True)
+                                                            "MsgBox('" & Session("UpdateAmountMsg") & "', 'Information');", True)
 
 
                 Session("IsCreditAmountUpdated") = Nothing
@@ -405,7 +405,7 @@ Public Class WebForm3
                     ":VAR|" & amountcredited &
                     ":VAR|" & amountonfile &
                     ":VAR|" & varianceAmount &
-                    ":VAR|" & userid
+                    ":VAR|" & UCase(userid)
 
                 cmdReconTypeSP = cmdReconTypeSP & ";" & reconTypeParams
 
@@ -676,10 +676,9 @@ Public Class WebForm3
         Dim dtresult As New IngDTResult
 
 
-
         'Dim ws As New ADWS.Service
 
-        'Dim loginResult As LoginResult = ws.AuthenticateUserWithDetails(userid, password)
+        'Dim loginResult As LoginResult = ws.AuthenticateUserWithDetails(userID, password)
 
         'If loginResult.isLoginValid Then
 
@@ -728,6 +727,13 @@ Public Class WebForm3
             End If
 
         End If
+
+        'Else
+
+        '    result.isSuccessful = False
+        '    result.resultMsg = loginResult.ErrorMessage
+
+        'End If
 
         Return result
 

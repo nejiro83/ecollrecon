@@ -35,7 +35,7 @@ Public Class PendingRecon
 
                 Page.ClientScript.RegisterClientScriptBlock(Me.GetType(),
                                                             "msgBox",
-                                                            "MsgBox('" & Session("ReconMsg") & "', 'Successfully saved');", True)
+                                                            "MsgBox('" & Session("ReconMsg") & "', 'Information');", True)
 
                 Session("IsReconSaved") = Nothing
                 Session("ReconMsg") = Nothing
@@ -81,7 +81,7 @@ Public Class PendingRecon
 
         Page.ClientScript.RegisterClientScriptBlock([GetType](),
                                                             "msgBox",
-                                                            "MsgBox('" & message & "', 'Successfully saved');", True)
+                                                            "MsgBox('" & message & "', 'Information');", True)
 
 
 
@@ -105,9 +105,13 @@ Public Class PendingRecon
                             "crid=" & e.Row.Cells(1).Text
                     End With
 
-                    e.Row.Cells(9).Controls.Add(hlink1)
+                    'e.Row.Cells(9).Controls.Add(hlink1)
 
-                    e.Row.Cells(10).Text = ""
+                    'e.Row.Cells(10).Text = ""
+
+                    e.Row.Cells(10).Controls.Add(hlink1)
+
+                    e.Row.Cells(11).Text = ""
 
 
                 Case "PENDING"
@@ -123,7 +127,9 @@ Public Class PendingRecon
                             "crid=" & e.Row.Cells(1).Text
                     End With
 
-                    e.Row.Cells(9).Controls.Add(hlinkRecon)
+                    'e.Row.Cells(9).Controls.Add(hlinkRecon)
+
+                    e.Row.Cells(10).Controls.Add(hlinkRecon)
 
             End Select
 
@@ -210,6 +216,7 @@ Public Class PendingRecon
             .Add("amtonfile")
             .Add("credittype")
             .Add("status")
+            .Add("userid")
         End With
 
         Dim svc As New Service1Client
@@ -261,7 +268,7 @@ Public Class PendingRecon
                     CDec(dtRow(4).ToString).ToString("#,###,##0.00"),
                     CDec(dtRow(5).ToString).ToString("#,###,##0.00"),
                     creditLineType,
-                    dtRow(6).ToString
+                    dtRow(6).ToString, dtRow(8).ToString
                             })
 
                 rownumber = rownumber + 1
@@ -318,6 +325,7 @@ Public Class PendingRecon
             Dim transDateTo As String = CDate(dtpTransDateTo.Text).ToString("MM/dd/yyyy")
 
             Dim creditID As String = GetCreditID(bankinsticode, modalCreditDate)
+            Dim amountCredited As String = CDec(Trim(txtAmountCredited.Text).Replace(",", "")).ToString
 
             Dim strParams() As String = {
                 "VAR|" & creditID,
@@ -325,8 +333,8 @@ Public Class PendingRecon
                 "VAR|" & transDateTo,
                 "VAR|" & bankinsticode,
                 "VAR|" & modalCreditDate,
-                "VAR|" & txtAmountCredited.Text.Trim(","),
-                "VAR|" & userid,
+                "VAR|" & amountCredited,
+                "VAR|" & UCase(userid),
                 "VAR|" & ecolltype
                 }
 

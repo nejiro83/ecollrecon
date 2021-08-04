@@ -78,6 +78,7 @@
                         <asp:BoundField DataField="amtonfile" HeaderText="Amount on File" ItemStyle-HorizontalAlign="Right" />
                         <asp:BoundField DataField="credittype" HeaderText="Credit Line Type" />
                         <asp:BoundField DataField="status" HeaderText="Status" />
+                        <asp:BoundField DataField="userid" HeaderText="Added By" />
                     
                         <asp:TemplateField ItemStyle-CssClass="text-center">
                             <ItemTemplate>

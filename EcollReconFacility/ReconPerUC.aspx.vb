@@ -164,7 +164,15 @@ Public Class ReconPerUC
         gvTransForUC.DataSource = dt
         gvTransForUC.DataBind()
 
+        If gvTransForUC.Rows.Count = 0 Then
 
+            btnSave.Enabled = False
+
+        Else
+
+            btnSave.Enabled = True
+
+        End If
 
     End Sub
 

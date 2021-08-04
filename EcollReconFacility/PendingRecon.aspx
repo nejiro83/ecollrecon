@@ -52,7 +52,9 @@
                                             ItemStyle-BackColor="#fefefa" />
                                         <asp:BoundField DataField="status" HeaderText="Status" 
                                             ItemStyle-BackColor="#fefefa"/>
-                            
+                                        <asp:BoundField DataField="userid" HeaderText="Added By" 
+                                            ItemStyle-BackColor="#fefefa"/>
+
                                         <asp:TemplateField ItemStyle-CssClass="text-center" ItemStyle-BackColor="#fefefa">
                                             <ItemTemplate>
 

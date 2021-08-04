@@ -53,7 +53,7 @@ Public Class UncreditedTrans
 
         Page.ClientScript.RegisterClientScriptBlock([GetType](),
                                                     "msgBox",
-                                                    "MsgBox('" & message & "', 'Successfully saved');", True)
+                                                    "MsgBox('" & message & "', 'Information');", True)
 
 
 
@@ -143,6 +143,7 @@ Public Class UncreditedTrans
             Dim modalCreditDate As String = CDate(dtpmodalCreditDate.Text).ToString("MM/dd/yyyy")
             Dim transDateFrom As String = CDate(txtTransDateHD.Value).ToString("MM/dd/yyyy")
             Dim transDateTo As String = CDate(txtTransDateHD.Value).ToString("MM/dd/yyyy")
+            Dim amountCredited As String = CDec(Trim(txtAmountCredited.Text).Replace(",", "")).ToString
 
             Dim creditID As String = GetCreditID(bankinsticode, modalCreditDate)
 
@@ -152,8 +153,8 @@ Public Class UncreditedTrans
                 "VAR|" & transDateTo,
                 "VAR|" & bankinsticode,
                 "VAR|" & modalCreditDate,
-                "VAR|" & txtAmountCredited.Text.Trim(","),
-                "VAR|" & userid,
+                "VAR|" & amountCredited,
+                "VAR|" & UCase(userid),
                 "VAR|" & ecolltype
                 }
 
@@ -237,6 +238,9 @@ Public Class UncreditedTrans
 
                     creditID = Val(dtRow(0).ToString) + 1
 
+                    If bankinsticode.Substring(0, 1) = 0 Then
+                        creditID = "0" & creditID
+                    End If
 
                 End If
 

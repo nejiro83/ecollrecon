@@ -59,7 +59,7 @@ Public Class SearchRecon
 
             Page.ClientScript.RegisterClientScriptBlock(Me.GetType(),
                             "msgBox",
-                            "MsgBox('No record found', 'Result');", True)
+                            "MsgBox('No record found', 'Information');", True)
 
             Page.Response.Cache.SetCacheability(HttpCacheability.NoCache)
 
@@ -86,9 +86,13 @@ Public Class SearchRecon
                             "crid=" & e.Row.Cells(1).Text
                     End With
 
-                    e.Row.Cells(9).Controls.Add(hlink1)
+                    'e.Row.Cells(9).Controls.Add(hlink1)
 
-                    e.Row.Cells(10).Text = ""
+                    'e.Row.Cells(10).Text = ""
+
+                    e.Row.Cells(10).Controls.Add(hlink1)
+
+                    e.Row.Cells(11).Text = ""
 
                     Session("ClosedReconBackPage") = "~/SearchRecon.aspx"
 
@@ -106,7 +110,9 @@ Public Class SearchRecon
                             "crid=" & e.Row.Cells(1).Text
                     End With
 
-                    e.Row.Cells(9).Controls.Add(hlinkRecon)
+                    'e.Row.Cells(9).Controls.Add(hlinkRecon)
+
+                    e.Row.Cells(10).Controls.Add(hlinkRecon)
 
             End Select
 
@@ -272,6 +278,7 @@ Public Class SearchRecon
             .Add("amtonfile")
             .Add("credittype")
             .Add("status")
+            .Add("userid")
         End With
 
         Dim dtresult As New IngDTResult
@@ -326,7 +333,7 @@ Public Class SearchRecon
                     CDec(dtRow(4).ToString).ToString("#,###,##0.00"),
                      CDec(dtRow(5).ToString).ToString("#,###,##0.00"),
                      creditLineType,
-                     dtRow(6).ToString})
+                     dtRow(6).ToString, dtRow(7).ToString})
 
                 rownumber = rownumber + 1
 

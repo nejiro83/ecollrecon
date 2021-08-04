@@ -89,6 +89,7 @@
                                         <asp:BoundField DataField="vardate" HeaderText="Recon Date" />
                                         <asp:BoundField DataField="varamount" HeaderText="Amount" ItemStyle-HorizontalAlign="Right"/>
                                         <asp:BoundField DataField="status" HeaderText="Status" />
+                                        <asp:BoundField DataField="userid" HeaderText="Added By" />
 
                                         <asp:TemplateField>
                                             <ItemTemplate>

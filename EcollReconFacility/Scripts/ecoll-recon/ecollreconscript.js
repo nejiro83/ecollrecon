@@ -21,10 +21,16 @@
             if ($(this).val().trim().length === 0 || isNaN(isvalid)) {
                 $(this).val(datestring);
             }
+
+            if (Date.parse($(this).val()) > d) {
+                $(this).val(datestring);
+            } 
+            
         });
 
         $(".datepicker").datepicker({
             dateFormat: 'MM d, yy',
+            maxDate: 0
         });
 
 
@@ -164,6 +170,8 @@ function checkCreditLineFields() {
 
     var isValid = Date.parse(creditDate);
 
+    amountCredited = amountCredited.replace(/,/g, '');
+
     if (isNaN(isValid)) {
 
         $('#lblMessage').text('Invalid Credit Date');
@@ -211,6 +219,28 @@ function checkCreditLineFields() {
 
     }
 
+    if (Date.parse(creditDate) > new Date()) {
+
+        $('#lblMessage').text('Invalid Credit Date');
+        return false;
+
+    }
+
+    if (Date.parse(transDateFrom) > new Date()) {
+
+        $('#lblMessage').text('Invalid Transaction Date From');
+        return false;
+
+    }
+
+    if (Date.parse(transDateTo) > new Date()) {
+
+        $('#lblMessage').text('Invalid Transaction Date To');
+        return false;
+
+    }
+
+
 }
 
 function checkCreditLineFields2() {
@@ -219,7 +249,7 @@ function checkCreditLineFields2() {
     var transDate = $('#txtTransDate').val();
     var amountCredited = $('#txtAmountCredited').val();
 
-
+    amountCredited = amountCredited.replace(/,/g, '');
 
     isValid = Date.parse(transDate);
 
@@ -240,6 +270,13 @@ function checkCreditLineFields2() {
     if (amountCredited === 0) {
 
         $('#lblMessage').text('Amount Credited is 0');
+        return false;
+
+    }
+
+    if (Date.parse(creditDate) > new Date()) {
+
+        $('#lblMessage').text('Invalid Credit Date');
         return false;
 
     }
